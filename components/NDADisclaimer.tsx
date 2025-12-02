@@ -1,13 +1,13 @@
 export default function NDADisclaimer() {
   return (
-    <section className="py-12 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h3 className="text-sm text-dark/60 mb-3 font-light uppercase tracking-wider">
-            Hinweis zu weiteren Referenzen:
-          </h3>
-          <p className="text-sm text-dark/50 leading-relaxed font-extralight max-w-2xl mx-auto">
-            Ein großer Teil unserer Arbeit findet im geschützten Unternehmensbereich statt (NDA). Relevante Case-Studies zu interner Kommunikation und sensiblen Themen stellen wir Ihnen gerne im persönlichen Gespräch vor.
+    <section className="py-8 bg-gray-50 border-t border-gray-100">
+      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
+        <div className="text-center flex items-center justify-center gap-2">
+          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="text-xs text-gray-500 leading-relaxed font-extralight max-w-2xl">
+            Hinweis zu weiteren Referenzen: Ein großer Teil unserer Arbeit findet im geschützten Unternehmensbereich statt (NDA). Relevante Case-Studies zu interner Kommunikation und sensiblen Themen stellen wir Ihnen gerne im persönlichen Gespräch vor.
           </p>
         </div>
       </div>

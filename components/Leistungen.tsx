@@ -36,29 +36,19 @@ export default function Leistungen() {
       image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
-    {
-      title: 'Fotografie',
-      description: 'Professionelle Corporate-Fotografie für Ihre Kommunikation. Von Porträts über Produktfotografie bis hin zur Event-Dokumentation – wir liefern hochwertige Bilder für alle Ihre Kanäle.',
-      image: 'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
   ]
 
   return (
-    <section id="leistungen" className="py-32 bg-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-20">
-          <div className="inline-block mb-4 px-4 py-1.5 bg-gray-100 rounded-full text-sm font-light text-dark">
+    <section id="leistungen" className="py-24 bg-slate-50 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <div className="inline-block mb-4 px-4 py-1.5 bg-gray-100 rounded-full text-sm font-light text-slate-700">
             Was wir bieten
           </div>
-          <h2 className="text-5xl md:text-6xl font-semibold text-dark mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-6 tracking-tight">
             Unsere Leistungen
           </h2>
-          <p className="text-xl text-dark/70 max-w-2xl mx-auto font-extralight">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto font-extralight">
             Professionelle audiovisuelle Lösungen für Ihr Unternehmen
           </p>
         </div>
@@ -67,36 +57,25 @@ export default function Leistungen() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500"
+              className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
             >
               {/* Image */}
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-48 overflow-hidden">
                 <img
                   src={service.image}
                   alt={service.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className={`absolute inset-0 bg-gradient-to-t ${service.gradient} opacity-0 group-hover:opacity-80 transition-opacity duration-500`} />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
               </div>
 
               {/* Content */}
-              <div className="p-8 relative">
-                <div className="absolute top-0 left-8 w-12 h-1 bg-accent rounded-full" />
-                <h3 className="text-3xl font-semibold text-dark mb-4 group-hover:text-accent transition-colors">
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold text-slate-900 mb-3 group-hover:text-accent transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-dark/70 leading-relaxed text-lg font-extralight">
+                <p className="text-gray-600 leading-relaxed font-extralight">
                   {service.description}
                 </p>
-
-                {/* Arrow Icon */}
-                <div className="mt-6 flex items-center text-accent font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Mehr erfahren
-                  <svg className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </div>
               </div>
             </div>
           ))}

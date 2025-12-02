@@ -32,8 +32,7 @@ export default function Hero() {
             transform: `translateY(${scrollY * 0.5}px)`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Animated Grid Overlay */}
@@ -46,14 +45,14 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: Text Content */}
           <div className="text-white animate-slide-up">
             <div className="inline-block mb-4 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
               Filmproduktion Hamburg
             </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 leading-[1.1] tracking-tight">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-[1.05] tracking-tight">
               Visuelle Strategien
               <br />
               <span className="text-accent">
@@ -62,15 +61,13 @@ export default function Hero() {
               <br />
               Konzerne & interne Kommunikation.
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-200 mb-8 leading-relaxed font-extralight">
-              Vom Imagefilm über animierte Erklärfilme bis hin zu interaktiven Education-Formaten. Wir produzieren Content, der komplexe Botschaften verständlich macht – national wie international, mehrsprachig und skalierbar.
-              <br />
-              <span className="font-light">Skalierbar, sicher und hanseatisch verlässlich.</span>
+            <p className="text-xl sm:text-2xl text-gray-200 mb-10 leading-relaxed font-extralight max-w-2xl">
+              Wir produzieren Content, der komplexe Botschaften verständlich macht. Skalierbar, sicher und hanseatisch verlässlich.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="group bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+                className="group bg-accent text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
               >
                 Projekt anfragen
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +76,7 @@ export default function Hero() {
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-lg font-light text-lg hover:bg-white/20 transition-all duration-300"
+                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-md font-light text-lg hover:bg-white/20 hover:bg-opacity-90 transition-all duration-300"
               >
                 Kontakt
               </button>

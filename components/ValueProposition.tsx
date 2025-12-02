@@ -33,18 +33,10 @@ export default function ValueProposition() {
   ]
 
   return (
-    <section className="py-32 bg-gradient-to-b from-white via-gray-50 to-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, #1F2937 1px, transparent 0)`,
-          backgroundSize: '40px 40px',
-        }} />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-6xl font-semibold text-dark mb-4 tracking-tight">
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-4 tracking-tight">
             Unsere Werte
           </h2>
           <div className="w-24 h-1 bg-accent mx-auto rounded-full" />
@@ -65,10 +57,10 @@ export default function ValueProposition() {
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-semibold text-dark mb-4 group-hover:text-accent transition-colors">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
                 {value.title}
               </h3>
-              <p className="text-dark/70 leading-relaxed text-lg font-extralight">
+              <p className="text-gray-600 leading-relaxed text-lg font-extralight">
                 {value.description}
               </p>
 

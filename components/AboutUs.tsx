@@ -1,35 +1,26 @@
 export default function AboutUs() {
   return (
-    <section id="about" className="py-32 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `linear-gradient(45deg, #1F2937 1px, transparent 1px),
-                           linear-gradient(-45deg, #1F2937 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }} />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="about" className="py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
           <div className="order-2 lg:order-1">
             <div className="inline-block mb-6 px-4 py-1.5 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
               Über uns
             </div>
-            <h2 className="text-5xl md:text-6xl font-semibold text-dark mb-8 leading-tight tracking-tight">
+            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 leading-tight tracking-tight">
               Kreative Exzellenz
               <br />
               <span className="text-accent">
                 trifft Prozesssicherheit.
               </span>
             </h2>
-            <div className="space-y-6 text-lg text-dark/70 leading-relaxed font-extralight">
+            <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-extralight">
               <p>
-                Als <span className="font-light text-dark">bsp media GmbH</span> kennen wir die Anforderungen anspruchsvoller Branchen – von der Luftfahrtforschung bis zum öffentlichen Sektor. Wir wissen, was Sicherheitsvorgaben, Compliance und Datenschutz bedeuten.
+                Als <span className="font-light text-slate-900">bsp media GmbH</span> kennen wir die Anforderungen anspruchsvoller Branchen – von der Luftfahrtforschung bis zum öffentlichen Sektor. Wir wissen, was Sicherheitsvorgaben, Compliance und Datenschutz bedeuten.
               </p>
               <p>
-                Wir verbinden die kreative Kraft unserer Wurzeln mit der Verlässlichkeit, die Sie für Ausschreibungen und Großprojekte benötigen. <span className="font-light text-dark">International tätig und mehrsprachig</span> – wir produzieren für Konzerne weltweit und sorgen mit professionellen Übersetzungen und Voice-Overs für den globalen Einsatz Ihrer Kommunikation.
+                Wir verbinden die kreative Kraft unserer Wurzeln mit der Verlässlichkeit, die Sie für Ausschreibungen und Großprojekte benötigen. <span className="font-light text-slate-900">International tätig und mehrsprachig</span> – wir produzieren für Konzerne weltweit und sorgen mit professionellen Übersetzungen und Voice-Overs für den globalen Einsatz Ihrer Kommunikation.
               </p>
             </div>
 
@@ -37,15 +28,15 @@ export default function AboutUs() {
             <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
               <div>
                 <div className="text-3xl font-bold text-accent mb-2">10+</div>
-                <div className="text-sm text-dark/70 font-extralight">Jahre Erfahrung</div>
+                <div className="text-sm text-gray-600 font-extralight">Jahre Erfahrung</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-accent mb-2">500+</div>
-                <div className="text-sm text-dark/70 font-extralight">Projekte</div>
+                <div className="text-sm text-gray-600 font-extralight">Projekte</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-accent mb-2">100%</div>
-                <div className="text-sm text-dark/70 font-extralight">Deadline-Treue</div>
+                <div className="text-sm text-gray-600 font-extralight">Deadline-Treue</div>
               </div>
             </div>
           </div>
@@ -70,8 +61,8 @@ export default function AboutUs() {
                       </svg>
                     </div>
                     <div>
-                      <div className="font-semibold text-dark">Hamburg</div>
-                      <div className="text-sm text-dark/70 font-extralight">International</div>
+                      <div className="font-semibold text-slate-900">Hamburg</div>
+                      <div className="text-sm text-gray-600 font-extralight">International</div>
                     </div>
                   </div>
                 </div>

@@ -13,18 +13,20 @@ export default function TrustSection() {
   ]
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-sm text-dark mb-10 uppercase tracking-wider font-light">
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
+        <p className="text-center text-sm text-slate-600 mb-12 uppercase tracking-wider font-light">
           Vertrauen durch Erfahrung in Industrie, Luftfahrt und Öffentlichkeit.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
           {clients.map((client, index) => (
             <div
               key={index}
-              className="w-32 h-16 md:w-40 md:h-20 bg-gray-200 opacity-40 rounded flex items-center justify-center hover:opacity-60 transition-opacity"
+              className="aspect-[3/2] bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors border border-gray-200"
             >
-              <span className="text-dark text-xs font-light text-center px-2">{client}</span>
+              <span className="text-slate-700 text-xs font-bold uppercase text-center px-3 opacity-60">
+                {client}
+              </span>
             </div>
           ))}
         </div>
