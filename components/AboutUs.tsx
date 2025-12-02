@@ -1,31 +1,31 @@
 export default function AboutUs() {
   return (
-    <section id="about" className="py-24 bg-white relative overflow-hidden">
+    <section id="about" className="py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-24 items-center">
           {/* Text Content */}
           <div className="order-2 lg:order-1">
-            <div className="inline-block mb-6 px-4 py-1.5 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
+            <div className="inline-block mb-8 px-5 py-2 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
               Über uns
             </div>
-            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 leading-tight tracking-tight">
-              Kreative Exzellenz
+            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-12 leading-tight tracking-tight">
+              Kreatives Herz,
               <br />
               <span className="text-accent">
-                trifft Prozesssicherheit.
+                klarer Kopf.
               </span>
             </h2>
-            <div className="space-y-6 text-lg text-gray-600 leading-relaxed font-extralight">
+            <div className="space-y-8 text-lg text-gray-600 leading-relaxed font-extralight">
               <p>
-                Als <span className="font-light text-slate-900">bsp media GmbH</span> kennen wir die Anforderungen anspruchsvoller Branchen – von der Luftfahrtforschung bis zum öffentlichen Sektor. Wir wissen, was Sicherheitsvorgaben, Compliance und Datenschutz bedeuten.
+                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus leidenschaftlichen Filmemachern. Wir kommen ursprünglich aus dem Dokumentarfilm und Extremsport – daher wissen wir, wie man Emotionen weckt.
               </p>
               <p>
-                Wir verbinden die kreative Kraft unserer Wurzeln mit der Verlässlichkeit, die Sie für Ausschreibungen und Großprojekte benötigen. <span className="font-light text-slate-900">International tätig und mehrsprachig</span> – wir produzieren für Konzerne weltweit und sorgen mit professionellen Übersetzungen und Voice-Overs für den globalen Einsatz Ihrer Kommunikation.
+                Für unsere Unternehmenskunden verbinden wir diese Leidenschaft mit der nötigen Struktur und Sicherheit. Wir machen keine Kunst um der Kunst willen, sondern Kommunikation, die Ihr Ziel erreicht.
               </p>
             </div>
 
             {/* Stats or Features */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
+            <div className="grid grid-cols-3 gap-8 mt-16 pt-12 border-t border-gray-200">
               <div>
                 <div className="text-3xl font-bold text-accent mb-2">10+</div>
                 <div className="text-sm text-gray-600 font-extralight">Jahre Erfahrung</div>
@@ -43,7 +43,7 @@ export default function AboutUs() {
 
           {/* Image */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl group">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl group">
               <img
                 src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"
                 alt="Professionelle Filmproduktion"

@@ -63,7 +63,7 @@ export default function Header() {
             </Link>
             <Link
               href="/kontakt"
-              className="ml-4 bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+              className="ml-4 bg-accent text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               Anfrage senden
             </Link>
@@ -117,7 +117,7 @@ export default function Header() {
             </Link>
             <Link
               href="/kontakt"
-              className="w-full bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-center block"
+              className="w-full bg-accent text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 text-center block"
               onClick={() => setIsMenuOpen(false)}
             >
               Anfrage senden

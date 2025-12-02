@@ -16,57 +16,70 @@ export default function Impressum() {
 
         <h1 className="text-5xl font-semibold text-dark mb-8">Impressum</h1>
 
-        <div className="prose prose-lg max-w-none space-y-6 text-dark/70 font-extralight leading-relaxed">
+        <div className="prose prose-lg max-w-none space-y-6 text-gray-600 font-extralight leading-relaxed">
           <section>
-            <h2 className="text-2xl font-semibold text-dark mb-4">Angaben gemäß § 5 TMG</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Angaben gemäß § 5 TMG</h2>
             <p>
               bsp media GmbH
               <br />
-              Sillemstraße 76a
+              Sillemstrasse 76a
               <br />
-              20257 Hamburg
+              D-20257 Hamburg
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-dark mb-4">Kontakt</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Kontakt</h2>
             <p>
-              Telefon: [Telefonnummer]
+              Telefon: <a href="tel:+4940607713440" className="text-accent hover:underline">+49 (0)40 60 77 134 - 40</a>
+              <br />
+              Fax: +49 (0)40 60 77 134 - 50
               <br />
               E-Mail: <a href="mailto:hallo@bsp-media.de" className="text-accent hover:underline">hallo@bsp-media.de</a>
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-dark mb-4">Registereintrag</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Registereintrag</h2>
             <p>
-              Eintragung im Handelsregister.
+              Sitz: Hamburg
               <br />
-              Registergericht: [Registergericht]
+              Amtsgericht Hamburg
               <br />
-              Registernummer: [Registernummer]
+              Handelsregister Nummer: HRB103025
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-dark mb-4">Umsatzsteuer-ID</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Umsatzsteuer-ID</h2>
             <p>
               Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:
               <br />
-              [USt-IdNr.]
+              DE 256831599
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-dark mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Geschäftsführer</h2>
             <p>
-              [Name des Geschäftsführers]
+              Jobst von Paepcke
+              <br />
+              Florian Gebbert
+              <br />
+              Tobias Abt
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-4">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+            <p>
+              Jobst von Paepcke, Florian Gebbert, Tobias Abt
               <br />
               bsp media GmbH
               <br />
-              Sillemstraße 76a
+              Sillemstrasse 76a
               <br />
-              20257 Hamburg
+              D-20257 Hamburg
             </p>
           </section>
 

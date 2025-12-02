@@ -45,40 +45,32 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-32">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Left: Text Content */}
           <div className="text-white animate-slide-up">
-            <div className="inline-block mb-4 px-4 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
+            <div className="inline-block mb-8 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
               Filmproduktion Hamburg
             </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-8 leading-[1.05] tracking-tight">
-              Visuelle Strategien
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-12 leading-[1.05] tracking-tight">
+              Filme, die wirken.
               <br />
               <span className="text-accent">
-                für Unternehmen,
+                Weil sie Menschen erreichen.
               </span>
-              <br />
-              Konzerne & interne Kommunikation.
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-200 mb-10 leading-relaxed font-extralight max-w-2xl">
-              Wir produzieren Content, der komplexe Botschaften verständlich macht. Skalierbar, sicher und hanseatisch verlässlich.
+            <p className="text-xl sm:text-2xl text-gray-200 mb-16 leading-relaxed font-extralight max-w-2xl">
+              Ob im Vorstand, im Recruiting oder in der internen Kommunikation: Wir übersetzen Ihre Themen in Formate, die verstanden werden. Kreativ im Ansatz, sicher in der Umsetzung.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-6">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="group bg-accent text-white px-8 py-4 rounded-md font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Projekt anfragen
+                Lassen Sie uns sprechen
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-md font-light text-lg hover:bg-white/20 hover:bg-opacity-90 transition-all duration-300"
-              >
-                Kontakt
               </button>
             </div>
           </div>

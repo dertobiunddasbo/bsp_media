@@ -13,12 +13,12 @@ export default function TrustSection() {
   ]
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-        <p className="text-center text-sm text-slate-600 mb-12 uppercase tracking-wider font-light">
+        <p className="text-center text-sm text-slate-600 mb-16 uppercase tracking-wider font-light">
           Vertrauen durch Erfahrung in Industrie, Luftfahrt und Öffentlichkeit.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {clients.map((client, index) => (
             <div
               key={index}
