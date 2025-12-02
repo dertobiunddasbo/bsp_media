@@ -7,6 +7,12 @@ export default function Leistungen() {
       gradient: 'from-accent to-pink-600',
     },
     {
+      title: 'Employer Branding & Recruiting',
+      description: 'Fachkräfte gewinnen mit authentischen Recruiting-Videos. Wir zeigen Ihre Unternehmenskultur, Arbeitsplätze und Teams so, dass die richtigen Talente sich angesprochen fühlen.',
+      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
       title: 'Interne Kommunikation & Education',
       description: 'Wissenstransfer, der ankommt. Wir konzipieren interaktive Education-Formate, E-Learning-Module und Schulungsvideos für Ihre Belegschaft.',
       image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -22,6 +28,18 @@ export default function Leistungen() {
       title: 'Events & Internationalisierung',
       description: 'Von der Event-Dokumentation bis zur globalen Kampagne. Wir begleiten Ihre Messen und sorgen mit Übersetzungen und Voice-Overs für den weltweiten Einsatz Ihres Contents.',
       image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Livestreams',
+      description: 'Professionelle Live-Übertragungen für Ihre Events, Konferenzen und Produktpräsentationen. Multi-Kamera-Setup, professionelle Regie und zuverlässige Technik für Ihre Live-Kommunikation.',
+      image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Fotografie',
+      description: 'Professionelle Corporate-Fotografie für Ihre Kommunikation. Von Porträts über Produktfotografie bis hin zur Event-Dokumentation – wir liefern hochwertige Bilder für alle Ihre Kanäle.',
+      image: 'https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
   ]
@@ -45,7 +63,7 @@ export default function Leistungen() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}

@@ -1,11 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   const scrollToSection = (id: string) => {
+    if (pathname !== '/') {
+      window.location.href = `/#${id}`
+      return
+    }
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
@@ -47,19 +54,19 @@ export default function Header() {
               Über uns
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
             </button>
-            <button
-              onClick={() => scrollToSection('contact')}
+            <Link
+              href="/kontakt"
               className="text-dark hover:text-accent transition-all duration-300 font-light px-4 py-2 rounded-lg hover:bg-gray-50 relative group"
             >
               Kontakt
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
+            </Link>
+            <Link
+              href="/kontakt"
               className="ml-4 bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               Anfrage senden
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,18 +108,20 @@ export default function Header() {
             >
               Über uns
             </button>
-            <button
-              onClick={() => scrollToSection('contact')}
+            <Link
+              href="/kontakt"
               className="block w-full text-left text-dark hover:text-accent transition-colors font-light py-2"
+              onClick={() => setIsMenuOpen(false)}
             >
               Kontakt
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="w-full bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+            </Link>
+            <Link
+              href="/kontakt"
+              className="w-full bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 text-center block"
+              onClick={() => setIsMenuOpen(false)}
             >
               Anfrage senden
-            </button>
+            </Link>
           </div>
         )}
       </nav>

@@ -63,7 +63,7 @@ export default function Hero() {
               Konzerne & interne Kommunikation.
             </h1>
             <p className="text-xl sm:text-2xl text-gray-200 mb-8 leading-relaxed font-extralight">
-              Vom Imagefilm über animierte Erklärfilme bis hin zu interaktiven Education-Formaten. Wir produzieren Content, der komplexe Botschaften verständlich macht.
+              Vom Imagefilm über animierte Erklärfilme bis hin zu interaktiven Education-Formaten. Wir produzieren Content, der komplexe Botschaften verständlich macht – national wie international, mehrsprachig und skalierbar.
               <br />
               <span className="font-light">Skalierbar, sicher und hanseatisch verlässlich.</span>
             </p>
@@ -86,17 +86,17 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: Visual Element */}
+          {/* Right: Showreel Video */}
           <div className="hidden lg:block relative">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 border-4 border-white/30 rounded-full flex items-center justify-center">
-                  <svg className="w-16 h-16 text-white/50" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-              </div>
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/20 shadow-2xl group">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/9pnVxYwdpfs?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0&showinfo=0"
+                title="BSP Media Showreel"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
             </div>
             {/* Floating Elements */}
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-lg blur-xl animate-pulse" />

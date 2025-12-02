@@ -29,7 +29,7 @@ export default function AboutUs() {
                 Als <span className="font-light text-dark">bsp media GmbH</span> kennen wir die Anforderungen anspruchsvoller Branchen – von der Luftfahrtforschung bis zum öffentlichen Sektor. Wir wissen, was Sicherheitsvorgaben, Compliance und Datenschutz bedeuten.
               </p>
               <p>
-                Wir verbinden die kreative Kraft unserer Wurzeln mit der Verlässlichkeit, die Sie für Ausschreibungen und Großprojekte benötigen.
+                Wir verbinden die kreative Kraft unserer Wurzeln mit der Verlässlichkeit, die Sie für Ausschreibungen und Großprojekte benötigen. <span className="font-light text-dark">International tätig und mehrsprachig</span> – wir produzieren für Konzerne weltweit und sorgen mit professionellen Übersetzungen und Voice-Overs für den globalen Einsatz Ihrer Kommunikation.
               </p>
             </div>
 
@@ -71,7 +71,7 @@ export default function AboutUs() {
                     </div>
                     <div>
                       <div className="font-semibold text-dark">Hamburg</div>
-                      <div className="text-sm text-dark/70 font-extralight">Deutschlandweit</div>
+                      <div className="text-sm text-dark/70 font-extralight">International</div>
                     </div>
                   </div>
                 </div>

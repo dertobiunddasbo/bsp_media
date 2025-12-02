@@ -46,7 +46,49 @@ bsp_media/
 
 ## Design
 
-- **Farbschema**: Weißraum, Dark Grey (#1F2937), Akzentblau (#1E40AF)
-- **Typografie**: Inter (Google Fonts)
+- **Farbschema**: Weißraum, Dark Grey (#1e282d), Akzent Rot/Pink (#e60050)
+- **Typografie**: Kanit (Google Fonts)
 - **Stil**: Corporate, Minimalistisch, High-End
+
+## Setup
+
+### Environment Variables
+
+Erstelle eine `.env.local` Datei mit folgenden Variablen:
+
+```env
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
+RECAPTCHA_SECRET_KEY=your_secret_key_here
+```
+
+**reCAPTCHA Setup:**
+1. Gehe zu https://www.google.com/recaptcha/admin
+2. Erstelle eine neue Site (reCAPTCHA v3)
+3. Füge deine Domain hinzu
+4. Kopiere Site Key und Secret Key in die `.env.local`
+
+### E-Mail Versand
+
+Die API Route `/api/contact` ist vorbereitet, benötigt aber noch die Implementierung des E-Mail-Versands. 
+
+**Optionen:**
+- **Nodemailer** mit SMTP
+- **Resend** (empfohlen für Next.js)
+- **SendGrid**
+- **AWS SES**
+
+Beispiel mit Nodemailer:
+```bash
+npm install nodemailer
+```
+
+Dann in `/app/api/contact/route.ts` die TODO-Kommentare durch die tatsächliche E-Mail-Implementierung ersetzen.
+
+## Seiten
+
+- `/` - Landing Page
+- `/kontakt` - Kontaktformular mit reCAPTCHA
+- `/impressum` - Impressum
+- `/datenschutz` - Datenschutzerklärung
+- `/agb` - Allgemeine Geschäftsbedingungen
 

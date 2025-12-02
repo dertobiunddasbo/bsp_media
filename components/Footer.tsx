@@ -28,19 +28,19 @@ export default function Footer() {
             <h3 className="font-semibold mb-4 text-white">Rechtliches</h3>
             <div className="space-y-2">
               <a
-                href="#"
+                href="/impressum"
                 className="block text-white/70 hover:text-accent transition-colors font-extralight"
               >
                 Impressum
               </a>
               <a
-                href="#"
+                href="/datenschutz"
                 className="block text-white/70 hover:text-accent transition-colors font-extralight"
               >
                 Datenschutz
               </a>
               <a
-                href="#"
+                href="/agb"
                 className="block text-white/70 hover:text-accent transition-colors font-extralight"
               >
                 AGB
