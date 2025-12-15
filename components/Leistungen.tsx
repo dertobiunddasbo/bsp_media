@@ -24,6 +24,36 @@ export default function Leistungen() {
       image: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
+    {
+      title: 'Live-Streaming',
+      description: 'Professionelle Live-Übertragungen für Events, Kongresse und interne Veranstaltungen. Multi-Kamera-Setups mit professioneller Regie und Übertragung in höchster Qualität.',
+      image: 'https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Fotografie',
+      description: 'Professionelle Unternehmensfotografie für Recruiting, Events, Produkte und Portraits. Authentische Bilder, die Ihre Marke und Kultur authentisch abbilden.',
+      image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Video-Produktion',
+      description: 'Von der Konzeption bis zur finalen Auslieferung: Professionelle Videoproduktion für alle Formate. Imagefilme, Dokumentationen, Interviews und mehr.',
+      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Post-Production',
+      description: 'Professioneller Schnitt, Farbkorrektur, Motion Graphics und Sounddesign. Wir veredeln Ihr Material zu hochwertigen, markenkonformen Inhalten.',
+      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Event-Dokumentation',
+      description: 'Umfassende Dokumentation Ihrer Events, Kongresse und Veranstaltungen. Von der Live-Übertragung bis zur nachhaltigen Event-Dokumentation für alle Kanäle.',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      gradient: 'from-accent to-pink-600',
+    },
   ]
 
   return (
