@@ -22,6 +22,18 @@ export default function AboutUs() {
               <p>
                 Für unsere Unternehmenskunden verbinden wir diese Leidenschaft mit der nötigen Struktur und Sicherheit. Wir machen keine Kunst um der Kunst willen, sondern Kommunikation, die Ihr Ziel erreicht.
               </p>
+              <p>
+                Unsere kreative Manufaktur{' '}
+                <a
+                  href="https://www.bigsexypictures.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-light text-slate-900 hover:text-accent transition-colors underline"
+                >
+                  Big Sexy Pictures
+                </a>{' '}
+                steht für innovative und emotionale Filmproduktionen.
+              </p>
             </div>
 
             {/* Stats or Features */}

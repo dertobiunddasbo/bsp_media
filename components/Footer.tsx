@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer id="contact" className="bg-gray-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Logo & Adresse */}
           <div>
             <Link href="/" className="inline-block mb-6">
@@ -30,6 +30,21 @@ export default function Footer() {
                 className="block text-gray-400 hover:text-accent transition-colors font-extralight"
               >
                 hallo@bsp-media.de
+              </a>
+            </div>
+          </div>
+
+          {/* Big Sexy Pictures */}
+          <div>
+            <h3 className="font-semibold mb-4 text-white">Creative Manufaktur</h3>
+            <div className="space-y-3">
+              <a
+                href="https://www.bigsexypictures.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-400 hover:text-accent transition-colors font-extralight"
+              >
+                Big Sexy Pictures
               </a>
             </div>
           </div>
