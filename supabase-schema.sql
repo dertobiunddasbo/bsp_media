@@ -78,3 +78,4 @@ CREATE POLICY "Allow all operations for authenticated users" ON case_videos
 CREATE POLICY "Allow all operations for authenticated users" ON page_content
     FOR ALL USING (true);
 
+

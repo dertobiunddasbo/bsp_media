@@ -55,3 +55,4 @@ NEXT_PUBLIC_TINYMCE_API_KEY=your_tinymce_api_key
 ⚠️ **Wichtig**: Der `SUPABASE_SERVICE_ROLE_KEY` sollte NIE im Client-Code verwendet werden!
 Er wird nur in Server-Side API Routes verwendet (`lib/supabase-admin.ts`).
 
+
