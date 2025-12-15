@@ -35,6 +35,8 @@ interface ContentData {
   }
 }
 
+export const dynamic = 'force-dynamic'
+
 export default function ContentPage() {
   const [activeTab, setActiveTab] = useState<'hero' | 'leistungen' | 'about' | 'footer' | 'header'>('hero')
   const [loading, setLoading] = useState(true)

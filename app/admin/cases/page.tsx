@@ -12,6 +12,8 @@ interface Case {
   created_at: string
 }
 
+export const dynamic = 'force-dynamic'
+
 export default function CasesPage() {
   const [cases, setCases] = useState<Case[]>([])
   const [loading, setLoading] = useState(true)
