@@ -4,6 +4,7 @@ import TrustSection from '@/components/TrustSection'
 import NDADisclaimer from '@/components/NDADisclaimer'
 import ValueProposition from '@/components/ValueProposition'
 import Leistungen from '@/components/Leistungen'
+import CasesSection from '@/components/CasesSection'
 import AboutUs from '@/components/AboutUs'
 import Footer from '@/components/Footer'
 
@@ -16,6 +17,7 @@ export default function Home() {
       <NDADisclaimer />
       <ValueProposition />
       <Leistungen />
+      <CasesSection />
       <AboutUs />
       <Footer />
     </main>
