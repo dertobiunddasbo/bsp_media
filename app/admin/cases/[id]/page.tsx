@@ -256,7 +256,7 @@ export default function CaseEditPage() {
           <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
             value={caseData.description}
-            onEditorChange={(content) => setCaseData({ ...caseData, description: content })}
+            onEditorChange={(content: string) => setCaseData({ ...caseData, description: content })}
             init={{
               height: 400,
               menubar: false,

@@ -196,7 +196,7 @@ export default function ContentPage() {
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
               value={content.about.text1 || ''}
-              onEditorChange={(text) => setContent({ ...content, about: { ...content.about, text1: text } })}
+              onEditorChange={(text: string) => setContent({ ...content, about: { ...content.about, text1: text } })}
               init={{
                 height: 200,
                 menubar: false,
@@ -210,7 +210,7 @@ export default function ContentPage() {
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
               value={content.about.text2 || ''}
-              onEditorChange={(text) => setContent({ ...content, about: { ...content.about, text2: text } })}
+              onEditorChange={(text: string) => setContent({ ...content, about: { ...content.about, text2: text } })}
               init={{
                 height: 200,
                 menubar: false,
@@ -224,7 +224,7 @@ export default function ContentPage() {
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
               value={content.about.text3 || ''}
-              onEditorChange={(text) => setContent({ ...content, about: { ...content.about, text3: text } })}
+              onEditorChange={(text: string) => setContent({ ...content, about: { ...content.about, text3: text } })}
               init={{
                 height: 200,
                 menubar: false,
