@@ -32,7 +32,9 @@ export default function Hero() {
             transform: `translateY(${scrollY * 0.5}px)`,
           }}
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/60" />
+        {/* Dark gradient from bottom for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
       </div>
 
       {/* Animated Grid Overlay */}
@@ -52,16 +54,19 @@ export default function Hero() {
             <div className="inline-block mb-8 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
               Filmproduktion Hamburg
             </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-12 leading-[1.05] tracking-tight">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-12 leading-[1.05] tracking-tight">
               Filme, die wirken.
               <br />
-              <span className="text-accent">
+              <span className="text-accent font-bold">
                 Weil sie Menschen erreichen.
               </span>
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-200 mb-16 leading-relaxed font-extralight max-w-2xl">
-              Ob im Vorstand, im Recruiting oder in der internen Kommunikation: Wir übersetzen Ihre Themen in Formate, die verstanden werden. Kreativ im Ansatz, sicher in der Umsetzung.
-            </p>
+            <div className="relative">
+              <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-lg -z-10" />
+              <p className="text-xl sm:text-2xl text-white mb-16 leading-relaxed font-light max-w-2xl p-6 relative z-10">
+                Ob im Vorstand, im Recruiting oder in der internen Kommunikation: Wir übersetzen Ihre Themen in Formate, die verstanden werden. Kreativ im Ansatz, sicher in der Umsetzung.
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-6">
               <button
                 onClick={() => scrollToSection('contact')}
@@ -77,7 +82,7 @@ export default function Hero() {
 
           {/* Right: Showreel Video */}
           <div className="hidden lg:block relative">
-            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/20 shadow-2xl group">
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/20 shadow-2xl group scale-110">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/9pnVxYwdpfs?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0&showinfo=0"

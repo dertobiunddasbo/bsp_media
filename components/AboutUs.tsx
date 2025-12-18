@@ -57,8 +57,8 @@ export default function AboutUs() {
           <div className="relative order-1 lg:order-2">
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl group">
               <img
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"
-                alt="Professionelle Filmproduktion"
+                src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"
+                alt="Professionelle Filmproduktion Hamburg"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -68,13 +68,14 @@ export default function AboutUs() {
                 <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 border border-white/20 shadow-xl">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                     </div>
                     <div>
                       <div className="font-semibold text-slate-900">Hamburg</div>
-                      <div className="text-sm text-gray-600 font-extralight">International</div>
+                      <div className="text-sm text-gray-600 font-extralight">Filmproduktion</div>
                     </div>
                   </div>
                 </div>

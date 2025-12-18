@@ -85,7 +85,7 @@ export default function CollaborationPrinciples() {
               <h3 className="text-xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors leading-tight">
                 {principle.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed text-base font-extralight">
+              <p className="text-slate-800 leading-relaxed text-base font-light">
                 {principle.description}
               </p>
 

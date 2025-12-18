@@ -28,18 +28,21 @@ export default function Header() {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('hero')}
-              className="transition-all duration-300 group"
+              className="transition-all duration-300 group flex items-center gap-3"
             >
               <img
                 src="/logo.png"
                 alt="BSP MEDIA"
                 className="h-12 md:h-16 w-auto group-hover:opacity-90 transition-opacity"
               />
+              <span className="hidden sm:block text-xl md:text-2xl font-semibold text-dark group-hover:text-accent transition-colors">
+                BSP MEDIA
+              </span>
             </button>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
             <button
               onClick={() => scrollToSection('leistungen')}
               className="text-dark hover:text-accent transition-all duration-300 font-light px-4 py-2 rounded-lg hover:bg-gray-50 relative group"

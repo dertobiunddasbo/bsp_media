@@ -49,8 +49,8 @@ export default function Leistungen() {
       gradient: 'from-accent to-pink-600',
     },
     {
-      title: 'Event-Dokumentation',
-      description: 'Umfassende Dokumentation Ihrer Events, Kongresse und Veranstaltungen. Von der Live-Übertragung bis zur nachhaltigen Event-Dokumentation für alle Kanäle.',
+      title: 'Event-Dokumentation & Live-Streaming',
+      description: 'Umfassende Dokumentation und professionelle Live-Übertragungen Ihrer Events, Kongresse und Veranstaltungen. Von der Live-Übertragung mit Multi-Kamera-Setups bis zur nachhaltigen Event-Dokumentation für alle Kanäle. Wir sorgen dafür, dass Ihre Events auch digital erlebbar werden.',
       image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
@@ -66,7 +66,7 @@ export default function Leistungen() {
           <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
             Unsere Leistungen
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto font-extralight leading-relaxed">
+          <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
             Professionelle audiovisuelle Lösungen für Ihr Unternehmen
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function Leistungen() {
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed font-extralight">
+                <p className="text-slate-700 leading-relaxed font-light">
                   {service.description}
                 </p>
               </div>
