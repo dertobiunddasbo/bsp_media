@@ -56,3 +56,7 @@ NEXT_PUBLIC_TINYMCE_API_KEY=your_tinymce_api_key
 Er wird nur in Server-Side API Routes verwendet (`lib/supabase-admin.ts`).
 
 
+
+
+
+
