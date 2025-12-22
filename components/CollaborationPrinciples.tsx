@@ -7,7 +7,7 @@ export default function CollaborationPrinciples() {
         </svg>
       ),
       title: 'Offener und partnerschaftlicher Austausch auf Augenhöhe',
-      description: 'Wir brauchen keine reinen Dienstleister*innen, sondern Partner*innen.',
+      description: 'Wir brauchen keine reinen Dienstleister*innen, sondern Partner*innen, die mit uns gemeinsam Lösungen entwickeln. Transparenz und gegenseitiges Vertrauen bilden die Basis für erfolgreiche Projekte.',
       gradient: 'from-accent to-pink-600',
     },
     {
@@ -17,17 +17,7 @@ export default function CollaborationPrinciples() {
         </svg>
       ),
       title: 'Proaktive Kommunikation und Beratung',
-      description: 'Hinsichtlich der Konzeption, Umsetzung und Optimierung: Es ist besser, proaktiv informiert zu werden, statt immer nachfragen zu müssen.',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-        </svg>
-      ),
-      title: 'Schneller und agiler persönlicher Kontakt',
-      description: 'Ein kurzer Anruf löst ein Problem schneller als eine getippte E-Mail.',
+      description: 'Hinsichtlich der Konzeption, Umsetzung und Optimierung: Es ist besser, proaktiv informiert zu werden, statt immer nachfragen zu müssen. Wir schätzen Partner*innen, die uns frühzeitig auf Herausforderungen hinweisen und konstruktive Lösungsvorschläge einbringen.',
       gradient: 'from-accent to-pink-600',
     },
     {
@@ -36,18 +26,8 @@ export default function CollaborationPrinciples() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
         </svg>
       ),
-      title: 'Effiziente Prozesse und konkreter Ansprechpartner',
-      description: 'In der Kommunikation, Planung, Umsetzung und Optimierung von Aufträgen sowie ein konkreter Ansprechpartner je Auftrag: Niemandem nutzen große E-Mail-Verteiler oder eine E-Mail- oder gar Terminflut.',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
-      title: 'Schnelles und agiles Handeln',
-      description: 'Wenn es um ggf. kurzfristig umsetzbare Themen und Aufträge geht.',
+      title: 'Effiziente Prozesse und konkrete Ansprechpartner:innen',
+      description: 'In der Kommunikation, Planung, Umsetzung und Optimierung von Aufträgen brauchen wir klare Strukturen und einen konkreten Ansprechpartner je Auftrag. Niemandem nutzen große E-Mail-Verteiler oder eine E-Mail- oder gar Terminflut.',
       gradient: 'from-accent to-pink-600',
     },
   ]
@@ -56,18 +36,12 @@ export default function CollaborationPrinciples() {
     <section className="py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <div className="inline-block mb-8 px-5 py-2 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
-            Zusammenarbeit
-          </div>
-          <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-6 tracking-tight">
-            Folgende Aspekte sind uns
-            <br />
-            <span className="text-accent">in der Zusammenarbeit wichtig</span>
+          <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-12 tracking-tight">
+            Das ist uns wichtig:
           </h2>
-          <div className="w-24 h-1 bg-accent mx-auto rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
           {principles.map((principle, index) => (
             <div
               key={index}
