@@ -13,7 +13,7 @@ export default function AboutUs() {
             </h2>
             <div className="space-y-8 text-lg text-gray-600 leading-relaxed font-extralight">
               <p>
-                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: Im Tunnel der BVG, am Band bei Ford oder im Sicherheitsbereich am Flughafen. Wir inszenieren nicht – wir finden die Story im Chaos.
+                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.
               </p>
             </div>
 
