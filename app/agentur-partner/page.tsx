@@ -78,7 +78,7 @@ export default function AgenturPartnerPage() {
               Wir lieben den Corporate Content, für den eure Kreativen keine Zeit haben.
             </h1>
             <p className="text-xl sm:text-2xl text-gray-300 mb-12 leading-relaxed font-light max-w-4xl mx-auto">
-              Die skalierbare Production-Unit für Agenturen. Wir setzen eure Strategie um – im DAX-Konzern, am Fließband und im Boardroom. Diskret, white-label, stressfrei.
+              Die skalierbare Production-Unit für Agenturen. Wir setzen eure Strategie um – im DAX-Konzern, am Fließband und im Boardroom. Diskret, stressfrei.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button
@@ -157,11 +157,11 @@ export default function AgenturPartnerPage() {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold mb-4">
-                  White Label & NDA-Profis.
+                  NDA-Profis & Diskretion.
                 </h3>
               </div>
               <p className="text-gray-300 font-light leading-relaxed">
-                Wir tragen eure T-Shirts am Set. Wir kennen die Konzerne (Aldi, Ford, BVG) und wissen, wie man sich im Hochsicherheitsbereich bewegt. Euer Kunde bleibt euer Kunde.
+                Wir kennen die Konzerne (Aldi, Ford, BVG) und wissen, wie man sich im Hochsicherheitsbereich bewegt. Euer Kunde bleibt euer Kunde.
               </p>
             </div>
           </div>
@@ -208,44 +208,123 @@ export default function AgenturPartnerPage() {
         </div>
       </section>
 
-      {/* Service Pillars */}
+      {/* Cases Section */}
       <section
-        data-section-id="service-pillars"
+        data-section-id="cases"
         className={`py-32 bg-zinc-950 transition-opacity duration-1000 delay-400 ${
-          visibleSections.has('service-pillars') ? 'opacity-100' : 'opacity-0'
+          visibleSections.has('cases') ? 'opacity-100' : 'opacity-0'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Pillar 1: Corporate Newsroom */}
-            <div className="bg-black border border-zinc-800 rounded-2xl p-8 hover:border-zinc-700 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-4 text-accent">
-                Corporate Newsroom
-              </h3>
-              <p className="text-gray-300 font-light leading-relaxed">
-                Wöchentliche CEO-Updates & interne News. Wir liefern TV-Qualität im 24h-Turnaround.
-              </p>
+          <div className="text-center mb-20">
+            <div className="inline-block mb-6 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white">
+              Unsere Projekte
             </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight text-white">
+              Ausgewählte Cases
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
+              Einblicke in unsere Filmproduktionen und visuellen Kommunikationslösungen
+            </p>
+          </div>
 
-            {/* Pillar 2: Masterclass Academy */}
-            <div className="bg-black border border-zinc-800 rounded-2xl p-8 hover:border-zinc-700 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-4 text-accent">
-                Masterclass Academy
-              </h3>
-              <p className="text-gray-300 font-light leading-relaxed">
-                Hochwertiges E-Learning. Wir übersetzen trockenes Wissen in cineastische Formate.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-12">
+            {[
+              {
+                id: 'aldi-sued-supplier-portraits',
+                title: 'ALDI SÜD Supplier Portraits',
+                category: 'Corporate',
+                description: 'Einfühlsame Portraitfilme, die die Menschen hinter den Produkten sichtbar machen. Authentische Einblicke in Produktion, Werte und tägliche Abläufe.',
+                image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                client: 'ALDI SÜD',
+              },
+              {
+                id: 'apoprojekt-employer-branding',
+                title: 'apoprojekt & Du',
+                category: 'Employer Branding',
+                description: 'Authentische Mitarbeiterportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
+                image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                client: 'apoprojekt',
+              },
+              {
+                id: 'zal-innovation-days',
+                title: 'ZAL Innovation Days',
+                category: 'Event/Kongressfilm',
+                description: 'Dynamische Eventdokumentation eines zweitägigen Kongresses. Panels, Workshops, Ausstellungen und Networking-Momente aus nächster Nähe.',
+                image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                client: 'ZAL',
+              },
+            ].map((caseItem) => (
+              <Link
+                key={caseItem.id}
+                href={`/portfolio/${caseItem.id}`}
+                className="group relative bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden hover:border-zinc-700 transition-all duration-300"
+              >
+                {/* Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={caseItem.image}
+                    alt={caseItem.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
 
-            {/* Pillar 3: Co-Creation */}
-            <div className="bg-black border border-zinc-800 rounded-2xl p-8 hover:border-zinc-700 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-4 text-accent">
-                Co-Creation
-              </h3>
-              <p className="text-gray-300 font-light leading-relaxed">
-                Ihr macht die Markenstrategie, wir entwickeln die Formate, die in der operativen Realität funktionieren.
-              </p>
-            </div>
+                {/* Content */}
+                <div className="p-8">
+                  <div className="mb-3">
+                    <span className="inline-block px-3 py-1 bg-accent/20 text-accent text-xs font-semibold rounded-full border border-accent/30">
+                      {caseItem.category}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-accent transition-colors">
+                    {caseItem.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed font-light mb-4 text-sm">
+                    {caseItem.description}
+                  </p>
+                  <div className="flex items-center text-accent font-light text-sm">
+                    <span>Mehr erfahren</span>
+                    <svg
+                      className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Link to full portfolio */}
+          <div className="text-center">
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center px-8 py-4 bg-accent text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              <span>Alle Cases ansehen</span>
+              <svg
+                className="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -253,7 +332,7 @@ export default function AgenturPartnerPage() {
       {/* Boardroom Ready */}
       <section
         data-section-id="boardroom-ready"
-        className={`py-32 bg-black transition-opacity duration-1000 delay-500 ${
+        className={`py-32 bg-black transition-opacity duration-1000 delay-400 ${
           visibleSections.has('boardroom-ready') ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -271,7 +350,7 @@ export default function AgenturPartnerPage() {
       <section
         id="contact-section"
         data-section-id="contact"
-        className={`py-32 bg-zinc-950 transition-opacity duration-1000 delay-600 ${
+        className={`py-32 bg-zinc-950 transition-opacity duration-1000 delay-500 ${
           visibleSections.has('contact') ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -280,7 +359,7 @@ export default function AgenturPartnerPage() {
             Erweitert eure Kapazität.
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 leading-relaxed">
-            Lass uns sprechen: Über White-Label-Konditionen und wie wir euren nächsten Pitch unterstützen können.
+            Lass uns sprechen: Über Partnerschaften und wie wir euren nächsten Pitch unterstützen können.
           </p>
           
           {/* CTA Buttons */}
