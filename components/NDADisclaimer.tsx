@@ -64,7 +64,7 @@ export default function NDADisclaimer() {
               Vertrauen
             </h3>
             <p className="text-gray-300 leading-relaxed font-light">
-              Langjährige Partnerschaften mit Unternehmen aus Industrie, Luftfahrt und Öffentlichkeit zeigen: Sie können sich auf unsere Zuverlässigkeit und Vertraulichkeit verlassen.
+              Langjährige Partnerschaften mit Unternehmen aus Industrie, Luftfahrt und Öffentlichkeit zeigen: Sie können sich auf unsere Zuverlässigkeit und Vertraulichkeit verlassen. <span className="font-semibold text-white">Unsere Teams sind geschult im Umgang mit Prototypen, Sperrfristen und Sicherheitsbereichen.</span>
             </p>
           </div>
         </div>

@@ -1,57 +1,21 @@
 export default function Leistungen() {
   const services = [
     {
-      title: 'Recruiting & Kultur',
-      description: 'Fachkräfte gewinnt man heute mit Ehrlichkeit. Wir helfen Ihnen, Ihre Unternehmenskultur so zu zeigen, dass die richtigen Menschen "Ja" sagen.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Corporate Storytelling',
-      description: 'Zahlen und Fakten sind wichtig. Aber Geschichten bleiben im Kopf. Wir verwandeln Ihre Geschäftsberichte und Strategien in Filme, die man gerne schaut.',
+      title: 'Corporate Newsroom',
+      description: 'Der wöchentliche CEO-Cast oder das Schicht-Update. Wir produzieren TV-Formate mit 24h-Turnaround. Damit Ihre Belegschaft informiert ist, bevor der Flurfunk startet.',
       image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
     {
-      title: 'Interne Kommunikation',
-      description: 'Veränderung braucht Verständnis. Wir produzieren Formate, die Ihre Mitarbeitenden mitnehmen, statt sie nur zu informieren.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Wissen & E-Learning',
-      description: 'Komplexe Inhalte, einfach erklärt. Wir bereiten das Wissen Ihrer Experten so auf, dass Lernen Spaß macht und hängen bleibt.',
+      title: 'Knowledge & Academy',
+      description: 'Onboarding und Schulung im Netflix-Standard. Wir übersetzen trockenes Expertenwissen in Video-Masterclasses, die wirklich zu Ende geschaut werden.',
       image: 'https://images.unsplash.com/photo-1478147427282-58a87a120781?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
     {
-      title: 'Live-Streaming',
-      description: 'Professionelle Live-Übertragungen für Events, Kongresse und interne Veranstaltungen. Multi-Kamera-Setups mit professioneller Regie und Übertragung in höchster Qualität.',
-      image: 'https://images.unsplash.com/photo-1533158326339-7f3cf2404354?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Fotografie',
-      description: 'Professionelle Unternehmensfotografie für Recruiting, Events, Produkte und Portraits. Authentische Bilder, die Ihre Marke und Kultur authentisch abbilden.',
-      image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Video-Produktion',
-      description: 'Von der Konzeption bis zur finalen Auslieferung: Professionelle Videoproduktion für alle Formate. Imagefilme, Dokumentationen, Interviews und mehr.',
+      title: 'Industrial Documentary',
+      description: 'Authentische Einblicke in Werk, Logistik und Change-Prozesse. Wir begleiten Transformation da, wo sie passiert – ohne den Betrieb zu stören.',
       image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Post-Production',
-      description: 'Professioneller Schnitt, Farbkorrektur, Motion Graphics und Sounddesign. Wir veredeln Ihr Material zu hochwertigen, markenkonformen Inhalten.',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      gradient: 'from-accent to-pink-600',
-    },
-    {
-      title: 'Event-Dokumentation & Live-Streaming',
-      description: 'Umfassende Dokumentation und professionelle Live-Übertragungen Ihrer Events, Kongresse und Veranstaltungen. Von der Live-Übertragung mit Multi-Kamera-Setups bis zur nachhaltigen Event-Dokumentation für alle Kanäle. Wir sorgen dafür, dass Ihre Events auch digital erlebbar werden.',
-      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       gradient: 'from-accent to-pink-600',
     },
   ]
@@ -71,7 +35,7 @@ export default function Leistungen() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
           {services.map((service, index) => (
             <div
               key={index}

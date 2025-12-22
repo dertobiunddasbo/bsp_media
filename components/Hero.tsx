@@ -55,16 +55,12 @@ export default function Hero() {
               Filmproduktion Hamburg
             </div>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-12 leading-[1.05] tracking-tight">
-              Filme, die wirken.
-              <br />
-              <span className="text-accent font-bold">
-                Weil sie Menschen erreichen.
-              </span>
+              High-End Kommunikation für die operative Realität.
             </h1>
             <div className="relative">
               <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-lg -z-10" />
               <p className="text-xl sm:text-2xl text-white mb-16 leading-relaxed font-light max-w-2xl p-6 relative z-10">
-                Ob im Vorstand, im Recruiting oder in der internen Kommunikation: Wir übersetzen Ihre Themen in Formate, die verstanden werden. Kreativ im Ansatz, sicher in der Umsetzung.
+                Wir bringen Ihre Strategie dorthin, wo keine E-Mails gelesen werden. Die Produktionspartner für Konzerne mit komplexen Strukturen. Schnell, diskret und broadcast-ready.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-6">
@@ -72,7 +68,7 @@ export default function Hero() {
                 onClick={() => scrollToSection('contact')}
                 className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Lassen Sie uns sprechen
+                Verfügbarkeit prüfen
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>

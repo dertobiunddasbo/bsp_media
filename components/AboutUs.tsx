@@ -9,30 +9,11 @@ export default function AboutUs() {
               Über uns
             </div>
             <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-12 leading-tight tracking-tight">
-              Kreatives Herz,
-              <br />
-              <span className="text-accent">
-                klarer Kopf.
-              </span>
+              Dokumentarische DNA für Corporate Challenges.
             </h2>
             <div className="space-y-8 text-lg text-gray-600 leading-relaxed font-extralight">
               <p>
-                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus leidenschaftlichen Filmemachern. Wir kommen ursprünglich aus dem Dokumentarfilm und Extremsport – daher wissen wir, wie man Emotionen weckt.
-              </p>
-              <p>
-                Für unsere Unternehmenskunden verbinden wir diese Leidenschaft mit der nötigen Struktur und Sicherheit. Wir machen keine Kunst um der Kunst willen, sondern Kommunikation, die Ihr Ziel erreicht.
-              </p>
-              <p>
-                Unsere kreative Manufaktur{' '}
-                <a
-                  href="https://www.bigsexypictures.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-light text-slate-900 hover:text-accent transition-colors underline"
-                >
-                  Big Sexy Pictures
-                </a>{' '}
-                steht für innovative und emotionale Filmproduktionen.
+                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: Im Tunnel der BVG, am Band bei Ford oder im Sicherheitsbereich am Flughafen. Wir inszenieren nicht – wir finden die Story im Chaos.
               </p>
             </div>
 
