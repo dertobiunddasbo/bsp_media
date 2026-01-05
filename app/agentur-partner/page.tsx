@@ -1,11 +1,18 @@
 'use client'
 
+import { Suspense } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { EditModeProvider } from '@/contexts/EditModeContext'
+import EditModeBar from '@/components/EditModeBar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import HeroWithEdit from '@/components/HeroWithEdit'
 
-export default function AgenturPartnerPage() {
+function AgenturPartnerPageContent() {
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('edit') === 'true'
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
 
   useEffect(() => {
@@ -47,63 +54,11 @@ export default function AgenturPartnerPage() {
     }
   }
 
-  return (
+  const content = (
     <main className="min-h-screen bg-black text-white">
       <Header />
+      <HeroWithEdit pageSlug="agentur-partner" />
       
-      {/* Hero Section */}
-      <section
-        data-section-id="hero"
-        className={`relative min-h-screen flex items-center justify-center pt-20 overflow-hidden transition-opacity duration-1000 ${
-          visibleSections.has('hero') ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-black to-zinc-900" />
-          <div className="absolute inset-0 opacity-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                 linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                backgroundSize: '50px 50px',
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-32">
-          <div className="max-w-5xl mx-auto text-center">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.05] tracking-tight">
-              Wir lieben den Corporate Content, für den eure Kreativen keine Zeit haben.
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-300 mb-12 leading-relaxed font-light max-w-4xl mx-auto">
-              Die skalierbare Production-Unit für Agenturen. Wir setzen eure Strategie um – im DAX-Konzern, am Fließband und im Boardroom. Diskret, stressfrei.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button
-                onClick={scrollToContact}
-                className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                Partner-Deck anfordern
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
-              <Link
-                href="/portfolio"
-                className="group border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:border-white/60 hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                Showreel ansehen
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Agency Pain Grid */}
       <section
@@ -388,6 +343,25 @@ export default function AgenturPartnerPage() {
 
       <Footer />
     </main>
+  )
+
+  if (isEditMode) {
+    return (
+      <EditModeProvider>
+        <EditModeBar />
+        {content}
+      </EditModeProvider>
+    )
+  }
+
+  return content
+}
+
+export default function AgenturPartnerPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
+      <AgenturPartnerPageContent />
+    </Suspense>
   )
 }
 

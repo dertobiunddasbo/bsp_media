@@ -1,18 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { EditModeProvider } from '@/contexts/EditModeContext'
+import EditModeBar from '@/components/EditModeBar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
+import HeroWithEdit from '@/components/HeroWithEdit'
 
-export default function OeffentlicherSektorPage() {
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+function OeffentlicherSektorPageContent() {
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('edit') === 'true'
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -21,14 +20,15 @@ export default function OeffentlicherSektorPage() {
     }
   }
 
-  return (
+  const content = (
     <main className="min-h-screen bg-white">
       <Header />
+      <HeroWithEdit pageSlug="oeffentlicher-sektor" />
       
-      {/* Hero Section */}
+      {/* Hero Section - REMOVED, using HeroWithEdit above */}
       <section
-        id="hero"
-        className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+        id="hero-old"
+        className="hidden"
       >
         <div className="absolute inset-0 z-0">
           <div
@@ -298,6 +298,25 @@ export default function OeffentlicherSektorPage() {
 
       <Footer />
     </main>
+  )
+
+  if (isEditMode) {
+    return (
+      <EditModeProvider>
+        <EditModeBar />
+        {content}
+      </EditModeProvider>
+    )
+  }
+
+  return content
+}
+
+export default function OeffentlicherSektorPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
+      <OeffentlicherSektorPageContent />
+    </Suspense>
   )
 }
 

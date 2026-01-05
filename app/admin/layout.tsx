@@ -114,6 +114,16 @@ export default function AdminLayout({
                 >
                   Seiten
                 </Link>
+                <Link
+                  href="/admin/edit"
+                  className={`px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                    pathname.startsWith('/admin/edit')
+                      ? 'bg-accent/10 text-accent'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  ✏️ Visuell
+                </Link>
               </nav>
             </div>
             <div className="flex items-center space-x-4">

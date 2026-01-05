@@ -1,4 +1,58 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+
+interface AboutData {
+  title?: string
+  subtitle?: string
+  text1?: string
+  text2?: string
+  text3?: string
+}
+
 export default function AboutUs() {
+  const [data, setData] = useState<AboutData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  const loadData = async () => {
+    try {
+      const res = await fetch('/api/content/about')
+      const content = await res.json()
+      if (content) {
+        setData(content)
+      } else {
+        // Fallback to default data
+        setData({
+          title: 'Dokumentarische DNA für Corporate Challenges.',
+          text1: 'Hinter <span class="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
+        })
+      }
+    } catch (error) {
+      console.error('Error loading about data:', error)
+      // Fallback to default data on error
+      setData({
+        title: 'Dokumentarische DNA für Corporate Challenges.',
+        text1: 'Hinter <span class="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading || !data) {
+    return (
+      <section id="about" className="py-32 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+          <div className="text-center text-gray-600">Wird geladen...</div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section id="about" className="py-32 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
@@ -8,13 +62,21 @@ export default function AboutUs() {
             <div className="inline-block mb-8 px-5 py-2 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
               Über uns
             </div>
-            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-12 leading-tight tracking-tight">
-              Dokumentarische DNA für Corporate Challenges.
-            </h2>
+            {data.title && (
+              <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-12 leading-tight tracking-tight">
+                {data.title}
+              </h2>
+            )}
             <div className="space-y-8 text-lg text-gray-600 leading-relaxed font-extralight">
-              <p>
-                Hinter <span className="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.
-              </p>
+              {data.text1 && (
+                <p dangerouslySetInnerHTML={{ __html: data.text1 }} />
+              )}
+              {data.text2 && (
+                <p dangerouslySetInnerHTML={{ __html: data.text2 }} />
+              )}
+              {data.text3 && (
+                <p dangerouslySetInnerHTML={{ __html: data.text3 }} />
+              )}
             </div>
 
             {/* Stats or Features */}

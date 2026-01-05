@@ -1,32 +1,78 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
+interface Case {
+  id: string
+  title: string
+  category: string
+  description: string
+  image: string
+  client: string
+}
+
 export default function CasesSection() {
-  const cases = [
-    {
-      id: 'aldi-sued-supplier-portraits',
-      title: 'ALDI SÜD Supplier Portraits',
-      category: 'Corporate',
-      description: 'Einfühlsame Portraitfilme, die die Menschen hinter den Produkten sichtbar machen. Authentische Einblicke in Produktion, Werte und tägliche Abläufe.',
-      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'ALDI SÜD',
-    },
-    {
-      id: 'apoprojekt-employer-branding',
-      title: 'apoprojekt & Du',
-      category: 'Employer Branding',
-      description: 'Authentische Mitarbeiterportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'apoprojekt',
-    },
-    {
-      id: 'zal-innovation-days',
-      title: 'ZAL Innovation Days',
-      category: 'Event/Kongressfilm',
-      description: 'Dynamische Eventdokumentation eines zweitägigen Kongresses. Panels, Workshops, Ausstellungen und Networking-Momente aus nächster Nähe.',
-      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'ZAL',
-    },
-  ]
+  const [cases, setCases] = useState<Case[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadCases()
+  }, [])
+
+  const loadCases = async () => {
+    try {
+      const res = await fetch('/api/cases?limit=3')
+      const data = await res.json()
+      if (data && Array.isArray(data)) {
+        setCases(data)
+      } else {
+        // Fallback to default data
+        setCases([
+          {
+            id: 'aldi-sued-supplier-portraits',
+            title: 'ALDI SÜD Supplier Portraits',
+            category: 'Corporate',
+            description: 'Einfühlsame Portraitfilme, die die Menschen hinter den Produkten sichtbar machen. Authentische Einblicke in Produktion, Werte und tägliche Abläufe.',
+            image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            client: 'ALDI SÜD',
+          },
+          {
+            id: 'apoprojekt-employer-branding',
+            title: 'apoprojekt & Du',
+            category: 'Employer Branding',
+            description: 'Authentische Mitarbeiterportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
+            image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            client: 'apoprojekt',
+          },
+          {
+            id: 'zal-innovation-days',
+            title: 'ZAL Innovation Days',
+            category: 'Event/Kongressfilm',
+            description: 'Dynamische Eventdokumentation eines zweitägigen Kongresses. Panels, Workshops, Ausstellungen und Networking-Momente aus nächster Nähe.',
+            image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+            client: 'ZAL',
+          },
+        ])
+      }
+    } catch (error) {
+      console.error('Error loading cases:', error)
+      // Fallback to empty array on error
+      setCases([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+          <div className="text-center text-gray-600">Wird geladen...</div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="py-32 bg-white relative overflow-hidden">

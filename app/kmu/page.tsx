@@ -1,18 +1,17 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { EditModeProvider } from '@/contexts/EditModeContext'
+import EditModeBar from '@/components/EditModeBar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
+import HeroWithEdit from '@/components/HeroWithEdit'
 
-export default function KMUPage() {
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+function KMUPageContent() {
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('edit') === 'true'
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -21,73 +20,10 @@ export default function KMUPage() {
     }
   }
 
-  return (
+  const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      
-      {/* Hero Section */}
-      <section
-        id="hero"
-        className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
-      >
-        {/* Background Image with Parallax */}
-        <div className="absolute inset-0 z-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center scale-110"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80)',
-              transform: `translateY(${scrollY * 0.5}px)`,
-            }}
-          />
-          <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        </div>
-
-        {/* Animated Grid Overlay */}
-        <div className="absolute inset-0 z-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
-          }} />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-32">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-block mb-8 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white">
-              Filmproduktion für KMU
-            </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-12 leading-[1.05] tracking-tight text-white">
-              Großes Kino für KMU.
-            </h1>
-            <div className="relative">
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-lg -z-10" />
-              <p className="text-xl sm:text-2xl text-white mb-16 leading-relaxed font-light max-w-3xl mx-auto p-6 relative z-10">
-                Professionelle Filmproduktion für Hidden Champions und Macher. Ohne Agentur-Overhead. Direkt, nordisch, hochwertig.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                Projekt besprechen
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </section>
+      <HeroWithEdit pageSlug="kmu" />
 
       {/* Value Proposition Section */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
@@ -336,6 +272,25 @@ export default function KMUPage() {
 
       <Footer />
     </main>
+  )
+
+  if (isEditMode) {
+    return (
+      <EditModeProvider>
+        <EditModeBar />
+        {content}
+      </EditModeProvider>
+    )
+  }
+
+  return content
+}
+
+export default function KMUPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
+      <KMUPageContent />
+    </Suspense>
   )
 }
 

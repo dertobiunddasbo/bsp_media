@@ -1,28 +1,56 @@
+'use client'
+
+import { Suspense } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { EditModeProvider } from '@/contexts/EditModeContext'
+import EditModeBar from '@/components/EditModeBar'
 import Header from '@/components/Header'
-import Hero from '@/components/Hero'
+import HeroWithEdit from '@/components/HeroWithEdit'
 import TrustSection from '@/components/TrustSection'
 import NDADisclaimer from '@/components/NDADisclaimer'
 import ValueProposition from '@/components/ValueProposition'
 import CollaborationPrinciples from '@/components/CollaborationPrinciples'
-import Leistungen from '@/components/Leistungen'
+import LeistungenWithEdit from '@/components/LeistungenWithEdit'
 import CasesSection from '@/components/CasesSection'
-import AboutUs from '@/components/AboutUs'
+import AboutWithEdit from '@/components/AboutWithEdit'
 import Footer from '@/components/Footer'
 
-export default function Home() {
-  return (
+function HomeContent() {
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('edit') === 'true'
+
+  const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <Hero />
+      <HeroWithEdit pageSlug="home" />
       <TrustSection />
       <NDADisclaimer />
       <ValueProposition />
       <CollaborationPrinciples />
-      <Leistungen />
+      <LeistungenWithEdit pageSlug="home" />
       <CasesSection />
-      <AboutUs />
+      <AboutWithEdit pageSlug="home" />
       <Footer />
     </main>
+  )
+
+  if (isEditMode) {
+    return (
+      <EditModeProvider>
+        <EditModeBar />
+        {content}
+      </EditModeProvider>
+    )
+  }
+
+  return content
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
+      <HomeContent />
+    </Suspense>
   )
 }
 

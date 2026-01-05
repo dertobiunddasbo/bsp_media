@@ -39,6 +39,16 @@ export default function AdminDashboard() {
         </Link>
 
         <Link
+          href="/admin/edit"
+          className="bg-gradient-to-br from-accent to-pink-600 text-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100"
+        >
+          <h2 className="text-xl font-semibold mb-2">✏️ Visueller Editor</h2>
+          <p className="text-white/90 font-extralight text-sm">
+            Seiten direkt auf der Website bearbeiten (Squarespace-Style)
+          </p>
+        </Link>
+
+        <Link
           href="/"
           target="_blank"
           className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100"
