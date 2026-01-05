@@ -1,15 +1,15 @@
 export default function TrustSection() {
   const clients = [
-    'VW Nutzfahrzeuge',
-    'ALDI SÜD',
-    'Vodafone',
-    'Flughafen Hamburg',
-    'ZAL Zentrum für Angewandte Luftfahrtforschung',
-    'Paypal',
-    'Ford',
-    'BVG',
-    'apoprojekt',
-    'Children for a better World e.V.',
+    { name: 'VW Nutzfahrzeuge', logo: '/assets/VWN_Logo_grau.png' },
+    { name: 'ALDI SÜD', logo: '/assets/ALDISÜD_Logo_grau.png' },
+    { name: 'Vodafone', logo: '/assets/Vodafone_Logo_grau.png' },
+    { name: 'Flughafen Hamburg', logo: '/assets/Airport_Logo_grau.png' },
+    { name: 'ZAL Zentrum für Angewandte Luftfahrtforschung', logo: '/assets/ZAL_Logo_grau.png' },
+    { name: 'Paypal', logo: '/assets/Paypal_Logo_grau.png' },
+    { name: 'Ford', logo: '/assets/Ford_Logo_grau.png' },
+    { name: 'BVG', logo: '/assets/BVG_Logo_grau.png' },
+    { name: 'apoprojekt', logo: '/assets/apoprojekt_Logo_grau.png' },
+    { name: 'Children for a better World e.V.', logo: '/assets/Children_Logo_grau.png' },
   ]
 
   return (
@@ -25,11 +25,13 @@ export default function TrustSection() {
           {clients.map((client, index) => (
             <div
               key={index}
-              className="aspect-[3/2] bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors border border-gray-200"
+              className="aspect-[3/2] bg-white rounded-lg flex items-center justify-center hover:opacity-80 transition-opacity border border-gray-200 p-4"
             >
-              <span className="text-slate-700 text-xs font-bold uppercase text-center px-3 opacity-60">
-                {client}
-              </span>
+              <img
+                src={client.logo}
+                alt={client.name}
+                className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+              />
             </div>
           ))}
         </div>
