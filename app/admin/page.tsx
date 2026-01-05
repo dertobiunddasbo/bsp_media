@@ -29,6 +29,16 @@ export default function AdminDashboard() {
         </Link>
 
         <Link
+          href="/admin/pages"
+          className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100"
+        >
+          <h2 className="text-xl font-semibold text-dark mb-2">Seiten verwalten</h2>
+          <p className="text-gray-600 font-extralight text-sm">
+            Alle Seiten verwalten und bearbeiten
+          </p>
+        </Link>
+
+        <Link
           href="/"
           target="_blank"
           className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100"

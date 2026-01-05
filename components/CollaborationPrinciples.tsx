@@ -7,7 +7,7 @@ export default function CollaborationPrinciples() {
         </svg>
       ),
       title: 'Offener und partnerschaftlicher Austausch auf Augenhöhe',
-      description: 'Wir verstehen uns als Partner*innen, die mit Ihnen gemeinsam Lösungen entwickeln. Transparenz und gegenseitiges Vertrauen bilden die Basis für erfolgreiche Projekte.',
+      description: 'Wir brauchen keine reinen Dienstleister*innen, sondern Partner*innen, die mit uns gemeinsam Lösungen entwickeln. Transparenz und gegenseitiges Vertrauen bilden die Basis für erfolgreiche Projekte.',
       gradient: 'from-accent to-pink-600',
     },
     {
@@ -17,7 +17,7 @@ export default function CollaborationPrinciples() {
         </svg>
       ),
       title: 'Proaktive Kommunikation und Beratung',
-      description: 'Wir beraten und informieren proaktiv hinsichtlich Konzeption, Umsetzung und Optimierung. Wir weisen Sie frühzeitig auf Herausforderungen hin und bringen konstruktive Lösungsvorschläge ein.',
+      description: 'Hinsichtlich der Konzeption, Umsetzung und Optimierung: Es ist besser, proaktiv informiert zu werden, statt immer nachfragen zu müssen. Wir schätzen Partner*innen, die uns frühzeitig auf Herausforderungen hinweisen und konstruktive Lösungsvorschläge einbringen.',
       gradient: 'from-accent to-pink-600',
     },
     {
@@ -27,7 +27,7 @@ export default function CollaborationPrinciples() {
         </svg>
       ),
       title: 'Effiziente Prozesse und konkrete Ansprechpartner:innen',
-      description: 'Bei uns finden Sie klare Ansprechpartner:innen und keine langwierigen E-Mail-Verteiler. Jeder Auftrag hat einen konkreten Ansprechpartner für Kommunikation, Planung, Umsetzung und Optimierung.',
+      description: 'In der Kommunikation, Planung, Umsetzung und Optimierung von Aufträgen brauchen wir klare Strukturen und einen konkreten Ansprechpartner je Auftrag. Niemandem nutzen große E-Mail-Verteiler oder eine E-Mail- oder gar Terminflut.',
       gradient: 'from-accent to-pink-600',
     },
   ]
