@@ -44,8 +44,17 @@ export function EditModeProvider({ children }: { children: ReactNode }) {
 
 export function useEditMode() {
   const context = useContext(EditModeContext)
+  // Return default values if context is not available (not in EditModeProvider)
   if (context === undefined) {
-    throw new Error('useEditMode must be used within an EditModeProvider')
+    return {
+      isEditMode: false,
+      editingSection: null,
+      setEditingSection: () => {},
+      enableEditMode: () => {},
+      disableEditMode: () => {},
+      pageSlug: null,
+      setPageSlug: () => {},
+    }
   }
   return context
 }

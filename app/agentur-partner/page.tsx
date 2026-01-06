@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense } from 'next/navigation'
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { EditModeProvider } from '@/contexts/EditModeContext'

@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { EditModeProvider } from '@/contexts/EditModeContext'
 import EditModeBar from '@/components/EditModeBar'
 
