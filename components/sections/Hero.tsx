@@ -1,21 +1,24 @@
+/**
+ * Hero Section Component
+ * Displays hero section with edit mode support
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
-import EditableSection from './EditableSection'
-import EditModal from './EditModal'
-import HeroEditor from './editors/HeroEditor'
+import { HeroData } from '@/lib/types'
+import { getSectionContent, defaultHeroData } from '@/lib/api'
+import EditableSection from '@/components/shared/EditableSection'
+import EditModal from '@/components/shared/EditModal'
+import HeroEditor from '@/components/admin/editors/HeroEditor'
 
-interface HeroData {
-  badge?: string
-  title?: string
-  subtitle?: string
-  buttonText?: string
-  backgroundImage?: string
+interface HeroProps {
+  pageSlug?: string
 }
 
-export default function HeroWithEdit({ pageSlug = 'home' }: { pageSlug?: string }) {
-  const { isEditMode, editingSection } = useEditMode()
+export default function Hero({ pageSlug = 'home' }: HeroProps) {
+  const { isEditMode, editingSection, setEditingSection } = useEditMode()
   const [scrollY, setScrollY] = useState(0)
   const [data, setData] = useState<HeroData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -29,77 +32,34 @@ export default function HeroWithEdit({ pageSlug = 'home' }: { pageSlug?: string 
   useEffect(() => {
     loadData()
     
-    // Listen for save events
-    const handleSave = () => {
-      loadData()
-    }
+    const handleSave = () => loadData()
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
-  }, [])
+  }, [pageSlug])
 
   const loadData = async () => {
-    try {
-      const apiPath = pageSlug === 'home' ? '/api/content/hero' : `/api/pages/${pageSlug}/sections?section_key=hero`
-      const res = await fetch(apiPath)
-      const content = await res.json()
-      if (content) {
-        setData(content)
-      } else {
-        // Fallback to default data
-        setData({
-          badge: 'Filmproduktion Hamburg',
-          title: 'High-End Kommunikation für die operative Realität.',
-          subtitle: 'Wir bringen Ihre Strategie dorthin, wo keine E-Mails gelesen werden. Die Produktionspartner für Konzerne mit komplexen Strukturen. Schnell, diskret und broadcast-ready.',
-          buttonText: 'Verfügbarkeit prüfen',
-          backgroundImage: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-        })
-      }
-    } catch (error) {
-      console.error('Error loading hero data:', error)
-      setData({
-        badge: 'Filmproduktion Hamburg',
-        title: 'High-End Kommunikation für die operative Realität.',
-        subtitle: 'Wir bringen Ihre Strategie dorthin, wo keine E-Mails gelesen werden. Die Produktionspartner für Konzerne mit komplexen Strukturen. Schnell, diskret und broadcast-ready.',
-        buttonText: 'Verfügbarkeit prüfen',
-        backgroundImage: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-      })
-    } finally {
-      setLoading(false)
-    }
+    setLoading(true)
+    const content = await getSectionContent('hero', pageSlug)
+    setData(content || defaultHeroData)
+    setLoading(false)
   }
 
   const handleSave = async (newData: HeroData) => {
-    const apiPath = pageSlug === 'home' 
-      ? '/api/admin/content'
-      : `/api/admin/pages/${pageSlug}/sections`
-    
-    const body = pageSlug === 'home'
-      ? { page_section: 'hero', content: newData }
-      : { section_key: 'hero', content: newData }
-
-    const res = await fetch(apiPath, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) throw new Error('Save failed')
-    setData(newData)
+    const success = await saveSection('hero', newData, pageSlug)
+    if (success) {
+      setData(newData)
+      window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+    }
   }
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' })
   }
 
   if (loading || !data) {
     return (
-      <section
-        id="hero"
-        className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
-      >
+      <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20">
         <div className="text-white text-center">Wird geladen...</div>
       </section>
     )
@@ -107,17 +67,17 @@ export default function HeroWithEdit({ pageSlug = 'home' }: { pageSlug?: string 
 
   return (
     <>
-      <EditableSection sectionKey="hero" className="">
+      <EditableSection sectionKey="hero">
         <section
           id="hero"
           className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
         >
           {/* Background Image with Parallax */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <div
               className="absolute inset-0 bg-cover bg-center scale-110"
               style={{
-                backgroundImage: `url(${data.backgroundImage || 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'})`,
+                backgroundImage: `url(${data.backgroundImage || defaultHeroData.backgroundImage})`,
                 transform: `translateY(${scrollY * 0.5}px)`,
               }}
             />
@@ -127,11 +87,14 @@ export default function HeroWithEdit({ pageSlug = 'home' }: { pageSlug?: string 
 
           {/* Animated Grid Overlay */}
           <div className="absolute inset-0 z-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                               linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-              backgroundSize: '50px 50px',
-            }} />
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                                 linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                backgroundSize: '50px 50px',
+              }}
+            />
           </div>
 
           {/* Content */}
@@ -209,5 +172,29 @@ export default function HeroWithEdit({ pageSlug = 'home' }: { pageSlug?: string 
       )}
     </>
   )
+}
+
+// Helper function
+async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
+  try {
+    const path = pageSlug === 'home'
+      ? '/api/admin/content'
+      : `/api/admin/pages/${pageSlug}/sections`
+    
+    const body = pageSlug === 'home'
+      ? { page_section: section, content: data }
+      : { section_key: section, content: data }
+
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    return res.ok
+  } catch (error) {
+    console.error(`Error saving ${section}:`, error)
+    return false
+  }
 }
 

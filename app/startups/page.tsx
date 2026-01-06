@@ -3,11 +3,11 @@
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { EditModeProvider } from '@/contexts/EditModeContext'
-import EditModeBar from '@/components/EditModeBar'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import EditModeBar from '@/components/admin/EditModeBar'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
-import HeroWithEdit from '@/components/HeroWithEdit'
+import Hero from '@/components/sections/Hero'
 
 function StartupsPageContent() {
   const searchParams = useSearchParams()
@@ -23,9 +23,9 @@ function StartupsPageContent() {
   const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <HeroWithEdit pageSlug="startups" />
+      <Hero pageSlug="startups" />
       
-      {/* Hero Section - REMOVED, using HeroWithEdit above */}
+      {/* Hero Section - REMOVED, using Hero above */}
       <section
         id="hero-old"
         className="hidden"
@@ -302,9 +302,11 @@ function StartupsPageContent() {
 
   if (isEditMode) {
     return (
-      <EditModeProvider>
+      <EditModeProvider initialEditMode={true}>
         <EditModeBar />
-        {content}
+        <div className="pt-16">
+          {content}
+        </div>
       </EditModeProvider>
     )
   }

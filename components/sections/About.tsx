@@ -1,20 +1,23 @@
+/**
+ * About Section Component
+ * Displays about section with edit mode support
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
-import EditableSection from './EditableSection'
-import EditModal from './EditModal'
-import AboutEditor from './editors/AboutEditor'
+import { AboutData } from '@/lib/types'
+import { getSectionContent, defaultAboutData } from '@/lib/api'
+import EditableSection from '@/components/shared/EditableSection'
+import EditModal from '@/components/shared/EditModal'
+import AboutEditor from '@/components/admin/editors/AboutEditor'
 
-interface AboutData {
-  title?: string
-  subtitle?: string
-  text1?: string
-  text2?: string
-  text3?: string
+interface AboutProps {
+  pageSlug?: string
 }
 
-export default function AboutWithEdit({ pageSlug = 'home' }: { pageSlug?: string }) {
+export default function About({ pageSlug = 'home' }: AboutProps) {
   const { isEditMode, editingSection } = useEditMode()
   const [data, setData] = useState<AboutData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -22,60 +25,30 @@ export default function AboutWithEdit({ pageSlug = 'home' }: { pageSlug?: string
   useEffect(() => {
     loadData()
     
-    const handleSave = () => {
-      loadData()
-    }
+    const handleSave = () => loadData()
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
-  }, [])
+  }, [pageSlug])
 
   const loadData = async () => {
-    try {
-      const apiPath = pageSlug === 'home' ? '/api/content/about' : `/api/pages/${pageSlug}/sections?section_key=about`
-      const res = await fetch(apiPath)
-      const content = await res.json()
-      if (content) {
-        setData(content)
-      } else {
-        setData({
-          title: 'Dokumentarische DNA für Corporate Challenges.',
-          text1: 'Hinter <span class="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
-        })
-      }
-    } catch (error) {
-      console.error('Error loading about data:', error)
-      setData({
-        title: 'Dokumentarische DNA für Corporate Challenges.',
-        text1: 'Hinter <span class="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
-      })
-    } finally {
-      setLoading(false)
-    }
+    setLoading(true)
+    const content = await getSectionContent('about', pageSlug)
+    setData(content || defaultAboutData)
+    setLoading(false)
   }
 
   const handleSave = async (newData: AboutData) => {
-    const apiPath = pageSlug === 'home' 
-      ? '/api/admin/content'
-      : `/api/admin/pages/${pageSlug}/sections`
-    
-    const body = pageSlug === 'home'
-      ? { page_section: 'about', content: newData }
-      : { section_key: 'about', content: newData }
-
-    const res = await fetch(apiPath, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) throw new Error('Save failed')
-    setData(newData)
+    const success = await saveSection('about', newData, pageSlug)
+    if (success) {
+      setData(newData)
+      window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+    }
   }
 
   if (loading || !data) {
     return (
-      <section id="about" className="py-32 bg-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+      <section id="about" className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
           <div className="text-center text-gray-600">Wird geladen...</div>
         </div>
       </section>
@@ -84,7 +57,7 @@ export default function AboutWithEdit({ pageSlug = 'home' }: { pageSlug?: string
 
   return (
     <>
-      <EditableSection sectionKey="about" className="">
+      <EditableSection sectionKey="about">
         <section id="about" className="py-32 bg-white relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-24 items-center">
@@ -168,5 +141,29 @@ export default function AboutWithEdit({ pageSlug = 'home' }: { pageSlug?: string
       )}
     </>
   )
+}
+
+// Helper function
+async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
+  try {
+    const path = pageSlug === 'home'
+      ? '/api/admin/content'
+      : `/api/admin/pages/${pageSlug}/sections`
+    
+    const body = pageSlug === 'home'
+      ? { page_section: section, content: data }
+      : { section_key: section, content: data }
+
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    return res.ok
+  } catch (error) {
+    console.error(`Error saving ${section}:`, error)
+    return false
+  }
 }
 

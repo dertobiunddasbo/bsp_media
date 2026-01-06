@@ -14,8 +14,8 @@ interface EditModeContextType {
 
 const EditModeContext = createContext<EditModeContextType | undefined>(undefined)
 
-export function EditModeProvider({ children }: { children: ReactNode }) {
-  const [isEditMode, setIsEditMode] = useState(false)
+export function EditModeProvider({ children, initialEditMode = false }: { children: ReactNode; initialEditMode?: boolean }) {
+  const [isEditMode, setIsEditMode] = useState(initialEditMode)
   const [editingSection, setEditingSection] = useState<string | null>(null)
   const [pageSlug, setPageSlug] = useState<string | null>(null)
 

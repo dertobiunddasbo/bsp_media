@@ -1,0 +1,144 @@
+/**
+ * Leistungen Section Component
+ * Displays services section with edit mode support
+ */
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useEditMode } from '@/contexts/EditModeContext'
+import { LeistungenData } from '@/lib/types'
+import { getSectionContent, defaultLeistungenData } from '@/lib/api'
+import EditableSection from '@/components/shared/EditableSection'
+import EditModal from '@/components/shared/EditModal'
+import LeistungenEditor from '@/components/admin/editors/LeistungenEditor'
+
+interface LeistungenProps {
+  pageSlug?: string
+}
+
+export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
+  const { isEditMode, editingSection } = useEditMode()
+  const [data, setData] = useState<LeistungenData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadData()
+    
+    const handleSave = () => loadData()
+    window.addEventListener('editMode:sectionSaved', handleSave)
+    return () => window.removeEventListener('editMode:sectionSaved', handleSave)
+  }, [pageSlug])
+
+  const loadData = async () => {
+    setLoading(true)
+    const content = await getSectionContent('leistungen', pageSlug)
+    setData(content || defaultLeistungenData)
+    setLoading(false)
+  }
+
+  const handleSave = async (newData: LeistungenData) => {
+    const success = await saveSection('leistungen', newData, pageSlug)
+    if (success) {
+      setData(newData)
+      window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+    }
+  }
+
+  if (loading || !data) {
+    return (
+      <section id="leistungen" className="py-32 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
+          <div className="text-center text-gray-600">Wird geladen...</div>
+        </div>
+      </section>
+    )
+  }
+
+  const services = data.items || []
+
+  return (
+    <>
+      <EditableSection sectionKey="leistungen">
+        <section id="leistungen" className="py-32 bg-slate-50 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
+            <div className="text-center mb-20">
+              <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
+                Was wir bieten
+              </div>
+              <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
+                {data.title || 'Unsere Leistungen'}
+              </h2>
+              {data.subtitle && (
+                <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
+                  {data.subtitle}
+                </p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+              {services.map((service, index) => (
+                <div
+                  key={index}
+                  className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-8">
+                    <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-slate-700 leading-relaxed font-light">
+                      {service.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </EditableSection>
+
+      {isEditMode && editingSection === 'leistungen' && (
+        <EditModal title="Leistungen Section bearbeiten">
+          <LeistungenEditor
+            sectionKey="leistungen"
+            pageSlug={pageSlug}
+            initialData={data}
+            onSave={handleSave}
+          />
+        </EditModal>
+      )}
+    </>
+  )
+}
+
+// Helper function
+async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
+  try {
+    const path = pageSlug === 'home'
+      ? '/api/admin/content'
+      : `/api/admin/pages/${pageSlug}/sections`
+    
+    const body = pageSlug === 'home'
+      ? { page_section: section, content: data }
+      : { section_key: section, content: data }
+
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    return res.ok
+  } catch (error) {
+    console.error(`Error saving ${section}:`, error)
+    return false
+  }
+}
+

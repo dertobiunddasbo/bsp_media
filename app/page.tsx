@@ -3,17 +3,17 @@
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { EditModeProvider } from '@/contexts/EditModeContext'
-import EditModeBar from '@/components/EditModeBar'
-import Header from '@/components/Header'
-import HeroWithEdit from '@/components/HeroWithEdit'
+import EditModeBar from '@/components/admin/EditModeBar'
+import Header from '@/components/ui/Header'
+import Hero from '@/components/sections/Hero'
 import TrustSection from '@/components/TrustSection'
 import NDADisclaimer from '@/components/NDADisclaimer'
 import ValueProposition from '@/components/ValueProposition'
 import CollaborationPrinciples from '@/components/CollaborationPrinciples'
-import LeistungenWithEdit from '@/components/LeistungenWithEdit'
+import Leistungen from '@/components/sections/Leistungen'
 import CasesSection from '@/components/CasesSection'
-import AboutWithEdit from '@/components/AboutWithEdit'
-import Footer from '@/components/Footer'
+import About from '@/components/sections/About'
+import Footer from '@/components/ui/Footer'
 
 function HomeContent() {
   const searchParams = useSearchParams()
@@ -22,23 +22,25 @@ function HomeContent() {
   const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <HeroWithEdit pageSlug="home" />
+      <Hero pageSlug="home" />
       <TrustSection />
       <NDADisclaimer />
       <ValueProposition />
       <CollaborationPrinciples />
-      <LeistungenWithEdit pageSlug="home" />
+      <Leistungen pageSlug="home" />
       <CasesSection />
-      <AboutWithEdit pageSlug="home" />
+      <About pageSlug="home" />
       <Footer />
     </main>
   )
 
   if (isEditMode) {
     return (
-      <EditModeProvider>
+      <EditModeProvider initialEditMode={true}>
         <EditModeBar />
-        {content}
+        <div className="pt-16">
+          {content}
+        </div>
       </EditModeProvider>
     )
   }

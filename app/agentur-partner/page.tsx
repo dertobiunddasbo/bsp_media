@@ -4,11 +4,11 @@ import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { EditModeProvider } from '@/contexts/EditModeContext'
-import EditModeBar from '@/components/EditModeBar'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import EditModeBar from '@/components/admin/EditModeBar'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
 import Link from 'next/link'
-import HeroWithEdit from '@/components/HeroWithEdit'
+import Hero from '@/components/sections/Hero'
 
 function AgenturPartnerPageContent() {
   const searchParams = useSearchParams()
@@ -57,7 +57,7 @@ function AgenturPartnerPageContent() {
   const content = (
     <main className="min-h-screen bg-black text-white">
       <Header />
-      <HeroWithEdit pageSlug="agentur-partner" />
+      <Hero pageSlug="agentur-partner" />
       
 
       {/* Agency Pain Grid */}
@@ -347,9 +347,11 @@ function AgenturPartnerPageContent() {
 
   if (isEditMode) {
     return (
-      <EditModeProvider>
+      <EditModeProvider initialEditMode={true}>
         <EditModeBar />
-        {content}
+        <div className="pt-16">
+          {content}
+        </div>
       </EditModeProvider>
     )
   }

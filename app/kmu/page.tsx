@@ -3,11 +3,11 @@
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { EditModeProvider } from '@/contexts/EditModeContext'
-import EditModeBar from '@/components/EditModeBar'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import EditModeBar from '@/components/admin/EditModeBar'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
-import HeroWithEdit from '@/components/HeroWithEdit'
+import Hero from '@/components/sections/Hero'
 
 function KMUPageContent() {
   const searchParams = useSearchParams()
@@ -23,7 +23,7 @@ function KMUPageContent() {
   const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <HeroWithEdit pageSlug="kmu" />
+      <Hero pageSlug="kmu" />
 
       {/* Value Proposition Section */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
@@ -276,9 +276,11 @@ function KMUPageContent() {
 
   if (isEditMode) {
     return (
-      <EditModeProvider>
+      <EditModeProvider initialEditMode={true}>
         <EditModeBar />
-        {content}
+        <div className="pt-16">
+          {content}
+        </div>
       </EditModeProvider>
     )
   }
