@@ -27,6 +27,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { page_section, content } = body
 
+    if (!page_section) {
+      return NextResponse.json({ error: 'page_section is required' }, { status: 400 })
+    }
+
+    if (!content) {
+      return NextResponse.json({ error: 'content is required' }, { status: 400 })
+    }
+
+    console.log(`Saving content for section: ${page_section}`)
+
     const { data, error } = await supabaseAdmin
       .from('page_content')
       .upsert({
@@ -38,13 +48,22 @@ export async function POST(request: NextRequest) {
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase error:', error)
+      throw error
+    }
 
+    console.log(`Successfully saved content for section: ${page_section}`, data)
     return NextResponse.json(data)
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('Error in POST /api/admin/content:', error)
+    return NextResponse.json({ 
+      error: error.message || 'Internal server error',
+      details: error.details || null
+    }, { status: 500 })
   }
 }
+
 
 
 

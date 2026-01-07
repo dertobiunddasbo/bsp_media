@@ -15,12 +15,24 @@ export async function GET(
     if (error) {
       // Return null if section doesn't exist (not an error)
       if (error.code === 'PGRST116') {
-        return NextResponse.json(null)
+        return NextResponse.json(null, {
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        })
       }
       throw error
     }
 
-    return NextResponse.json(data?.content || null)
+    return NextResponse.json(data?.content || null, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    })
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }

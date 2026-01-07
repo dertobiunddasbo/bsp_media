@@ -95,34 +95,11 @@ export default function AdminLayout({
                   Cases
                 </Link>
                 <Link
-                  href="/admin/content"
-                  className={`px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                    pathname.startsWith('/admin/content')
-                      ? 'bg-accent/10 text-accent'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  href="/?edit=true"
+                  target="_blank"
+                  className="px-3 py-2 rounded-lg text-sm font-light transition-colors bg-accent/10 text-accent hover:bg-accent/20"
                 >
-                  Content
-                </Link>
-                <Link
-                  href="/admin/pages"
-                  className={`px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                    pathname.startsWith('/admin/pages')
-                      ? 'bg-accent/10 text-accent'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  Seiten
-                </Link>
-                <Link
-                  href="/admin/edit"
-                  className={`px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                    pathname.startsWith('/admin/edit')
-                      ? 'bg-accent/10 text-accent'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  ✏️ Visuell
+                  ✏️ Visueller Editor
                 </Link>
               </nav>
             </div>

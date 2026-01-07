@@ -68,3 +68,4 @@ Er wird nur in Server-Side API Routes verwendet (`lib/supabase-admin.ts`).
 
 
 
+

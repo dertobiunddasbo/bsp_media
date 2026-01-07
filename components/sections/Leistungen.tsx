@@ -38,10 +38,21 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
   }
 
   const handleSave = async (newData: LeistungenData) => {
-    const success = await saveSection('leistungen', newData, pageSlug)
-    if (success) {
-      setData(newData)
-      window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+    try {
+      const success = await saveSection('leistungen', newData, pageSlug)
+      if (success) {
+        // Wait a bit to ensure database is updated
+        await new Promise(resolve => setTimeout(resolve, 100))
+        // Reload data from server instead of using local state
+        await loadData()
+        window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+      } else {
+        alert('Fehler beim Speichern. Bitte versuche es erneut.')
+        console.error('Save failed for leistungen section')
+      }
+    } catch (error) {
+      console.error('Error saving leistungen:', error)
+      alert('Fehler beim Speichern: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'))
     }
   }
 
@@ -135,7 +146,15 @@ async function saveSection(section: string, data: any, pageSlug: string): Promis
       body: JSON.stringify(body),
     })
 
-    return res.ok
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
+      console.error(`API Error (${res.status}):`, errorData)
+      return false
+    }
+
+    const result = await res.json()
+    console.log(`Successfully saved ${section}:`, result)
+    return true
   } catch (error) {
     console.error(`Error saving ${section}:`, error)
     return false

@@ -20,10 +20,27 @@ export async function getSectionContent(
       ? `${API_BASE}/content/${section}`
       : `${API_BASE}/pages/${pageSlug}/sections?section_key=${section}`
     
-    const res = await fetch(path)
-    if (!res.ok) return null
+    // Add cache-busting parameter to ensure fresh data
+    const cacheBuster = `?t=${Date.now()}`
+    const url = pageSlug === 'home' 
+      ? `${path}${cacheBuster}`
+      : `${path}&t=${Date.now()}`
     
-    return await res.json()
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    })
+    
+    if (!res.ok) {
+      console.error(`Failed to load ${section}:`, res.status, res.statusText)
+      return null
+    }
+    
+    const data = await res.json()
+    console.log(`Loaded ${section} data:`, data)
+    return data
   } catch (error) {
     console.error(`Error loading ${section}:`, error)
     return null
