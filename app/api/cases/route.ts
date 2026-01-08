@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await query
 
-    if (error) throw error
+    if (error) {
+      console.error('Supabase error in /api/cases:', error)
+      throw error
+    }
 
     // Transform to match frontend format
     const cases = data?.map((caseItem) => ({
@@ -32,7 +35,16 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(cases)
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    console.error('Error in /api/cases:', error)
+    const errorMessage = error?.message || 'Unknown error'
+    const errorCode = error?.code || 'UNKNOWN'
+    return NextResponse.json(
+      { 
+        error: errorMessage,
+        code: errorCode
+      }, 
+      { status: 500 }
+    )
   }
 }
 

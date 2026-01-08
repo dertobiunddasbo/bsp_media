@@ -3,13 +3,17 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { section: string } }
+  { params }: { params: Promise<{ section: string }> | { section: string } }
 ) {
   try {
+    // Handle both sync and async params (Next.js 15 compatibility)
+    const resolvedParams = await Promise.resolve(params)
+    const section = resolvedParams.section
+    
     const { data, error } = await supabaseAdmin
       .from('page_content')
       .select('content')
-      .eq('page_section', params.section)
+      .eq('page_section', section)
       .single()
 
     if (error) {
@@ -23,6 +27,7 @@ export async function GET(
           },
         })
       }
+      console.error(`Supabase error for section ${section}:`, error)
       throw error
     }
 
@@ -34,7 +39,19 @@ export async function GET(
       },
     })
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    const resolvedParams = await Promise.resolve(params)
+    const section = resolvedParams.section
+    console.error(`Error in /api/content/${section}:`, error)
+    const errorMessage = error?.message || 'Unknown error'
+    const errorCode = error?.code || 'UNKNOWN'
+    return NextResponse.json(
+      { 
+        error: errorMessage,
+        code: errorCode,
+        section: section
+      }, 
+      { status: 500 }
+    )
   }
 }
 
