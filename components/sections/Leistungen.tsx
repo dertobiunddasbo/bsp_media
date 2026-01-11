@@ -22,6 +22,13 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
   const [data, setData] = useState<LeistungenData | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const loadData = async () => {
+    setLoading(true)
+    const content = await getSectionContent('leistungen', pageSlug)
+    setData(content || defaultLeistungenData)
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadData()
     
@@ -29,13 +36,6 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
-
-  const loadData = async () => {
-    setLoading(true)
-    const content = await getSectionContent('leistungen', pageSlug)
-    setData(content || defaultLeistungenData)
-    setLoading(false)
-  }
 
   const handleSave = async (newData: LeistungenData) => {
     try {

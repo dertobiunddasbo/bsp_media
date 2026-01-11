@@ -1,34 +1,49 @@
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import Link from 'next/link'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
-export default function Portfolio() {
-  const cases = [
-    {
-      id: 'aldi-sued-supplier-portraits',
-      title: 'ALDI SÜD Supplier Portraits',
-      category: 'Corporate',
-      description: 'Einfühlsame Portraitfilme, die die Menschen hinter den Produkten sichtbar machen. Authentische Einblicke in Produktion, Werte und tägliche Abläufe.',
-      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'ALDI SÜD',
-    },
-    {
-      id: 'apoprojekt-employer-branding',
-      title: 'apoprojekt & Du',
-      category: 'Employer Branding',
-      description: 'Authentische Mitarbeiterportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'apoprojekt',
-    },
-    {
-      id: 'zal-innovation-days',
-      title: 'ZAL Innovation Days',
-      category: 'Event/Kongressfilm',
-      description: 'Dynamische Eventdokumentation eines zweitägigen Kongresses. Panels, Workshops, Ausstellungen und Networking-Momente aus nächster Nähe.',
-      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      client: 'ZAL',
-    },
-  ]
+export const dynamic = 'force-dynamic'
+
+interface Case {
+  id: string
+  slug?: string
+  title: string
+  category: string
+  description: string
+  image: string
+  client?: string
+}
+
+async function getCases(): Promise<Case[]> {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('cases')
+      .select('id, title, description, category, slug, client, image_url')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      console.error('Error fetching cases:', error)
+      return []
+    }
+
+    return data?.map((caseItem) => ({
+      id: caseItem.slug || caseItem.id,
+      title: caseItem.title,
+      category: caseItem.category,
+      description: caseItem.description,
+      image: caseItem.image_url || 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      client: caseItem.client,
+      slug: caseItem.slug,
+    })) || []
+  } catch (error) {
+    console.error('Error fetching cases:', error)
+    return []
+  }
+}
+
+export default async function Portfolio() {
+  const cases = await getCases()
 
   return (
     <>
@@ -53,7 +68,7 @@ export default function Portfolio() {
             {cases.map((caseItem) => (
               <Link
                 key={caseItem.id}
-                href={`/portfolio/${caseItem.id}`}
+                href={`/portfolio/${caseItem.id || caseItem.slug}`}
                 className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 {/* Image */}

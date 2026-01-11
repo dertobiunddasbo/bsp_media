@@ -35,6 +35,51 @@ export interface AboutData {
   text3?: string
 }
 
+export interface TrustSectionData {
+  title?: string
+  subtitle?: string
+  clients?: Array<{
+    name: string
+    logo: string
+  }>
+}
+
+export interface ValuePropositionData {
+  title?: string
+  values?: Array<{
+    title: string
+    description: string
+    gradient: string
+  }>
+}
+
+export interface CollaborationPrinciplesData {
+  title?: string
+  principles?: Array<{
+    title: string
+    description: string
+    gradient: string
+  }>
+}
+
+export interface NDADisclaimerData {
+  badge?: string
+  title?: string
+  subtitle?: string
+  items?: Array<{
+    title: string
+    description: string
+  }>
+  ctaText?: string
+  ctaLink?: string
+}
+
+export interface FooterData {
+  address?: string
+  email?: string
+  copyright?: string
+}
+
 export interface Case {
   id: string
   title: string
@@ -83,7 +128,7 @@ export interface APIResponse<T> {
   error?: string
 }
 
-export type SectionKey = 'hero' | 'leistungen' | 'about' | string
+export type SectionKey = 'hero' | 'leistungen' | 'about' | 'trust' | 'values' | 'principles' | 'nda' | 'footer' | string
 
 // ============================================
 // Edit Mode Types

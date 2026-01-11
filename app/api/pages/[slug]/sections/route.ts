@@ -1,16 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
 ) {
   try {
+    // Handle both sync and async params (Next.js 15 compatibility)
+    const resolvedParams = await Promise.resolve(params)
+    const slug = resolvedParams.slug
+    
     // Get page by slug
     const { data: page, error: pageError } = await supabaseAdmin
       .from('pages')
       .select('id')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .eq('is_active', true)
       .single()
 

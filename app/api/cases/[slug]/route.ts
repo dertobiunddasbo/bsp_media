@@ -1,0 +1,36 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { supabaseAdmin } from '@/lib/supabase-admin'
+
+export const dynamic = 'force-dynamic'
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
+) {
+  try {
+    const resolvedParams = await Promise.resolve(params)
+    const slug = resolvedParams.slug
+
+    const { data, error } = await supabaseAdmin
+      .from('cases')
+      .select(`
+        *,
+        case_images (*),
+        case_videos (*)
+      `)
+      .eq('slug', slug)
+      .single()
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Case not found' }, { status: 404 })
+      }
+      throw error
+    }
+
+    return NextResponse.json(data)
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+}
+

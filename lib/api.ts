@@ -3,7 +3,7 @@
  * Centralized API calls for content management
  */
 
-import { HeroData, LeistungenData, AboutData, SectionKey } from './types'
+import { HeroData, LeistungenData, AboutData, TrustSectionData, ValuePropositionData, CollaborationPrinciplesData, NDADisclaimerData, FooterData, SectionKey } from './types'
 
 const API_BASE = '/api'
 
@@ -125,3 +125,87 @@ export const defaultAboutData: AboutData = {
   text3: '',
 }
 
+export const defaultTrustSectionData: TrustSectionData = {
+  title: 'Vertrauen durch Erfahrung in Industrie, Luftfahrt und Öffentlichkeit.',
+  subtitle: 'Erfahren in der Zusammenarbeit mit Betriebsräten, Vorständen und Sicherheitsabteilungen in Hochsicherheitsbereichen.',
+  clients: [
+    { name: 'VW Nutzfahrzeuge', logo: '/assets/VWN_Logo_grau.png' },
+    { name: 'ALDI SÜD', logo: '/assets/ALDISÜD_Logo_grau.png' },
+    { name: 'Vodafone', logo: '/assets/Vodafone_Logo_grau.png' },
+    { name: 'Flughafen Hamburg', logo: '/assets/Airport_Logo_grau.png' },
+    { name: 'ZAL Zentrum für Angewandte Luftfahrtforschung', logo: '/assets/ZAL_Logo_grau.png' },
+    { name: 'Paypal', logo: '/assets/Paypal_Logo_grau.png' },
+    { name: 'Ford', logo: '/assets/Ford_Logo_grau.png' },
+    { name: 'BVG', logo: '/assets/BVG_Logo_grau.png' },
+    { name: 'apoprojekt', logo: '/assets/apoprojekt_Logo_grau.png' },
+    { name: 'Children for a better World e.V.', logo: '/assets/Children_Logo_grau.png' },
+  ],
+}
+
+export const defaultValuePropositionData: ValuePropositionData = {
+  title: 'Unsere Werte',
+  values: [
+    {
+      title: 'Partner auf Augenhöhe',
+      description: 'Wir verstehen nicht nur Briefings, sondern Ihre Situation. Ob Vorstand oder Fachabteilung – wir sprechen Ihre Sprache und denken für Sie mit.',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Qualität, die überzeugt',
+      description: 'Kein "Schema F", sondern maßgeschneiderte Lösungen. Wir sorgen dafür, dass Ihre Botschaft nicht nur gesendet, sondern auch gefühlt und verstanden wird.',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Verlässlichkeit als Prinzip',
+      description: 'Wir wissen, dass Budgets und Deadlines heilig sind. Bei uns bekommen Sie kreativen Freiraum in einem sicheren Rahmen.',
+      gradient: 'from-accent to-pink-600',
+    },
+  ],
+};export const defaultCollaborationPrinciplesData: CollaborationPrinciplesData = {
+  title: 'Das ist uns wichtig:',
+  principles: [
+    {
+      title: 'Offener und partnerschaftlicher Austausch auf Augenhöhe',
+      description: 'Wir brauchen keine reinen Dienstleister*innen, sondern Partner*innen, die mit uns gemeinsam Lösungen entwickeln. Transparenz und gegenseitiges Vertrauen bilden die Basis für erfolgreiche Projekte.',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Proaktive Kommunikation und Beratung',
+      description: 'Hinsichtlich der Konzeption, Umsetzung und Optimierung: Es ist besser, proaktiv informiert zu werden, statt immer nachfragen zu müssen. Wir schätzen Partner*innen, die uns frühzeitig auf Herausforderungen hinweisen und konstruktive Lösungsvorschläge einbringen.',
+      gradient: 'from-accent to-pink-600',
+    },
+    {
+      title: 'Effiziente Prozesse und konkrete Ansprechpartner:innen',
+      description: 'In der Kommunikation, Planung, Umsetzung und Optimierung von Aufträgen brauchen wir klare Strukturen und einen konkreten Ansprechpartner je Auftrag. Niemandem nutzen große E-Mail-Verteiler oder eine E-Mail- oder gar Terminflut.',
+      gradient: 'from-accent to-pink-600',
+    },
+  ],
+}
+
+export const defaultNDADisclaimerData: NDADisclaimerData = {
+  badge: 'Vertrauen & Sicherheit',
+  title: 'Ein geschützter Raum<br /><span class="text-accent">für Ihre Themen</span>',
+  subtitle: '',
+  items: [
+    {
+      title: 'Diskretion',
+      description: 'Viele unserer Projekte behandeln sensible interne Themen. Wir bitten um Verständnis, dass wir diese Arbeiten nicht öffentlich zeigen. Diskretion ist Teil unseres Qualitätsversprechens.',
+    },
+    {
+      title: 'DSGVO-konform',
+      description: 'Wir behandeln alle Daten und Inhalte nach höchsten Datenschutzstandards. Unsere Prozesse sind DSGVO-konform und wir arbeiten mit klaren Vereinbarungen zur Datenverarbeitung.',
+    },
+    {
+      title: 'Vertrauen',
+      description: 'Langjährige Partnerschaften mit Unternehmen aus Industrie, Luftfahrt und Öffentlichkeit zeigen: Sie können sich auf unsere Zuverlässigkeit und Vertraulichkeit verlassen. Unsere Teams sind geschult im Umgang mit Prototypen, Sperrfristen und Sicherheitsbereichen.',
+    },
+  ],
+  ctaText: 'Sprechen Sie uns an',
+  ctaLink: '/kontakt',
+}
+
+export const defaultFooterData: FooterData = {
+  address: 'bsp media GmbH\n              Sillemstraße 76a\n              20257 Hamburg',
+  email: 'hallo@bsp-media.de',
+  copyright: '© 2025 bsp media GmbH. Alle Rechte vorbehalten.',
+}

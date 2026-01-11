@@ -29,6 +29,13 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const loadData = async () => {
+    setLoading(true)
+    const content = await getSectionContent('hero', pageSlug)
+    setData(content || defaultHeroData)
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadData()
     
@@ -36,13 +43,6 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
-
-  const loadData = async () => {
-    setLoading(true)
-    const content = await getSectionContent('hero', pageSlug)
-    setData(content || defaultHeroData)
-    setLoading(false)
-  }
 
   const handleSave = async (newData: HeroData) => {
     try {

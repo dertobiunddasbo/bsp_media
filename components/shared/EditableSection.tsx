@@ -18,6 +18,7 @@ export default function EditableSection({
   const [isHovered, setIsHovered] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
+  // Early return AFTER all hooks
   if (!isEditMode) {
     return <div className={className}>{children}</div>
   }

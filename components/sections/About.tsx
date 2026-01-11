@@ -22,6 +22,13 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
   const [data, setData] = useState<AboutData | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const loadData = async () => {
+    setLoading(true)
+    const content = await getSectionContent('about', pageSlug)
+    setData(content || defaultAboutData)
+    setLoading(false)
+  }
+
   useEffect(() => {
     loadData()
     
@@ -29,13 +36,6 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
-
-  const loadData = async () => {
-    setLoading(true)
-    const content = await getSectionContent('about', pageSlug)
-    setData(content || defaultAboutData)
-    setLoading(false)
-  }
 
   const handleSave = async (newData: AboutData) => {
     try {
