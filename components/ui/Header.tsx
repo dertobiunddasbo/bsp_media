@@ -69,10 +69,10 @@ export default function Header() {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
-              href="/kontakt"
+              href="/termin"
               className="ml-4 bg-accent text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
-              Anfrage senden
+              📅 Termin
             </Link>
           </div>
 
@@ -130,11 +130,11 @@ export default function Header() {
               Kontakt
             </Link>
             <Link
-              href="/kontakt"
+              href="/termin"
               className="w-full bg-accent text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 text-center block"
               onClick={() => setIsMenuOpen(false)}
             >
-              Anfrage senden
+              📅 Termin vereinbaren
             </Link>
           </div>
         )}

@@ -1,8 +1,22 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+
+export const metadata: Metadata = {
+  title: 'Allgemeine Geschäftsbedingungen',
+  description: 'Allgemeine Geschäftsbedingungen (AGB) der bsp media GmbH',
+  robots: {
+    index: true,
+    follow: false,
+  },
+}
 
 export default function AGB() {
   return (
-    <main className="min-h-screen bg-white pt-20">
+    <>
+      <Header />
+      <main className="min-h-screen bg-white pt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Link
           href="/"
@@ -89,6 +103,8 @@ export default function AGB() {
         </div>
       </div>
     </main>
+    <Footer />
+    </>
   )
 }
 

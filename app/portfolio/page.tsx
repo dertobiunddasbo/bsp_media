@@ -1,9 +1,19 @@
+import type { Metadata } from 'next'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import Link from 'next/link'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Portfolio',
+  description: 'Portfolio der bsp media GmbH - Einblicke in unsere Filmproduktionen und visuellen Kommunikationslösungen für Industrie, Luftfahrt und Öffentlichkeit.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
 
 interface Case {
   id: string

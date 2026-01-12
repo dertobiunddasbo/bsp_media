@@ -161,7 +161,9 @@ export const defaultValuePropositionData: ValuePropositionData = {
       gradient: 'from-accent to-pink-600',
     },
   ],
-};export const defaultCollaborationPrinciplesData: CollaborationPrinciplesData = {
+}
+
+export const defaultCollaborationPrinciplesData: CollaborationPrinciplesData = {
   title: 'Das ist uns wichtig:',
   principles: [
     {

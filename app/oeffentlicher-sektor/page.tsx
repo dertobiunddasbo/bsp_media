@@ -8,6 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
+import Link from 'next/link'
 
 function OeffentlicherSektorPageContent() {
   const searchParams = useSearchParams()
@@ -284,9 +285,22 @@ function OeffentlicherSektorPageContent() {
               <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
                 Lassen Sie uns sprechen.
               </h2>
-              <p className="text-xl text-gray-300 font-light leading-relaxed">
+              <p className="text-xl text-gray-300 font-light leading-relaxed mb-8">
                 Kein Sales-Pitch. Eine professionelle Einschätzung zu Ihrem Projekt, Budget und den rechtlichen Anforderungen. Angebot innerhalb von 24h.
               </p>
+              
+              {/* Direct Terminbuchung CTA */}
+              <div className="mb-12">
+                <Link
+                  href="/termin"
+                  className="inline-block bg-accent text-white px-10 py-5 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 mb-4"
+                >
+                  📅 Direkt Termin vereinbaren
+                </Link>
+                <p className="text-gray-400 text-sm font-light mt-3">
+                  Oder nutzen Sie das Kontaktformular
+                </p>
+              </div>
             </div>
             
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl">

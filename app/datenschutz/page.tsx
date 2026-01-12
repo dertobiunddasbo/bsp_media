@@ -1,8 +1,22 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+
+export const metadata: Metadata = {
+  title: 'Datenschutzerklärung',
+  description: 'Datenschutzerklärung der bsp media GmbH - Informationen zum Umgang mit personenbezogenen Daten',
+  robots: {
+    index: true,
+    follow: false,
+  },
+}
 
 export default function Datenschutz() {
   return (
-    <main className="min-h-screen bg-white pt-20">
+    <>
+      <Header />
+      <main className="min-h-screen bg-white pt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Link
           href="/"
@@ -36,7 +50,7 @@ export default function Datenschutz() {
           <section>
             <h2 className="text-2xl font-semibold text-dark mb-4">2. Hosting</h2>
             <p>
-              Diese Website wird bei [Hosting-Anbieter] gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert.
+              Diese Website wird bei Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA) gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Vercel verarbeitet diese Daten im Auftrag des Websitebetreibers gemäß den Bestimmungen der DSGVO.
             </p>
           </section>
 
@@ -83,6 +97,8 @@ export default function Datenschutz() {
         </div>
       </div>
     </main>
+    <Footer />
+    </>
   )
 }
 

@@ -1,6 +1,16 @@
+import type { Metadata } from 'next'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
+
+export const metadata: Metadata = {
+  title: 'Kontakt',
+  description: 'Kontaktieren Sie die bsp media GmbH für Ihre Filmproduktion, Corporate Video oder E-Learning Projekte. Wir freuen uns auf Ihre Nachricht.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
 
 export default function Kontakt() {
   return (
@@ -13,7 +23,7 @@ export default function Kontakt() {
             Haben Sie Fragen oder ein Projekt im Kopf? Wir freuen uns auf Ihre Nachricht.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
             {/* Kontaktinformationen */}
             <div>
               <h2 className="text-2xl font-semibold text-dark mb-6">Kontaktinformationen</h2>
@@ -42,6 +52,20 @@ export default function Kontakt() {
             <div>
               <ContactForm />
             </div>
+          </div>
+
+          {/* Terminbuchung Option */}
+          <div className="bg-slate-50 rounded-xl p-8 text-center">
+            <h2 className="text-2xl font-semibold text-dark mb-4">Oder vereinbaren Sie direkt einen Termin</h2>
+            <p className="text-dark/70 font-extralight mb-6 max-w-2xl mx-auto">
+              Wählen Sie einen passenden Termin für ein persönliches Gespräch über Ihr Projekt.
+            </p>
+            <a
+              href="/termin"
+              className="inline-block bg-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              Termin vereinbaren
+            </a>
           </div>
         </div>
       </main>

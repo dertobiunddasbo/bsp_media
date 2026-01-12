@@ -1,8 +1,22 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import Header from '@/components/ui/Header'
+import Footer from '@/components/ui/Footer'
+
+export const metadata: Metadata = {
+  title: 'Impressum',
+  description: 'Impressum der bsp media GmbH - Angaben gemäß § 5 TMG',
+  robots: {
+    index: true,
+    follow: false,
+  },
+}
 
 export default function Impressum() {
   return (
-    <main className="min-h-screen bg-white pt-20">
+    <>
+      <Header />
+      <main className="min-h-screen bg-white pt-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Link
           href="/"
@@ -99,6 +113,8 @@ export default function Impressum() {
         </div>
       </div>
     </main>
+    <Footer />
+    </>
   )
 }
 

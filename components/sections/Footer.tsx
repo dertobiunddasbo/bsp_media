@@ -91,6 +91,12 @@ export default function Footer({ pageSlug = 'home' }: FooterProps) {
               <div>
                 <h3 className="font-semibold mb-4 text-white">Kontakt</h3>
                 <div className="space-y-3">
+                  <Link
+                    href="/termin"
+                    className="block text-accent hover:text-accent/80 transition-colors font-semibold mb-2"
+                  >
+                    📅 Termin vereinbaren
+                  </Link>
                   {data.email && (
                     <a
                       href={`mailto:${data.email}`}
@@ -99,6 +105,12 @@ export default function Footer({ pageSlug = 'home' }: FooterProps) {
                       {data.email}
                     </a>
                   )}
+                  <Link
+                    href="/kontakt"
+                    className="block text-gray-400 hover:text-accent transition-colors font-extralight"
+                  >
+                    Kontaktformular
+                  </Link>
                 </div>
               </div>
 

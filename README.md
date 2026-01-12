@@ -57,8 +57,25 @@ bsp_media/
 Erstelle eine `.env.local` Datei mit folgenden Variablen:
 
 ```env
+# Supabase (erforderlich)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# reCAPTCHA (erforderlich für Kontaktformular)
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
 RECAPTCHA_SECRET_KEY=your_secret_key_here
+
+# E-Mail Versand (Resend - optional, für Produktion empfohlen)
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM_EMAIL=noreply@bsp-media.de
+CONTACT_EMAIL=hallo@bsp-media.de
+
+# Optional: TinyMCE für Rich Text Editor im Admin
+NEXT_PUBLIC_TINYMCE_API_KEY=your_tinymce_api_key
+
+# Optional: Site URL
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 **reCAPTCHA Setup:**
@@ -67,22 +84,13 @@ RECAPTCHA_SECRET_KEY=your_secret_key_here
 3. Füge deine Domain hinzu
 4. Kopiere Site Key und Secret Key in die `.env.local`
 
-### E-Mail Versand
+**Resend Setup (für E-Mail-Versand):**
+1. Gehe zu https://resend.com und erstelle einen Account
+2. Erstelle einen API Key
+3. Füge `RESEND_API_KEY` in die `.env.local` ein
+4. Optional: Konfiguriere eine Domain und setze `RESEND_FROM_EMAIL`
 
-Die API Route `/api/contact` ist vorbereitet, benötigt aber noch die Implementierung des E-Mail-Versands. 
-
-**Optionen:**
-- **Nodemailer** mit SMTP
-- **Resend** (empfohlen für Next.js)
-- **SendGrid**
-- **AWS SES**
-
-Beispiel mit Nodemailer:
-```bash
-npm install nodemailer
-```
-
-Dann in `/app/api/contact/route.ts` die TODO-Kommentare durch die tatsächliche E-Mail-Implementierung ersetzen.
+**Hinweis:** Wenn `RESEND_API_KEY` nicht gesetzt ist, werden E-Mails nur geloggt (für Development).
 
 ## Seiten
 
