@@ -28,16 +28,13 @@ export default function Header() {
           <div className="flex-shrink-0">
             <button
               onClick={() => scrollToSection('hero')}
-              className="transition-all duration-300 group flex items-center gap-3"
+              className="transition-all duration-300 group flex items-center"
             >
               <img
                 src="/logo.png"
                 alt="BSP MEDIA"
                 className="h-12 md:h-16 w-auto group-hover:opacity-90 transition-opacity"
               />
-              <span className="hidden sm:block text-xl md:text-2xl font-semibold text-dark group-hover:text-accent transition-colors">
-                BSP MEDIA
-              </span>
             </button>
           </div>
 
