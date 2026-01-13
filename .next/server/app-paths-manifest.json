@@ -1,6 +1,7 @@
 {
   "/page": "app/page.js",
+  "/termin/page": "app/termin/page.js",
+  "/kontakt/page": "app/kontakt/page.js",
   "/api/content/[section]/route": "app/api/content/[section]/route.js",
-  "/api/cases/route": "app/api/cases/route.js",
-  "/termin/page": "app/termin/page.js"
+  "/api/cases/route": "app/api/cases/route.js"
 }

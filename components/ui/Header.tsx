@@ -130,11 +130,11 @@ export default function Header() {
               Kontakt
             </Link>
             <Link
-              href="/termin"
+              href="/kontakt"
               className="w-full bg-accent text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 text-center block"
               onClick={() => setIsMenuOpen(false)}
             >
-              📅 Termin vereinbaren
+              Anfrage senden
             </Link>
           </div>
         )}

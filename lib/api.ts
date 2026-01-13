@@ -140,9 +140,7 @@ export const defaultTrustSectionData: TrustSectionData = {
     { name: 'apoprojekt', logo: '/assets/apoprojekt_Logo_grau.png' },
     { name: 'Children for a better World e.V.', logo: '/assets/Children_Logo_grau.png' },
   ],
-}
-
-export const defaultValuePropositionData: ValuePropositionData = {
+}export const defaultValuePropositionData: ValuePropositionData = {
   title: 'Unsere Werte',
   values: [
     {
