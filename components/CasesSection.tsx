@@ -22,7 +22,14 @@ export default function CasesSection() {
 
   const loadCases = async () => {
     try {
-      const res = await fetch('/api/cases?limit=3')
+      // Add cache-busting parameter to ensure fresh data
+      const cacheBuster = `?limit=3&t=${Date.now()}`
+      const res = await fetch(`/api/cases${cacheBuster}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
       const data = await res.json()
       if (data && Array.isArray(data)) {
         setCases(data)

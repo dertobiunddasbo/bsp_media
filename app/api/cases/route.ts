@@ -35,7 +35,13 @@ export async function GET(request: NextRequest) {
       client: caseItem.client,
     })) || []
 
-    return NextResponse.json(cases)
+    return NextResponse.json(cases, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    })
   } catch (error: any) {
     console.error('Error in /api/cases:', error)
     const errorMessage = error?.message || 'Unknown error'

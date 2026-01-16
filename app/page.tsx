@@ -18,6 +18,9 @@ import FAQ from '@/components/sections/FAQ'
 import About from '@/components/sections/About'
 import Footer from '@/components/sections/Footer'
 
+// Force dynamic rendering to ensure fresh data
+export const dynamic = 'force-dynamic'
+
 function HomeContent() {
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('edit') === 'true'
