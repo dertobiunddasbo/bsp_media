@@ -7,6 +7,7 @@ interface ContentSection {
   page_section: string
   content: any
   updated_at?: string
+  created_at?: string
 }
 
 const sectionNames: Record<string, string> = {
