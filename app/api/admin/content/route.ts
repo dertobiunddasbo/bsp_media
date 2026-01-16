@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Saving content for section: ${page_section}`)
-    }
+    console.log(`[API] Saving content for section: ${page_section}`)
+    console.log(`[API] Content data:`, JSON.stringify(content, null, 2))
+    console.log(`[API] BackgroundImage in content:`, content?.backgroundImage)
 
     const { data, error } = await supabaseAdmin
       .from('page_content')
@@ -60,13 +60,13 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error) {
-      console.error('Supabase error:', error)
+      console.error('[API] Supabase error:', error)
       throw error
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`Successfully saved content for section: ${page_section}`)
-    }
+    console.log(`[API] Successfully saved content for section: ${page_section}`)
+    console.log(`[API] Saved data:`, JSON.stringify(data, null, 2))
+    console.log(`[API] BackgroundImage in saved data:`, data?.content?.backgroundImage)
 
     return NextResponse.json(data)
   } catch (error: unknown) {

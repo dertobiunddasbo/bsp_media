@@ -35,10 +35,13 @@ export default function HeroEditor({
   const handleSave = async () => {
     setSaving(true)
     try {
+      console.log('[HeroEditor] Saving data:', data)
+      console.log('[HeroEditor] BackgroundImage:', data.backgroundImage)
       await onSave(data)
+      console.log('[HeroEditor] Save completed successfully')
       window.dispatchEvent(new CustomEvent('editMode:sectionSaved', { detail: { sectionKey } }))
     } catch (error) {
-      console.error('Error saving hero:', error)
+      console.error('[HeroEditor] Error saving hero:', error)
       alert('Fehler beim Speichern')
     } finally {
       setSaving(false)

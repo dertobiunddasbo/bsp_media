@@ -78,12 +78,17 @@ export async function saveSectionContent(
   pageSlug: string = 'home'
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    console.log(`[saveSectionContent] Saving ${section} for page ${pageSlug}`)
+    console.log(`[saveSectionContent] Data:`, data)
+    
     // Input validation
     if (!section || typeof section !== 'string') {
+      console.error(`[saveSectionContent] Invalid section key:`, section)
       return { success: false, error: 'Invalid section key' }
     }
     
     if (!data || typeof data !== 'object') {
+      console.error(`[saveSectionContent] Invalid content data:`, data)
       return { success: false, error: 'Invalid content data' }
     }
 
@@ -95,21 +100,30 @@ export async function saveSectionContent(
       ? { page_section: section, content: data }
       : { section_key: section, content: data }
 
+    console.log(`[saveSectionContent] POST to:`, path)
+    console.log(`[saveSectionContent] Body:`, body)
+
     const res = await fetch(path, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     })
 
+    console.log(`[saveSectionContent] Response status:`, res.status)
+    console.log(`[saveSectionContent] Response ok:`, res.ok)
+
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
+      console.error(`[saveSectionContent] Error response:`, errorData)
       return { success: false, error: errorData.error || `HTTP ${res.status}` }
     }
 
+    const responseData = await res.json().catch(() => null)
+    console.log(`[saveSectionContent] Success response:`, responseData)
     return { success: true }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    console.error(`Error saving ${section}:`, errorMessage)
+    console.error(`[saveSectionContent] Error saving ${section}:`, errorMessage)
     return { success: false, error: errorMessage }
   }
 }

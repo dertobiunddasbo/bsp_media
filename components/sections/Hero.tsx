@@ -32,8 +32,12 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
 
   const loadData = async () => {
     setLoading(true)
+    console.log('[Hero] Loading data for pageSlug:', pageSlug)
     const content = await getSectionContent('hero', pageSlug)
+    console.log('[Hero] Loaded content:', content)
+    console.log('[Hero] BackgroundImage in loaded content:', content?.backgroundImage)
     setData(content || defaultHeroData)
+    console.log('[Hero] Data set to state:', content || defaultHeroData)
     setLoading(false)
   }
 
@@ -47,20 +51,25 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
 
   const handleSave = async (newData: HeroData) => {
     try {
+      console.log('[Hero] handleSave called with data:', newData)
+      console.log('[Hero] BackgroundImage in newData:', newData.backgroundImage)
       const result = await saveSectionContent('hero', newData, pageSlug)
+      console.log('[Hero] saveSectionContent result:', result)
       if (result.success) {
         // Wait a bit to ensure database is updated
         await new Promise(resolve => setTimeout(resolve, 100))
         // Reload data from server instead of using local state
+        console.log('[Hero] Reloading data...')
         await loadData()
+        console.log('[Hero] Data reloaded')
         window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
       } else {
         alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
-        console.error('Save failed for hero section:', result.error)
+        console.error('[Hero] Save failed:', result.error)
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
-      console.error('Error saving hero:', errorMessage)
+      console.error('[Hero] Error saving hero:', errorMessage)
       alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }
