@@ -29,15 +29,24 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { page_section, content } = body
 
-    if (!page_section) {
-      return NextResponse.json({ error: 'page_section is required' }, { status: 400 })
+    // Input validation
+    if (!page_section || typeof page_section !== 'string' || page_section.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'page_section is required and must be a non-empty string' },
+        { status: 400 }
+      )
     }
 
-    if (!content) {
-      return NextResponse.json({ error: 'content is required' }, { status: 400 })
+    if (!content || typeof content !== 'object') {
+      return NextResponse.json(
+        { error: 'content is required and must be an object' },
+        { status: 400 }
+      )
     }
 
-    console.log(`Saving content for section: ${page_section}`)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Saving content for section: ${page_section}`)
+    }
 
     const { data, error } = await supabaseAdmin
       .from('page_content')
@@ -55,13 +64,19 @@ export async function POST(request: NextRequest) {
       throw error
     }
 
-    console.log(`Successfully saved content for section: ${page_section}`, data)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Successfully saved content for section: ${page_section}`)
+    }
+
     return NextResponse.json(data)
-  } catch (error: any) {
-    console.error('Error in POST /api/admin/content:', error)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    const errorDetails = error instanceof Error && 'details' in error ? (error as any).details : null
+    
+    console.error('Error in POST /api/admin/content:', errorMessage)
     return NextResponse.json({ 
-      error: error.message || 'Internal server error',
-      details: error.details || null
+      error: 'Internal server error',
+      details: process.env.NODE_ENV === 'development' ? errorDetails || errorMessage : null
     }, { status: 500 })
   }
 }

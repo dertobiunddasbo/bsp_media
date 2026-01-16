@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { NDADisclaimerData } from '@/lib/types'
-import { getSectionContent, defaultNDADisclaimerData } from '@/lib/api'
+import { getSectionContent, saveSectionContent, defaultNDADisclaimerData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import NDADisclaimerEditor from '@/components/admin/editors/NDADisclaimerEditor'
@@ -40,18 +40,19 @@ export default function NDADisclaimer({ pageSlug = 'home' }: NDADisclaimerProps)
 
   const handleSave = async (newData: NDADisclaimerData) => {
     try {
-      const success = await saveSection('nda', newData, pageSlug)
-      if (success) {
+      const result = await saveSectionContent('nda', newData, pageSlug)
+      if (result.success) {
         await new Promise(resolve => setTimeout(resolve, 100))
         await loadData()
         window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
       } else {
-        alert('Fehler beim Speichern. Bitte versuche es erneut.')
-        console.error('Save failed for nda section')
+        alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
+        console.error('Save failed for nda section:', result.error)
       }
     } catch (error) {
-      console.error('Error saving nda:', error)
-      alert('Fehler beim Speichern: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'))
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      console.error('Error saving nda:', errorMessage)
+      alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }
 
@@ -138,35 +139,4 @@ export default function NDADisclaimer({ pageSlug = 'home' }: NDADisclaimerProps)
   )
 }
 
-// Helper function
-async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
-  try {
-    const path = pageSlug === 'home'
-      ? '/api/admin/content'
-      : `/api/admin/pages/${pageSlug}/sections`
-    
-    const body = pageSlug === 'home'
-      ? { page_section: section, content: data }
-      : { section_key: section, content: data }
-
-    const res = await fetch(path, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
-      console.error(`API Error (${res.status}):`, errorData)
-      return false
-    }
-
-    const result = await res.json()
-    console.log(`Successfully saved ${section}:`, result)
-    return true
-  } catch (error) {
-    console.error(`Error saving ${section}:`, error)
-    return false
-  }
-}
 

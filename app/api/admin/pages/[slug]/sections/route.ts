@@ -3,19 +3,40 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
 
+// Helper function to resolve params (Next.js 15 compatibility)
+async function resolveParams(params: Promise<{ slug: string }> | { slug: string }): Promise<{ slug: string }> {
+  return await Promise.resolve(params)
+}
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
 ) {
   try {
+    const resolvedParams = await resolveParams(params)
+    const slug = resolvedParams.slug
+
+    // Input validation
+    if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid slug parameter' },
+        { status: 400 }
+      )
+    }
+
     // Get page by slug
     const { data: page, error: pageError } = await supabaseAdmin
       .from('pages')
       .select('id')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single()
 
-    if (pageError) throw pageError
+    if (pageError || !page) {
+      return NextResponse.json(
+        { error: 'Page not found' },
+        { status: 404 }
+      )
+    }
 
     const { searchParams } = new URL(request.url)
     const sectionKey = searchParams.get('section_key')
@@ -34,28 +55,64 @@ export async function GET(
 
     if (error) throw error
 
-    return NextResponse.json(sectionKey ? (data[0] || null) : data)
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json(sectionKey ? (data[0]?.content || null) : data)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Error in GET /api/admin/pages/[slug]/sections:', errorMessage)
+    return NextResponse.json(
+      { error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? errorMessage : undefined },
+      { status: 500 }
+    )
   }
 }
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
 ) {
   try {
+    const resolvedParams = await resolveParams(params)
+    const slug = resolvedParams.slug
+
+    // Input validation
+    if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid slug parameter' },
+        { status: 400 }
+      )
+    }
+
     // Get page by slug
     const { data: page, error: pageError } = await supabaseAdmin
       .from('pages')
       .select('id')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single()
 
-    if (pageError) throw pageError
+    if (pageError || !page) {
+      return NextResponse.json(
+        { error: 'Page not found' },
+        { status: 404 }
+      )
+    }
 
     const body = await request.json()
     const { section_key, content, order_index } = body
+
+    // Input validation
+    if (!section_key || typeof section_key !== 'string') {
+      return NextResponse.json(
+        { error: 'section_key is required and must be a string' },
+        { status: 400 }
+      )
+    }
+
+    if (!content || typeof content !== 'object') {
+      return NextResponse.json(
+        { error: 'content is required and must be an object' },
+        { status: 400 }
+      )
+    }
 
     const { data, error } = await supabaseAdmin
       .from('page_sections')
@@ -73,27 +130,63 @@ export async function POST(
     if (error) throw error
 
     return NextResponse.json(data)
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Error in POST /api/admin/pages/[slug]/sections:', errorMessage)
+    return NextResponse.json(
+      { error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? errorMessage : undefined },
+      { status: 500 }
+    )
   }
 }
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
 ) {
   try {
+    const resolvedParams = await resolveParams(params)
+    const slug = resolvedParams.slug
+
+    // Input validation
+    if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid slug parameter' },
+        { status: 400 }
+      )
+    }
+
     // Get page by slug
     const { data: page, error: pageError } = await supabaseAdmin
       .from('pages')
       .select('id')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single()
 
-    if (pageError) throw pageError
+    if (pageError || !page) {
+      return NextResponse.json(
+        { error: 'Page not found' },
+        { status: 404 }
+      )
+    }
 
     const body = await request.json()
     const { section_key, content, order_index } = body
+
+    // Input validation
+    if (!section_key || typeof section_key !== 'string') {
+      return NextResponse.json(
+        { error: 'section_key is required and must be a string' },
+        { status: 400 }
+      )
+    }
+
+    if (!content || typeof content !== 'object') {
+      return NextResponse.json(
+        { error: 'content is required and must be an object' },
+        { status: 400 }
+      )
+    }
 
     const { data, error } = await supabaseAdmin
       .from('page_sections')
@@ -109,24 +202,45 @@ export async function PUT(
     if (error) throw error
 
     return NextResponse.json(data)
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Error in PUT /api/admin/pages/[slug]/sections:', errorMessage)
+    return NextResponse.json(
+      { error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? errorMessage : undefined },
+      { status: 500 }
+    )
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> | { slug: string } }
 ) {
   try {
+    const resolvedParams = await resolveParams(params)
+    const slug = resolvedParams.slug
+
+    // Input validation
+    if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid slug parameter' },
+        { status: 400 }
+      )
+    }
+
     // Get page by slug
     const { data: page, error: pageError } = await supabaseAdmin
       .from('pages')
       .select('id')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single()
 
-    if (pageError) throw pageError
+    if (pageError || !page) {
+      return NextResponse.json(
+        { error: 'Page not found' },
+        { status: 404 }
+      )
+    }
 
     const { searchParams } = new URL(request.url)
     const sectionKey = searchParams.get('section_key')
@@ -144,8 +258,13 @@ export async function DELETE(
     if (error) throw error
 
     return NextResponse.json({ success: true })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Error in DELETE /api/admin/pages/[slug]/sections:', errorMessage)
+    return NextResponse.json(
+      { error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? errorMessage : undefined },
+      { status: 500 }
+    )
   }
 }
 

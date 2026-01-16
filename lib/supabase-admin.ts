@@ -35,12 +35,19 @@ function getSupabaseAdmin(): SupabaseClient {
 // Export a proxy that lazily initializes the client
 export const supabaseAdmin = new Proxy({} as SupabaseClient, {
   get(_target, prop) {
-    const client = getSupabaseAdmin()
-    const value = client[prop as keyof SupabaseClient]
-    if (typeof value === 'function') {
-      return value.bind(client)
+    try {
+      const client = getSupabaseAdmin()
+      const value = client[prop as keyof SupabaseClient]
+      if (typeof value === 'function') {
+        return value.bind(client)
+      }
+      return value
+    } catch (error) {
+      // If initialization fails, throw a more descriptive error
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      console.error('Failed to access supabaseAdmin:', errorMessage)
+      throw new Error(`Supabase admin client not available: ${errorMessage}`)
     }
-    return value
   }
 })
 

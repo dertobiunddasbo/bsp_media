@@ -34,15 +34,40 @@ export async function getSectionContent(
     })
     
     if (!res.ok) {
-      console.error(`Failed to load ${section}:`, res.status, res.statusText)
+      // Try to get error details
+      let errorDetails = null
+      try {
+        errorDetails = await res.json()
+      } catch {
+        // If response is not JSON, just use status
+      }
+      
+      // Log error details in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`Failed to load ${section}:`, {
+          status: res.status,
+          statusText: res.statusText,
+          details: errorDetails
+        })
+      } else {
+        console.error(`Failed to load ${section}:`, res.status, res.statusText)
+      }
+      
+      // Return null for 404/500 errors - let components use defaults
       return null
     }
     
     const data = await res.json()
-    console.log(`Loaded ${section} data:`, data)
+    
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Loaded ${section} data:`, data)
+    }
+    
     return data
   } catch (error) {
-    console.error(`Error loading ${section}:`, error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Error loading ${section}:`, errorMessage)
     return null
   }
 }
@@ -51,8 +76,17 @@ export async function saveSectionContent(
   section: SectionKey,
   data: any,
   pageSlug: string = 'home'
-): Promise<boolean> {
+): Promise<{ success: boolean; error?: string }> {
   try {
+    // Input validation
+    if (!section || typeof section !== 'string') {
+      return { success: false, error: 'Invalid section key' }
+    }
+    
+    if (!data || typeof data !== 'object') {
+      return { success: false, error: 'Invalid content data' }
+    }
+
     const path = pageSlug === 'home'
       ? `${API_BASE}/admin/content`
       : `${API_BASE}/admin/pages/${pageSlug}/sections`
@@ -67,10 +101,16 @@ export async function saveSectionContent(
       body: JSON.stringify(body),
     })
 
-    return res.ok
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
+      return { success: false, error: errorData.error || `HTTP ${res.status}` }
+    }
+
+    return { success: true }
   } catch (error) {
-    console.error(`Error saving ${section}:`, error)
-    return false
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Error saving ${section}:`, errorMessage)
+    return { success: false, error: errorMessage }
   }
 }
 

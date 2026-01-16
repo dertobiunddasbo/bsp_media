@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { ValuePropositionData } from '@/lib/types'
-import { getSectionContent, defaultValuePropositionData } from '@/lib/api'
+import { getSectionContent, saveSectionContent, defaultValuePropositionData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import ValuePropositionEditor from '@/components/admin/editors/ValuePropositionEditor'
@@ -39,18 +39,19 @@ export default function ValueProposition({ pageSlug = 'home' }: ValueProposition
 
   const handleSave = async (newData: ValuePropositionData) => {
     try {
-      const success = await saveSection('values', newData, pageSlug)
-      if (success) {
+      const result = await saveSectionContent('values', newData, pageSlug)
+      if (result.success) {
         await new Promise(resolve => setTimeout(resolve, 100))
         await loadData()
         window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
       } else {
-        alert('Fehler beim Speichern. Bitte versuche es erneut.')
-        console.error('Save failed for values section')
+        alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
+        console.error('Save failed for values section:', result.error)
       }
     } catch (error) {
-      console.error('Error saving values:', error)
-      alert('Fehler beim Speichern: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'))
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      console.error('Error saving values:', errorMessage)
+      alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }
 
@@ -123,36 +124,5 @@ export default function ValueProposition({ pageSlug = 'home' }: ValueProposition
   )
 }
 
-// Helper function
-async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
-  try {
-    const path = pageSlug === 'home'
-      ? '/api/admin/content'
-      : `/api/admin/pages/${pageSlug}/sections`
-    
-    const body = pageSlug === 'home'
-      ? { page_section: section, content: data }
-      : { section_key: section, content: data }
-
-    const res = await fetch(path, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
-      console.error(`API Error (${res.status}):`, errorData)
-      return false
-    }
-
-    const result = await res.json()
-    console.log(`Successfully saved ${section}:`, result)
-    return true
-  } catch (error) {
-    console.error(`Error saving ${section}:`, error)
-    return false
-  }
-}
 
 

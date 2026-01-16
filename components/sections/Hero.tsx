@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { HeroData } from '@/lib/types'
-import { getSectionContent, defaultHeroData } from '@/lib/api'
+import { getSectionContent, saveSectionContent, defaultHeroData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import HeroEditor from '@/components/admin/editors/HeroEditor'
@@ -47,20 +47,21 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
 
   const handleSave = async (newData: HeroData) => {
     try {
-      const success = await saveSection('hero', newData, pageSlug)
-      if (success) {
+      const result = await saveSectionContent('hero', newData, pageSlug)
+      if (result.success) {
         // Wait a bit to ensure database is updated
         await new Promise(resolve => setTimeout(resolve, 100))
         // Reload data from server instead of using local state
         await loadData()
         window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
       } else {
-        alert('Fehler beim Speichern. Bitte versuche es erneut.')
-        console.error('Save failed for hero section')
+        alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
+        console.error('Save failed for hero section:', result.error)
       }
     } catch (error) {
-      console.error('Error saving hero:', error)
-      alert('Fehler beim Speichern: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'))
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      console.error('Error saving hero:', errorMessage)
+      alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }
 
@@ -199,35 +200,4 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
   )
 }
 
-// Helper function
-async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
-  try {
-    const path = pageSlug === 'home'
-      ? '/api/admin/content'
-      : `/api/admin/pages/${pageSlug}/sections`
-    
-    const body = pageSlug === 'home'
-      ? { page_section: section, content: data }
-      : { section_key: section, content: data }
-
-    const res = await fetch(path, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
-      console.error(`API Error (${res.status}):`, errorData)
-      return false
-    }
-
-    const result = await res.json()
-    console.log(`Successfully saved ${section}:`, result)
-    return true
-  } catch (error) {
-    console.error(`Error saving ${section}:`, error)
-    return false
-  }
-}
 
