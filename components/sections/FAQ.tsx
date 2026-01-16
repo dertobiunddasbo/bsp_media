@@ -8,9 +8,10 @@
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { FAQData } from '@/lib/types'
-import { getSectionContent, defaultFAQData } from '@/lib/api'
+import { getSectionContent, saveSectionContent, defaultFAQData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
+import FAQEditor from '@/components/admin/editors/FAQEditor'
 
 interface FAQProps {
   pageSlug?: string
@@ -36,6 +37,24 @@ export default function FAQ({ pageSlug = 'home' }: FAQProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
+
+  const handleSave = async (newData: FAQData) => {
+    try {
+      const result = await saveSectionContent('faq', newData, pageSlug)
+      if (result.success) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        await loadData()
+        window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+      } else {
+        alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
+        console.error('Save failed for FAQ section:', result.error)
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      console.error('Error saving FAQ:', errorMessage)
+      alert(`Fehler beim Speichern: ${errorMessage}`)
+    }
+  }
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index)
@@ -130,6 +149,17 @@ export default function FAQ({ pageSlug = 'home' }: FAQProps) {
           </div>
         </section>
       </EditableSection>
+
+      {isEditMode && editingSection === 'faq' && (
+        <EditModal title="FAQ Section bearbeiten">
+          <FAQEditor
+            sectionKey="faq"
+            pageSlug={pageSlug}
+            initialData={data}
+            onSave={handleSave}
+          />
+        </EditModal>
+      )}
     </>
   )
 }

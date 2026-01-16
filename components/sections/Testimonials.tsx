@@ -8,9 +8,10 @@
 import { useEffect, useState } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { TestimonialData } from '@/lib/types'
-import { getSectionContent, defaultTestimonialData } from '@/lib/api'
+import { getSectionContent, saveSectionContent, defaultTestimonialData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
+import TestimonialsEditor from '@/components/admin/editors/TestimonialsEditor'
 
 interface TestimonialsProps {
   pageSlug?: string
@@ -35,6 +36,24 @@ export default function Testimonials({ pageSlug = 'home' }: TestimonialsProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
+
+  const handleSave = async (newData: TestimonialData) => {
+    try {
+      const result = await saveSectionContent('testimonials', newData, pageSlug)
+      if (result.success) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        await loadData()
+        window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+      } else {
+        alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
+        console.error('Save failed for testimonials section:', result.error)
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      console.error('Error saving testimonials:', errorMessage)
+      alert(`Fehler beim Speichern: ${errorMessage}`)
+    }
+  }
 
   if (loading || !data) {
     return (
@@ -133,6 +152,17 @@ export default function Testimonials({ pageSlug = 'home' }: TestimonialsProps) {
           </div>
         </section>
       </EditableSection>
+
+      {isEditMode && editingSection === 'testimonials' && (
+        <EditModal title="Testimonials Section bearbeiten">
+          <TestimonialsEditor
+            sectionKey="testimonials"
+            pageSlug={pageSlug}
+            initialData={data}
+            onSave={handleSave}
+          />
+        </EditModal>
+      )}
     </>
   )
 }

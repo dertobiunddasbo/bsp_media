@@ -103,6 +103,17 @@ export default function AdminDashboard() {
             </div>
           </Link>
           <Link
+            href="/?edit=true"
+            target="_blank"
+            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
+          >
+            <span className="text-2xl">✏️</span>
+            <div>
+              <div className="font-semibold text-gray-900">Seite bearbeiten</div>
+              <div className="text-sm text-gray-600">Visueller Editor - direkt auf der Seite</div>
+            </div>
+          </Link>
+          <Link
             href="/"
             target="_blank"
             className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
