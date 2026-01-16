@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
 const TinyMCEEditor = dynamic(() => import('./TinyMCEEditor'), {
@@ -28,7 +28,6 @@ interface CaseVideo {
 
 export default function CaseForm({ initialData }: CaseFormProps) {
   const router = useRouter()
-  const params = useParams()
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(!!initialData)
   const [formData, setFormData] = useState({

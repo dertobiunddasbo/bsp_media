@@ -7,18 +7,19 @@ import CaseForm from '../CaseForm'
 export default function EditCasePage() {
   const params = useParams()
   const router = useRouter()
+  const caseId = Array.isArray(params.id) ? params.id[0] : (params.id as string)
   const [caseData, setCaseData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (params.id && params.id !== 'new') {
+    if (caseId && caseId !== 'new') {
       fetchCase()
     }
-  }, [params.id])
+  }, [caseId])
 
   const fetchCase = async () => {
     try {
-      const res = await fetch(`/api/admin/cases/${params.id}`)
+      const res = await fetch(`/api/admin/cases/${caseId}`)
       if (!res.ok) throw new Error('Failed to fetch case')
       const data = await res.json()
       setCaseData(data)

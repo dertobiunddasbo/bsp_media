@@ -44,7 +44,7 @@ const editorComponents: Record<string, any> = {
 export default function ContentEditPage() {
   const params = useParams()
   const router = useRouter()
-  const section = params.section as string
+  const section = Array.isArray(params.section) ? params.section[0] : (params.section as string)
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 

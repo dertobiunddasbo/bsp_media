@@ -89,7 +89,9 @@ export default function ContentPage() {
             <h3 className="text-lg font-semibold text-gray-900 mb-1">{section.name}</h3>
             {section.data ? (
               <p className="text-sm text-gray-500">
-                Zuletzt aktualisiert: {new Date(section.data.updated_at || section.data.created_at).toLocaleDateString('de-DE')}
+                Zuletzt aktualisiert: {section.data.updated_at || section.data.created_at 
+                  ? new Date(section.data.updated_at || section.data.created_at!).toLocaleDateString('de-DE')
+                  : 'Unbekannt'}
               </p>
             ) : (
               <p className="text-sm text-gray-400">Noch nicht erstellt</p>
