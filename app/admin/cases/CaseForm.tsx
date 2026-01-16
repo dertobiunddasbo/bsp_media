@@ -4,13 +4,9 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-const Editor = dynamic(
-  async () => {
-    const mod = await import('@tinymce/tinymce-react')
-    return { default: mod.Editor }
-  },
-  { ssr: false }
-)
+const TinyMCEEditor = dynamic(() => import('./TinyMCEEditor'), {
+  ssr: false,
+})
 
 interface CaseFormProps {
   initialData?: any
@@ -209,27 +205,10 @@ export default function CaseForm({ initialData }: CaseFormProps) {
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Beschreibung *
         </label>
-        {typeof window !== 'undefined' && (
-          <Editor
-            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
-            value={formData.description}
-            onEditorChange={(content: string) => setFormData({ ...formData, description: content })}
-            init={{
-              height: 400,
-              menubar: false,
-              plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-              ],
-              toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-            }}
-          />
-        )}
+        <TinyMCEEditor
+          value={formData.description}
+          onChange={(content: string) => setFormData({ ...formData, description: content })}
+        />
       </div>
 
       {initialData?.id && (
