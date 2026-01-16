@@ -1,71 +1,120 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-export const dynamic = 'force-dynamic'
-
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    cases: 0,
+    sections: 0,
+  })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadStats()
+  }, [])
+
+  const loadStats = async () => {
+    try {
+      const [casesRes, contentRes] = await Promise.all([
+        fetch('/api/admin/cases'),
+        fetch('/api/admin/content'),
+      ])
+
+      const cases = await casesRes.json()
+      const content = await contentRes.json()
+
+      setStats({
+        cases: Array.isArray(cases) ? cases.length : 0,
+        sections: Array.isArray(content) ? content.length : 0,
+      })
+    } catch (error) {
+      console.error('Error loading stats:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const cards = [
+    {
+      title: 'Cases',
+      count: stats.cases,
+      icon: '🎬',
+      href: '/admin/cases',
+      color: 'bg-blue-500',
+    },
+    {
+      title: 'Content-Sections',
+      count: stats.sections,
+      icon: '📝',
+      href: '/admin/content',
+      color: 'bg-purple-500',
+    },
+  ]
+
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-dark mb-4">CMS Dashboard</h1>
-      <p className="text-gray-600 font-extralight mb-8">
-        Verwaltung der Website-Inhalte
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-        {/* Visueller Editor - Hauptfunktion */}
-        <Link
-          href="/?edit=true"
-          target="_blank"
-          className="bg-gradient-to-br from-accent to-pink-600 text-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all transform hover:scale-105 border border-accent/20"
-        >
-          <div className="text-4xl mb-4">✏️</div>
-          <h2 className="text-2xl font-semibold mb-3">Visueller Editor</h2>
-          <p className="text-white/90 font-extralight text-sm leading-relaxed">
-            Bearbeite die Website direkt auf der Seite. Hovern über Bereiche zeigt den "Bearbeiten"-Button.
-          </p>
-          <div className="mt-4 text-xs text-white/80 font-light">
-            Öffnet in neuem Tab →
-          </div>
-        </Link>
-
-        {/* Cases verwalten */}
-        <Link
-          href="/admin/cases"
-          className="bg-white rounded-xl shadow-sm p-8 hover:shadow-md transition-shadow border border-gray-100"
-        >
-          <div className="text-4xl mb-4">🎬</div>
-          <h2 className="text-xl font-semibold text-dark mb-2">Cases verwalten</h2>
-          <p className="text-gray-600 font-extralight text-sm">
-            Portfolio-Cases erstellen, bearbeiten und löschen
-          </p>
-        </Link>
-
-        {/* Website ansehen */}
-        <Link
-          href="/"
-          target="_blank"
-          className="bg-white rounded-xl shadow-sm p-8 hover:shadow-md transition-shadow border border-gray-100"
-        >
-          <div className="text-4xl mb-4">🌐</div>
-          <h2 className="text-xl font-semibold text-dark mb-2">Website ansehen</h2>
-          <p className="text-gray-600 font-extralight text-sm">
-            Öffnet die Website in einem neuen Tab
-          </p>
-        </Link>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-dark mb-2">Dashboard</h1>
+        <p className="text-gray-600">Übersicht über deine Website-Inhalte</p>
       </div>
 
-      {/* Info Box */}
-      <div className="mt-12 p-6 bg-blue-50 border border-blue-200 rounded-xl max-w-4xl">
-        <h3 className="text-lg font-semibold text-dark mb-2">💡 So funktioniert der Visuelle Editor:</h3>
-        <ol className="list-decimal list-inside space-y-2 text-gray-700 font-extralight text-sm">
-          <li>Klicke auf "Visueller Editor" oben</li>
-          <li>Die Website öffnet sich mit Bearbeitungsmodus</li>
-          <li>Hovern über Bereiche zeigt den "Bearbeiten"-Button</li>
-          <li>Klicke auf "Bearbeiten" um Inhalte zu ändern</li>
-          <li>Speichere deine Änderungen</li>
-        </ol>
+      {loading ? (
+        <div className="text-gray-600">Wird geladen...</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {cards.map((card) => (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow group"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`w-12 h-12 ${card.color} rounded-lg flex items-center justify-center text-2xl`}>
+                  {card.icon}
+                </div>
+                <svg
+                  className="w-5 h-5 text-gray-400 group-hover:text-accent transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">{card.title}</h3>
+              <p className="text-3xl font-bold text-dark">{card.count}</p>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-xl font-semibold text-dark mb-4">Schnellzugriff</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Link
+            href="/admin/cases/new"
+            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
+          >
+            <span className="text-2xl">➕</span>
+            <div>
+              <div className="font-semibold text-gray-900">Neuer Case</div>
+              <div className="text-sm text-gray-600">Erstelle ein neues Portfolio-Projekt</div>
+            </div>
+          </Link>
+          <Link
+            href="/"
+            target="_blank"
+            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-accent hover:bg-accent/5 transition-colors"
+          >
+            <span className="text-2xl">🌐</span>
+            <div>
+              <div className="font-semibold text-gray-900">Website ansehen</div>
+              <div className="text-sm text-gray-600">Öffnet die Website in neuem Tab</div>
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   )
 }
-
-

@@ -4,8 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
-export const dynamic = 'force-dynamic'
-
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -36,9 +34,14 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-dark mb-2">Admin Login</h1>
-        <p className="text-gray-600 mb-8 font-extralight">bsp media CMS</p>
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+            B
+          </div>
+          <h1 className="text-3xl font-semibold text-dark mb-2">Willkommen zurück</h1>
+          <p className="text-gray-600">Melde dich in deinem Admin-Bereich an</p>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           {error && (
@@ -49,7 +52,7 @@ export default function AdminLogin() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-              E-Mail
+              E-Mail-Adresse
             </label>
             <input
               id="email"
@@ -57,7 +60,7 @@ export default function AdminLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
               placeholder="admin@bsp-media.de"
             />
           </div>
@@ -72,7 +75,7 @@ export default function AdminLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
               placeholder="••••••••"
             />
           </div>
@@ -80,7 +83,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-accent text-white py-3 rounded-lg font-semibold hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-accent text-white py-3 rounded-lg font-semibold hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
             {loading ? 'Wird geladen...' : 'Anmelden'}
           </button>
@@ -89,5 +92,3 @@ export default function AdminLogin() {
     </div>
   )
 }
-
-
