@@ -4,9 +4,13 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
-const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
-  ssr: false,
-})
+const Editor = dynamic(
+  async () => {
+    const mod = await import('@tinymce/tinymce-react')
+    return { default: mod.Editor }
+  },
+  { ssr: false }
+)
 
 interface CaseFormProps {
   initialData?: any
