@@ -13,6 +13,7 @@ import { WhyUsData } from '@/lib/types'
 import { getSectionContent, defaultWhyUsData } from '@/lib/api'
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
+import WhyUsEditor from '@/components/admin/editors/WhyUsEditor'
 
 interface WhyUsProps {
   pageSlug?: string
@@ -37,6 +38,23 @@ export default function WhyUs({ pageSlug = 'home' }: WhyUsProps) {
     window.addEventListener('editMode:sectionSaved', handleSave)
     return () => window.removeEventListener('editMode:sectionSaved', handleSave)
   }, [pageSlug])
+
+  const handleSave = async (newData: WhyUsData) => {
+    try {
+      const success = await saveSection('whyus', newData, pageSlug)
+      if (success) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+        await loadData()
+        window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+      } else {
+        alert('Fehler beim Speichern. Bitte versuche es erneut.')
+        console.error('Save failed for whyus section')
+      }
+    } catch (error) {
+      console.error('Error saving whyus:', error)
+      alert('Fehler beim Speichern: ' + (error instanceof Error ? error.message : 'Unbekannter Fehler'))
+    }
+  }
 
   if (loading || !data) {
     return (
@@ -114,6 +132,49 @@ export default function WhyUs({ pageSlug = 'home' }: WhyUsProps) {
           </div>
         </section>
       </EditableSection>
+
+      {isEditMode && editingSection === 'whyus' && (
+        <EditModal title="Why Us Section bearbeiten">
+          <WhyUsEditor
+            sectionKey="whyus"
+            pageSlug={pageSlug}
+            initialData={data}
+            onSave={handleSave}
+          />
+        </EditModal>
+      )}
     </>
   )
+}
+
+// Helper function
+async function saveSection(section: string, data: any, pageSlug: string): Promise<boolean> {
+  try {
+    const path = pageSlug === 'home'
+      ? '/api/admin/content'
+      : `/api/admin/pages/${pageSlug}/sections`
+    
+    const body = pageSlug === 'home'
+      ? { page_section: section, content: data }
+      : { section_key: section, content: data }
+
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({ error: 'Unknown error' }))
+      console.error(`API Error (${res.status}):`, errorData)
+      return false
+    }
+
+    const result = await res.json()
+    console.log(`Successfully saved ${section}:`, result)
+    return true
+  } catch (error) {
+    console.error(`Error saving ${section}:`, error)
+    return false
+  }
 }

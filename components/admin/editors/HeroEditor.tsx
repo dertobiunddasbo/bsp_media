@@ -9,6 +9,7 @@ interface HeroData {
   subtitle?: string
   buttonText?: string
   backgroundImage?: string
+  backgroundVideo?: string
 }
 
 interface HeroEditorProps {
@@ -121,6 +122,37 @@ export default function HeroEditor({
             />
           </div>
         )}
+        <p className="mt-2 text-xs text-gray-500">
+          Wird als Fallback verwendet, wenn kein Video gesetzt ist.
+        </p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Hintergrundvideo URL (MP4)
+        </label>
+        <input
+          type="text"
+          value={data.backgroundVideo || ''}
+          onChange={(e) => setData({ ...data, backgroundVideo: e.target.value })}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+          placeholder="https://...video.mp4"
+        />
+        {data.backgroundVideo && (
+          <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+            <video
+              src={data.backgroundVideo}
+              className="w-full h-48 object-cover"
+              muted
+              loop
+              playsInline
+              controls
+            />
+          </div>
+        )}
+        <p className="mt-2 text-xs text-gray-500">
+          Video hat Vorrang vor Hintergrundbild. Falls gesetzt, wird das Video verwendet.
+        </p>
       </div>
 
       <div className="pt-4 border-t border-gray-200">
