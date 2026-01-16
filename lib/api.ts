@@ -3,7 +3,7 @@
  * Centralized API calls for content management
  */
 
-import { HeroData, LeistungenData, AboutData, TrustSectionData, ValuePropositionData, CollaborationPrinciplesData, NDADisclaimerData, FooterData, TestimonialData, FAQData, SectionKey } from './types'
+import { HeroData, LeistungenData, AboutData, TrustSectionData, ValuePropositionData, CollaborationPrinciplesData, NDADisclaimerData, FooterData, TestimonialData, FAQData, WhyUsData, SectionKey } from './types'
 
 const API_BASE = '/api'
 
@@ -111,9 +111,19 @@ export const defaultLeistungenData: LeistungenData = {
       image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
     {
-      title: 'Recruiting',
+      title: 'Employer Branding & Recruiting',
       description: 'Wir sorgen für mehr Bewerbungen. Authentische Einblicke in Ihre Unternehmenskultur, die die richtigen Kandidaten ansprechen. Ehrlich, direkt und ohne Marketing-Fassade.',
       image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      title: 'Livestreams & Townhalls',
+      description: 'Professionelle Live-Übertragungen für interne Kommunikation, Townhalls und Events. Broadcast-Qualität für Ihre digitale Präsenz.',
+      image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    },
+    {
+      title: 'Strategy & Consulting',
+      description: 'Strategische Beratung für Ihre audiovisuelle Kommunikation. Von der Konzeption bis zur Umsetzung – wir begleiten Sie durch den gesamten Prozess.',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
   ],
 }
@@ -275,6 +285,34 @@ export const defaultFAQData: FAQData = {
     {
       question: 'Arbeiten Sie mit NDAs?',
       answer: 'Ja, selbstverständlich. Viele unserer Projekte behandeln sensible interne Themen. Diskretion und Vertraulichkeit sind für uns selbstverständlich. Wir arbeiten mit NDAs und DSGVO-konformen Prozessen.',
+    },
+  ],
+}
+
+export const defaultWhyUsData: WhyUsData = {
+  title: 'Warum BSP Media?',
+  subtitle: 'Was uns ausmacht',
+  items: [
+    {
+      number: '01',
+      title: 'Wir leben die Stories, die wir erzählen',
+      description: 'Hinter bsp media steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
+      linkText: 'Portfolio',
+      linkUrl: '/portfolio',
+    },
+    {
+      number: '02',
+      title: 'Schwierige Locations? Kein Problem.',
+      description: 'Wir sind daran gewöhnt, in herausfordernden oder schwer zugänglichen Umgebungen zu arbeiten. Unsere Ausrüstung ist für den Einsatz unter rauen Bedingungen optimiert, ob in Hochsicherheitsbereichen, an laufenden Produktionsbändern oder in komplexen Betriebsstrukturen. Wir lieben diese Herausforderungen und übersetzen unsere Leidenschaft für authentische Dokumentation in unsere Arbeit.',
+      linkText: 'Aktuelle Projekte',
+      linkUrl: '/portfolio',
+    },
+    {
+      number: '03',
+      title: 'Ehrlichkeit statt Inszenierung',
+      description: 'Wir sind ein kleines Team von Experten, gut vernetzt und schnell. Wir pflegen eine persönliche Beziehung zu unseren Kunden. Unsere Erfahrung lässt uns Ihre Probleme verstehen und schnell lösen. Wir haben in Agenturen gearbeitet, große Kunden betreut und wissen, was es braucht, um eine Marke aufzubauen.',
+      linkText: 'Über uns',
+      linkUrl: '/',
     },
   ],
 }

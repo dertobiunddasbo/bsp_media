@@ -58,7 +58,7 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
 
   if (loading || !data) {
     return (
-      <section id="leistungen" className="py-32 bg-slate-50">
+      <section id="leistungen" className="py-32 bg-slate-100">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
           <div className="text-center text-gray-600">Wird geladen...</div>
         </div>
@@ -71,23 +71,23 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
   return (
     <>
       <EditableSection sectionKey="leistungen">
-        <section id="leistungen" className="py-32 bg-slate-50 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-            <div className="text-center mb-20">
-              <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
+        <section id="leistungen" className="py-40 bg-slate-100 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div className="text-center mb-32">
+              <div className="inline-block mb-8 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
                 Was wir bieten
               </div>
-              <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-12 tracking-tight leading-[1.05]">
                 {data.title || 'Unsere Leistungen'}
               </h2>
               {data.subtitle && (
-                <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="text-xl md:text-2xl text-slate-700 max-w-3xl mx-auto font-light leading-relaxed">
                   {data.subtitle}
                 </p>
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
               {services.map((service, index) => (
                 <div
                   key={index}

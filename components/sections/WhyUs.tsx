@@ -1,0 +1,119 @@
+/**
+ * Why Us Section Component
+ * Displays company USPs with edit mode support
+ * Inspired by Gronlander design
+ */
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useEditMode } from '@/contexts/EditModeContext'
+import { WhyUsData } from '@/lib/types'
+import { getSectionContent, defaultWhyUsData } from '@/lib/api'
+import EditableSection from '@/components/shared/EditableSection'
+import EditModal from '@/components/shared/EditModal'
+
+interface WhyUsProps {
+  pageSlug?: string
+}
+
+export default function WhyUs({ pageSlug = 'home' }: WhyUsProps) {
+  const { isEditMode, editingSection } = useEditMode()
+  const [data, setData] = useState<WhyUsData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const loadData = async () => {
+    setLoading(true)
+    const content = await getSectionContent('whyus', pageSlug)
+    setData(content || defaultWhyUsData)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    loadData()
+    
+    const handleSave = () => loadData()
+    window.addEventListener('editMode:sectionSaved', handleSave)
+    return () => window.removeEventListener('editMode:sectionSaved', handleSave)
+  }, [pageSlug])
+
+  if (loading || !data) {
+    return (
+      <section className="py-40 bg-slate-100">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center text-gray-600">Wird geladen...</div>
+        </div>
+      </section>
+    )
+  }
+
+  const items = data.items || []
+
+  return (
+    <>
+      <EditableSection sectionKey="whyus">
+        <section className="py-40 bg-slate-100 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div className="mb-32">
+              {data.title && (
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-12 tracking-tight leading-[1.05]">
+                  {data.title}
+                </h2>
+              )}
+            </div>
+
+            <div className="space-y-32">
+              {items.map((item, index) => (
+                <div
+                  key={index}
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start"
+                >
+                  {/* Number + Title (Left) */}
+                  <div className="lg:col-span-4">
+                    <div className="mb-8">
+                      <span className="text-7xl md:text-8xl lg:text-9xl font-bold text-slate-200 leading-none">
+                        {item.number}
+                      </span>
+                    </div>
+                    <h3 className="text-3xl md:text-4xl font-semibold text-slate-900 leading-tight mb-6">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Description + Link (Right) */}
+                  <div className="lg:col-span-8">
+                    <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light mb-8 max-w-3xl">
+                      {item.description}
+                    </p>
+                    {item.linkText && item.linkUrl && (
+                      <Link
+                        href={item.linkUrl}
+                        className="inline-flex items-center text-accent font-light text-base md:text-lg hover:gap-3 transition-all duration-300 group"
+                      >
+                        <span>{item.linkText}</span>
+                        <svg
+                          className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </EditableSection>
+    </>
+  )
+}

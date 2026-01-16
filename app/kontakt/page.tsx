@@ -56,15 +56,15 @@ export default function Kontakt() {
 
           {/* Terminbuchung Option */}
           <div className="bg-slate-50 rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-semibold text-dark mb-4">Oder vereinbaren Sie direkt einen Termin</h2>
+            <h2 className="text-2xl font-semibold text-dark mb-4">Terminvereinbarung</h2>
             <p className="text-dark/70 font-extralight mb-6 max-w-2xl mx-auto">
-              Wählen Sie einen passenden Termin für ein persönliches Gespräch über Ihr Projekt.
+              Sie können auch direkt im Kontaktformular oben einen Terminwunsch angeben. Alternativ können Sie einen Termin über unseren Kalender buchen.
             </p>
             <a
               href="/termin"
               className="inline-block bg-accent text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
-              Termin vereinbaren
+              Kalender öffnen
             </a>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import Script from 'next/script'
+import Link from 'next/link'
 
 type FormData = {
   name: string
@@ -25,6 +26,7 @@ declare global {
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const [recaptchaLoaded, setRecaptchaLoaded] = useState(false)
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>()
 
@@ -41,12 +43,18 @@ export default function ContactForm() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
     setSubmitStatus('idle')
+    setErrorMessage('')
 
     try {
-      // Get reCAPTCHA token
+      // Get reCAPTCHA token (optional in development)
       let recaptchaToken = ''
       if (window.grecaptcha && recaptchaLoaded) {
-        recaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'contact' })
+        try {
+          recaptchaToken = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'contact' })
+        } catch (recaptchaError) {
+          console.warn('reCAPTCHA error (continuing anyway):', recaptchaError)
+          // Continue without reCAPTCHA in development
+        }
       }
 
       const response = await fetch('/api/contact', {
@@ -60,15 +68,19 @@ export default function ContactForm() {
         }),
       })
 
-      if (response.ok) {
+      const result = await response.json()
+
+      if (response.ok && result.success) {
         setSubmitStatus('success')
         reset()
       } else {
         setSubmitStatus('error')
+        setErrorMessage(result.error || 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.')
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error)
       setSubmitStatus('error')
+      setErrorMessage('Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.')
     } finally {
       setIsSubmitting(false)
     }
@@ -175,7 +187,7 @@ export default function ContactForm() {
 
       {submitStatus === 'error' && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
-          Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per E-Mail.
+          {errorMessage || 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per E-Mail.'}
         </div>
       )}
 
@@ -186,6 +198,18 @@ export default function ContactForm() {
       >
         {isSubmitting ? 'Wird gesendet...' : 'Nachricht senden'}
       </button>
+
+      <div className="pt-4 border-t border-gray-200 text-center">
+        <p className="text-sm text-dark/70 font-extralight mb-2">
+          Oder vereinbaren Sie direkt einen Termin:
+        </p>
+        <Link
+          href="/termin"
+          className="inline-block text-accent hover:underline font-semibold text-sm"
+        >
+          Termin vereinbaren →
+        </Link>
+      </div>
     </form>
   )
 }
