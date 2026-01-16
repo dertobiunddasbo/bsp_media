@@ -12,6 +12,7 @@ import ValueProposition from '@/components/sections/ValueProposition'
 import CollaborationPrinciples from '@/components/sections/CollaborationPrinciples'
 import Leistungen from '@/components/sections/Leistungen'
 import CasesSection from '@/components/CasesSection'
+import WhyUs from '@/components/sections/WhyUs'
 import Testimonials from '@/components/sections/Testimonials'
 import FAQ from '@/components/sections/FAQ'
 import About from '@/components/sections/About'
@@ -31,6 +32,7 @@ function HomeContent() {
       <CollaborationPrinciples />
       <Leistungen pageSlug="home" />
       <CasesSection />
+      <WhyUs pageSlug="home" />
       <Testimonials pageSlug="home" />
       <FAQ pageSlug="home" />
       <About pageSlug="home" />

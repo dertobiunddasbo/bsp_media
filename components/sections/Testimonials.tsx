@@ -51,16 +51,16 @@ export default function Testimonials({ pageSlug = 'home' }: TestimonialsProps) {
   return (
     <>
       <EditableSection sectionKey="testimonials">
-        <section className="py-32 bg-white relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-            <div className="text-center mb-20">
+        <section className="py-40 bg-white relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div className="text-center mb-32">
               {data.title && (
-                <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-6 tracking-tight">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-12 tracking-tight leading-[1.05]">
                   {data.title}
                 </h2>
               )}
               {data.subtitle && (
-                <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
                   {data.subtitle}
                 </p>
               )}

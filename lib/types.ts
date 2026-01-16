@@ -12,6 +12,7 @@ export interface HeroData {
   subtitle?: string
   buttonText?: string
   backgroundImage?: string
+  backgroundVideo?: string
 }
 
 export interface Service {
@@ -99,6 +100,18 @@ export interface FAQData {
   items?: Array<{
     question: string
     answer: string
+  }>
+}
+
+export interface WhyUsData {
+  title?: string
+  subtitle?: string
+  items?: Array<{
+    number: string
+    title: string
+    description: string
+    linkText?: string
+    linkUrl?: string
   }>
 }
 

@@ -69,11 +69,11 @@ export default function ValueProposition({ pageSlug = 'home' }: ValueProposition
   return (
     <>
       <EditableSection sectionKey="values">
-        <section className="py-32 bg-slate-900 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-            <div className="text-center mb-20">
+        <section className="py-40 bg-slate-900 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+            <div className="text-center mb-32">
               {data.title && (
-                <h2 className="text-5xl md:text-6xl font-semibold text-white mb-6 tracking-tight">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-12 tracking-tight leading-[1.05]">
                   {data.title}
                 </h2>
               )}

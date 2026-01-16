@@ -84,104 +84,87 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
           id="hero"
           className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
         >
-          {/* Background Image with Parallax */}
+          {/* Background Video or Image */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            <div
-              className="absolute inset-0 bg-cover bg-center scale-110"
-              style={{
-                backgroundImage: `url(${data.backgroundImage || defaultHeroData.backgroundImage})`,
-                transform: `translateY(${scrollY * 0.5}px)`,
-              }}
-            />
-            <div className="absolute inset-0 bg-black/60" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            {/* Background Video (wenn vorhanden) */}
+            {(data as any).backgroundVideo ? (
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover scale-110"
+                style={{
+                  transform: `translateY(${scrollY * 0.3}px) scale(1.1)`,
+                }}
+              >
+                <source src={(data as any).backgroundVideo} type="video/mp4" />
+              </video>
+            ) : (
+              /* Fallback: Background Image with Parallax */
+              <div
+                className="absolute inset-0 bg-cover bg-center scale-110"
+                style={{
+                  backgroundImage: `url(${data.backgroundImage || defaultHeroData.backgroundImage})`,
+                  transform: `translateY(${scrollY * 0.5}px)`,
+                }}
+              />
+            )}
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
           </div>
 
-          {/* Animated Grid Overlay */}
-          <div className="absolute inset-0 z-0 opacity-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                 linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                backgroundSize: '50px 50px',
-              }}
-            />
-          </div>
-
-          {/* Content */}
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-32">
-            <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-              {/* Left: Text Content */}
-              <div className="text-white animate-slide-up">
-                {data.badge && (
-                  <div className="inline-block mb-8 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
-                    {data.badge}
-                  </div>
-                )}
-                {data.title && (
-                  <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-12 leading-[1.05] tracking-tight">
-                    {data.title}
-                  </h1>
-                )}
-                {data.subtitle && (
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-lg -z-10" />
-                    <p className="text-xl sm:text-2xl text-white mb-16 leading-relaxed font-light max-w-2xl p-6 relative z-10">
-                      {data.subtitle}
-                    </p>
-                  </div>
-                )}
-                <div className="flex flex-col sm:flex-row gap-6">
-                  {pageSlug !== 'home' ? (
-                    <>
-                      <Link
-                        href="/termin"
-                        className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-                      >
-                        📅 Termin vereinbaren
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </Link>
-                      <button
-                        onClick={() => scrollToSection('contact')}
-                        className="group border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
-                      >
-                        {data.buttonText || 'Mehr erfahren'}
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                      </button>
-                    </>
-                  ) : (
+          {/* Content - Zentriert, großzügig */}
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-40">
+            <div className="text-center text-white animate-slide-up max-w-5xl mx-auto">
+              {data.badge && (
+                <div className="inline-block mb-16 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
+                  {data.badge}
+                </div>
+              )}
+              {data.title && (
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-16 leading-[1.05] tracking-tight">
+                  {data.title}
+                </h1>
+              )}
+              {data.subtitle && (
+                <p className="text-2xl sm:text-3xl md:text-4xl text-white/95 mb-20 leading-relaxed font-light max-w-4xl mx-auto">
+                  {data.subtitle}
+                </p>
+              )}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                {pageSlug !== 'home' ? (
+                  <>
+                    <Link
+                      href="/termin"
+                      className="group bg-accent text-white px-10 py-5 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      📅 Termin vereinbaren
+                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </Link>
                     <button
                       onClick={() => scrollToSection('contact')}
-                      className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                      className="group border-2 border-white/30 text-white px-10 py-5 rounded-xl font-semibold text-lg hover:border-white/60 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
                     >
-                      {data.buttonText || 'Verfügbarkeit prüfen'}
+                      {data.buttonText || 'Mehr erfahren'}
                       <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Right: Showreel Video */}
-              <div className="hidden lg:block relative">
-                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/20 shadow-2xl group scale-110">
-                  <iframe
-                    className="w-full h-full"
-                    src="https://www.youtube.com/embed/9pnVxYwdpfs?autoplay=0&mute=0&controls=1&modestbranding=1&rel=0&showinfo=0"
-                    title="BSP Media Showreel"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-                </div>
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-accent/20 rounded-lg blur-xl animate-pulse" />
-                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-accent/30 rounded-full blur-xl animate-pulse delay-300" />
+                  </>
+                ) : (
+                  <button
+                    onClick={() => scrollToSection('contact')}
+                    className="group bg-accent text-white px-10 py-5 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                  >
+                    {data.buttonText || 'Verfügbarkeit prüfen'}
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </div>

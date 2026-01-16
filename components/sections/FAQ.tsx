@@ -43,7 +43,7 @@ export default function FAQ({ pageSlug = 'home' }: FAQProps) {
 
   if (loading || !data) {
     return (
-      <section className="py-32 bg-slate-50">
+      <section className="py-32 bg-slate-100">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
           <div className="text-center text-gray-600">Wird geladen...</div>
         </div>
@@ -56,7 +56,7 @@ export default function FAQ({ pageSlug = 'home' }: FAQProps) {
   return (
     <>
       <EditableSection sectionKey="faq">
-        <section className="py-32 bg-slate-50 relative overflow-hidden">
+        <section className="py-32 bg-slate-100 relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
             <div className="text-center mb-16">
               {data.title && (

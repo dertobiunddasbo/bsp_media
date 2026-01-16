@@ -69,7 +69,7 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
   return (
     <>
       <EditableSection sectionKey="about">
-        <section id="about" className="py-32 bg-white relative overflow-hidden">
+        <section id="about" className="py-32 bg-slate-100 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-24 items-center">
               <div className="order-2 lg:order-1">

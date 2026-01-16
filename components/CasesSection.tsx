@@ -75,65 +75,74 @@ export default function CasesSection() {
   }
 
   return (
-    <section className="py-32 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-        <div className="text-center mb-20">
-          <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
+    <section className="py-40 bg-slate-100 relative overflow-hidden">
+      <div className="max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="text-center mb-32">
+          <div className="inline-block mb-8 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
             Unsere Projekte
           </div>
-          <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
-            Ausgewählte Cases
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-12 tracking-tight leading-[1.05]">
+            Aktuelle Projekte
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto font-extralight leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-extralight leading-relaxed">
             Einblicke in unsere Filmproduktionen und visuellen Kommunikationslösungen
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-12">
-          {cases.map((caseItem) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16">
+          {cases.map((caseItem, index) => (
             <Link
               key={caseItem.id}
               href={`/portfolio/${caseItem.id}`}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group relative bg-white overflow-hidden transition-all duration-500"
             >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden">
+              {/* Image Container - Großformatig */}
+              <div className="relative h-[500px] md:h-[600px] overflow-hidden">
                 <img
                   src={caseItem.image}
                   alt={caseItem.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
-              {/* Content */}
-              <div className="p-8">
-                <div className="mb-3">
-                  <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs font-semibold rounded-full">
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                
+                {/* Projektnummer als Overlay (wie Gronlander) */}
+                <div className="absolute top-8 left-8 text-white/90 text-6xl md:text-7xl font-bold leading-none">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+                
+                {/* Category Badge */}
+                <div className="absolute top-8 right-8">
+                  <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/30">
                     {caseItem.category}
                   </span>
                 </div>
-                <h3 className="text-2xl font-semibold text-slate-900 mb-3 group-hover:text-accent transition-colors">
-                  {caseItem.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-extralight mb-4 text-sm">
-                  {caseItem.description}
-                </p>
-                <div className="flex items-center text-accent font-light text-sm">
-                  <span>Mehr erfahren</span>
-                  <svg
-                    className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+
+                {/* Content Overlay (Bottom) */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 text-white">
+                  <h3 className="text-3xl md:text-4xl font-semibold mb-4 group-hover:text-accent transition-colors leading-tight">
+                    {caseItem.title}
+                  </h3>
+                  <p className="text-white/90 leading-relaxed font-light text-base md:text-lg mb-6 line-clamp-2">
+                    {caseItem.description}
+                  </p>
+                  <div className="flex items-center text-white font-light text-sm md:text-base">
+                    <span>Zum Projekt</span>
+                    <svg
+                      className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </Link>
@@ -141,14 +150,14 @@ export default function CasesSection() {
         </div>
 
         {/* Link to full portfolio */}
-        <div className="text-center">
+        <div className="text-center mt-20">
           <Link
             href="/portfolio"
-            className="inline-flex items-center px-8 py-4 bg-accent text-white rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className="inline-flex items-center px-10 py-5 bg-accent text-white rounded-xl font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             <span>Alle Cases ansehen</span>
             <svg
-              className="w-5 h-5 ml-2"
+              className="w-5 h-5 ml-3"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
