@@ -87,18 +87,30 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
               {services.map((service, index) => (
                 <div
                   key={index}
                   className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
                 >
                   <div className="relative h-56 overflow-hidden">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+                    {service.backgroundVideo ? (
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      >
+                        <source src={service.backgroundVideo} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                    )}
                   </div>
                   <div className="p-8">
                     <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">

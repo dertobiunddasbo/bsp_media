@@ -6,6 +6,7 @@ interface Service {
   title: string
   description: string
   image: string
+  backgroundVideo?: string
 }
 
 interface LeistungenData {
@@ -58,7 +59,7 @@ export default function LeistungenEditor({
       ...data,
       items: [
         ...(data.items || []),
-        { title: '', description: '', image: '' },
+        { title: '', description: '', image: '', backgroundVideo: '' },
       ],
     })
   }
@@ -140,9 +141,43 @@ export default function LeistungenEditor({
                   type="text"
                   value={item.image}
                   onChange={(e) => updateItem(index, 'image', e.target.value)}
-                  placeholder="Bild URL"
+                  placeholder="Bild URL (Fallback)"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
                 />
+                {item.image && !item.backgroundVideo && (
+                  <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
+                    <img
+                      src={item.image}
+                      alt="Preview"
+                      className="w-full h-32 object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  </div>
+                )}
+                <input
+                  type="text"
+                  value={item.backgroundVideo || ''}
+                  onChange={(e) => updateItem(index, 'backgroundVideo', e.target.value)}
+                  placeholder="Video URL (MP4) - optional, hat Vorrang vor Bild"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent mt-2"
+                />
+                {item.backgroundVideo && (
+                  <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
+                    <video
+                      src={item.backgroundVideo}
+                      className="w-full h-32 object-cover"
+                      muted
+                      loop
+                      playsInline
+                      controls
+                    />
+                  </div>
+                )}
+                <p className="mt-1 text-xs text-gray-500">
+                  {item.backgroundVideo ? 'Video wird verwendet' : 'Bild wird verwendet (Video hat Vorrang)'}
+                </p>
               </div>
             </div>
           ))}
