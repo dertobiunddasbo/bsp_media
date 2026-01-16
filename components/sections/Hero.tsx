@@ -115,15 +115,15 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
           </div>
 
           {/* Content - Zentriert, großzügig */}
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-40">
-            <div className="text-center text-white animate-slide-up max-w-5xl mx-auto">
+          <div className="relative z-10 w-full px-6 sm:px-8 lg:px-12 py-40">
+            <div className="text-center text-white animate-slide-up">
               {data.badge && (
                 <div className="inline-block mb-16 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium">
                   {data.badge}
                 </div>
               )}
               {data.title && (
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-16 leading-[1.05] tracking-tight">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-16 leading-[1.05] tracking-tight px-4">
                   {data.title.includes('für die operative Realität') ? (
                     <>
                       <span className="block mb-2">High-End Kommunikation</span>
@@ -135,7 +135,7 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 </h1>
               )}
               {data.subtitle && (
-                <p className="text-2xl sm:text-3xl md:text-4xl text-white/95 mb-20 leading-relaxed font-light max-w-4xl mx-auto">
+                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-20 leading-relaxed font-light max-w-3xl mx-auto px-4">
                   {data.subtitle}
                 </p>
               )}
