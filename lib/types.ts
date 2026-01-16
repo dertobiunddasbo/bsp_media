@@ -80,6 +80,28 @@ export interface FooterData {
   copyright?: string
 }
 
+export interface TestimonialData {
+  title?: string
+  subtitle?: string
+  testimonials?: Array<{
+    name: string
+    position: string
+    company: string
+    image?: string
+    quote: string
+    rating?: number
+  }>
+}
+
+export interface FAQData {
+  title?: string
+  subtitle?: string
+  items?: Array<{
+    question: string
+    answer: string
+  }>
+}
+
 export interface Case {
   id: string
   title: string
@@ -128,7 +150,7 @@ export interface APIResponse<T> {
   error?: string
 }
 
-export type SectionKey = 'hero' | 'leistungen' | 'about' | 'trust' | 'values' | 'principles' | 'nda' | 'footer' | string
+export type SectionKey = 'hero' | 'leistungen' | 'about' | 'trust' | 'values' | 'principles' | 'nda' | 'footer' | 'testimonials' | 'faq' | string
 
 // ============================================
 // Edit Mode Types

@@ -8,9 +8,11 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
+import Testimonials from '@/components/sections/Testimonials'
+import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
 
-function KMUPageContent() {
+function MittelstandPageContent() {
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('edit') === 'true'
 
@@ -24,14 +26,14 @@ function KMUPageContent() {
   const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <Hero pageSlug="kmu" />
+      <Hero pageSlug="mittelstand" />
 
       {/* Value Proposition Section */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-semibold text-white mb-6 tracking-tight">
-              Warum wir?
+              Transformation Ihrer Kommunikation
             </h2>
             <div className="w-24 h-1 bg-accent mx-auto rounded-full" />
           </div>
@@ -48,10 +50,10 @@ function KMUPageContent() {
               </div>
 
               <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                Verstehen statt verkaufen
+                Imagefilm & Positionierung
               </h3>
               <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Wir brauchen kein 50-seitiges Briefing. Wir verstehen Ihre Prozesse, Ihre Maschinen und Ihre Kultur. Wir kommen, drehen und liefern.
+                Professionelle Imagefilme, die Ihre Unternehmenswerte und Ihre Positionierung klar kommunizieren. Maßgeschneidert für Ihre Branche und Ihre Zielgruppe.
               </p>
 
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -68,10 +70,10 @@ function KMUPageContent() {
               </div>
 
               <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                High-End Technik, Lean Team
+                Employer Branding & Recruiting
               </h3>
               <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Sie bekommen die Bildqualität unserer Konzern-Kunden, aber mit einer internen, professionellen Crew, die Ihren Betriebsablauf nicht lahmlegt.
+                Der Kampf um Fachkräfte wird mit Emotionen gewonnen. Wir porträtieren Ihr Team authentisch und zeigen, was Ihr Unternehmen ausmacht. Keine Schauspielerei, echte Werte.
               </p>
 
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -88,10 +90,10 @@ function KMUPageContent() {
               </div>
 
               <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                Werte schaffen
+                Alle Kanäle, eine Strategie
               </h3>
               <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Kein Content für die Schublade. Wir produzieren Filme, die neue Mitarbeiter überzeugen und Kunden gewinnen, ob für die Website oder Social Media.
+                Website, Social Media, LinkedIn, Messe – wir bespielen alle Kanäle mit konsistenter Botschaft. Aus einem Drehtag Content für Wochen. Transformation Ihrer Kommunikation in eine neue Phase.
               </p>
 
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -154,13 +156,13 @@ function KMUPageContent() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
-              Was KMU wirklich brauchen
+              Maßgeschneiderte Lösungen für den Mittelstand
             </div>
             <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
               Unsere Leistungen
             </h2>
             <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
-              Pragmatische Lösungen, die wirklich wirken
+              Individuelle Lösungen, branchenabhängig und auf Ihre Bedürfnisse zugeschnitten
             </p>
           </div>
 
@@ -176,10 +178,10 @@ function KMUPageContent() {
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Employer Branding & Recruiting
+                  Imagefilm & Positionierung
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Der Kampf um Fachkräfte wird mit Emotionen gewonnen. Wir porträtieren Ihr Team authentisch. Keine Schauspielerei, echte Werte.
+                  Professionelle Imagefilme, die Ihre Unternehmenswerte und Ihre Positionierung klar kommunizieren. Maßgeschneidert für Ihre Branche.
                 </p>
               </div>
             </div>
@@ -195,10 +197,10 @@ function KMUPageContent() {
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Image & Produkt
+                  Employer Branding & Recruiting
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Zeigen Sie, was Sie leisten. Hochwertige Aufnahmen Ihrer Fertigung, Referenzprojekte oder Dienstleistungen. Perfekt für Website und Messe.
+                  Der Kampf um Fachkräfte wird mit Emotionen gewonnen. Wir porträtieren Ihr Team authentisch und zeigen, was Ihr Unternehmen ausmacht.
                 </p>
               </div>
             </div>
@@ -214,10 +216,10 @@ function KMUPageContent() {
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Social Media & LinkedIn
+                  Multi-Channel Content
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Sichtbarkeit entscheidet. Wir schneiden aus einem Drehtag Content für Wochen. Für einen Kanal, der lebt.
+                  Website, Social Media, LinkedIn, Messe – wir bespielen alle Kanäle mit konsistenter Botschaft. Aus einem Drehtag Content für Wochen.
                 </p>
               </div>
             </div>
@@ -230,10 +232,10 @@ function KMUPageContent() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-6 tracking-tight">
-              Vertraut von Machern
+              Vertraut vom Mittelstand
             </h2>
             <p className="text-lg text-slate-600 font-light max-w-2xl mx-auto">
-              Hidden Champions und Macher, die auf Qualität setzen
+              Hidden Champions und mittelständische Unternehmen, die auf Qualität setzen
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
@@ -260,7 +262,7 @@ function KMUPageContent() {
                 Lassen Sie uns einfach sprechen.
               </h2>
               <p className="text-xl text-gray-300 font-light leading-relaxed mb-8">
-                Kein Sales-Pitch. Eine ehrliche Einschätzung zu Budget und Machbarkeit.
+                Kein Sales-Pitch. Eine ehrliche Einschätzung zu Budget, Machbarkeit und der Transformation Ihrer Kommunikation.
               </p>
               
               {/* Direct Terminbuchung CTA */}
@@ -284,6 +286,9 @@ function KMUPageContent() {
         </div>
       </section>
 
+      <Testimonials pageSlug="mittelstand" />
+      <FAQ pageSlug="mittelstand" />
+
       <Footer />
     </main>
   )
@@ -302,10 +307,10 @@ function KMUPageContent() {
   return content
 }
 
-export default function KMUPage() {
+export default function MittelstandPage() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
-      <KMUPageContent />
+      <MittelstandPageContent />
     </Suspense>
   )
 }

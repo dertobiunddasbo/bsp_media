@@ -3,7 +3,7 @@
  * Centralized API calls for content management
  */
 
-import { HeroData, LeistungenData, AboutData, TrustSectionData, ValuePropositionData, CollaborationPrinciplesData, NDADisclaimerData, FooterData, SectionKey } from './types'
+import { HeroData, LeistungenData, AboutData, TrustSectionData, ValuePropositionData, CollaborationPrinciplesData, NDADisclaimerData, FooterData, TestimonialData, FAQData, SectionKey } from './types'
 
 const API_BASE = '/api'
 
@@ -140,7 +140,9 @@ export const defaultTrustSectionData: TrustSectionData = {
     { name: 'apoprojekt', logo: '/assets/apoprojekt_Logo_grau.png' },
     { name: 'Children for a better World e.V.', logo: '/assets/Children_Logo_grau.png' },
   ],
-}export const defaultValuePropositionData: ValuePropositionData = {
+}
+
+export const defaultValuePropositionData: ValuePropositionData = {
   title: 'Unsere Werte',
   values: [
     {
@@ -208,4 +210,71 @@ export const defaultFooterData: FooterData = {
   address: 'bsp media GmbH\n              Sillemstraße 76a\n              20257 Hamburg',
   email: 'hallo@bsp-media.de',
   copyright: '© 2025 bsp media GmbH. Alle Rechte vorbehalten.',
+}
+
+export const defaultTestimonialData: TestimonialData = {
+  title: 'Was unsere Kunden sagen',
+  subtitle: 'Erfolgreiche Projekte, zufriedene Partner',
+  testimonials: [
+    {
+      name: 'Max Mustermann',
+      position: 'Head of Communications',
+      company: 'ALDI SÜD',
+      quote: 'BSP Media hat unsere Supplier Portraits mit einer außergewöhnlichen Sensibilität umgesetzt. Die Filme zeigen nicht nur Produkte, sondern die Menschen dahinter – genau das, was wir uns vorgestellt haben.',
+      rating: 5,
+    },
+    {
+      name: 'Sarah Schmidt',
+      position: 'HR Director',
+      company: 'apoprojekt',
+      quote: 'Die Recruiting-Videos haben unsere Bewerberzahlen deutlich erhöht. Authentisch, ehrlich und genau richtig für unsere Zielgruppe. Die Zusammenarbeit war professionell und unkompliziert.',
+      rating: 5,
+    },
+    {
+      name: 'Dr. Thomas Weber',
+      position: 'Projektleiter',
+      company: 'ZAL Zentrum für Angewandte Luftfahrtforschung',
+      quote: 'Komplexe technische Inhalte verständlich zu machen – das ist die Stärke von BSP Media. Die Eventdokumentation der Innovation Days war genau das, was wir brauchten: dynamisch, informativ und visuell überzeugend.',
+      rating: 5,
+    },
+  ],
+}
+
+export const defaultFAQData: FAQData = {
+  title: 'Häufig gestellte Fragen',
+  subtitle: 'Alles, was Sie über unsere Filmproduktion wissen müssen',
+  items: [
+    {
+      question: 'Wie lange dauert ein Projekt?',
+      answer: 'Die Dauer variiert je nach Projektumfang. Ein einfaches Recruiting-Video kann in 2-3 Wochen umgesetzt werden, während komplexe Dokumentationen oder mehrere Videos 4-8 Wochen in Anspruch nehmen. Nach dem Briefing erhalten Sie einen detaillierten Zeitplan.',
+    },
+    {
+      question: 'Was kostet ein Video?',
+      answer: 'Unsere Preise richten sich nach Umfang, Komplexität und Anforderungen. Wir arbeiten mit transparenten Festpreisen. Für ein erstes Angebot kontaktieren Sie uns bitte – wir erstellen innerhalb von 24 Stunden ein detailliertes, unverbindliches Angebot.',
+    },
+    {
+      question: 'Arbeiten Sie deutschlandweit?',
+      answer: 'Ja, wir produzieren bundesweit und international. Unser Team ist mobil und kommt zu Ihnen. Ob Hamburg, München, Berlin oder internationale Standorte – wir sind flexibel.',
+    },
+    {
+      question: 'Was passiert nach der Anfrage?',
+      answer: 'Nach Ihrer Anfrage melden wir uns innerhalb von 24 Stunden bei Ihnen. Wir besprechen Ihr Projekt, Ihre Ziele und Anforderungen. Anschließend erhalten Sie ein detailliertes Angebot mit Zeitplan und Festpreis. Nach Auftragserteilung starten wir mit dem Briefing.',
+    },
+    {
+      question: 'Können Sie auch kurzfristig produzieren?',
+      answer: 'Ja, wir können auch kurzfristige Projekte umsetzen. Für dringende Anfragen haben wir flexible Kapazitäten. Bitte kontaktieren Sie uns direkt, um die Verfügbarkeit zu prüfen.',
+    },
+    {
+      question: 'Welche Formate liefern Sie?',
+      answer: 'Wir liefern in allen gängigen Formaten: 4K, Full HD, optimiert für Web, Social Media, TV oder interne Kommunikation. Die Formate werden individuell auf Ihre Verwendungszwecke angepasst.',
+    },
+    {
+      question: 'Wie viele Korrekturschleifen sind inklusive?',
+      answer: 'In der Regel sind 2-3 Korrekturschleifen im Festpreis enthalten. Wir arbeiten iterativ und transparent – Sie sehen Zwischenstände und können Feedback geben, bis das Ergebnis perfekt ist.',
+    },
+    {
+      question: 'Arbeiten Sie mit NDAs?',
+      answer: 'Ja, selbstverständlich. Viele unserer Projekte behandeln sensible interne Themen. Diskretion und Vertraulichkeit sind für uns selbstverständlich. Wir arbeiten mit NDAs und DSGVO-konformen Prozessen.',
+    },
+  ],
 }

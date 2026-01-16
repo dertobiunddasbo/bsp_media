@@ -8,9 +8,11 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
+import Testimonials from '@/components/sections/Testimonials'
+import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
 
-function StartupsPageContent() {
+function ImmobilienBauPageContent() {
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('edit') === 'true'
 
@@ -24,74 +26,14 @@ function StartupsPageContent() {
   const content = (
     <main className="min-h-screen bg-white">
       <Header />
-      <Hero pageSlug="startups" />
-      
-      {/* Hero Section - REMOVED, using Hero above */}
-      <section
-        id="hero-old"
-        className="hidden"
-      >
-        <div className="absolute inset-0 z-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center scale-110"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80)',
-              transform: `translateY(${scrollY * 0.5}px)`,
-            }}
-          />
-          <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        </div>
-
-        <div className="absolute inset-0 z-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
-          }} />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-32">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-block mb-8 px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white">
-              Filmproduktion für Startups
-            </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-12 leading-[1.05] tracking-tight text-white">
-              Scale faster. Stand out.
-            </h1>
-            <div className="relative">
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-lg -z-10" />
-              <p className="text-xl sm:text-2xl text-white mb-16 leading-relaxed font-light max-w-3xl mx-auto p-6 relative z-10">
-                Professionelle Videos, die Investoren überzeugen und Kunden gewinnen. Schnell, skalierbar, ohne Agentur-Komplexität.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="group bg-accent text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                Pitch deck besprechen
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </section>
+      <Hero pageSlug="immobilien-bau" />
 
       {/* Value Proposition Section */}
       <section className="py-32 bg-slate-900 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-semibold text-white mb-6 tracking-tight">
-              Warum Startups zu uns kommen
+              Spezialisierung durch Erfahrung
             </h2>
             <div className="w-24 h-1 bg-accent mx-auto rounded-full" />
           </div>
@@ -102,53 +44,53 @@ function StartupsPageContent() {
               
               <div className="relative mb-8 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
+                Branchen-Know-How
+              </h3>
+              <p className="text-slate-700 leading-relaxed text-lg font-light">
+                Jahrelange Erfahrung mit einem Kunden aus der Immobilien- und Baubranche. Wir verstehen Ihre Prozesse, Ihre Herausforderungen und Ihre Zielgruppen.
+              </p>
+
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+
+            <div className="group relative bg-white rounded-xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent to-pink-600 opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500" />
+              
+              <div className="relative mb-8 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
+                Spezialisierte Produktportfolios
+              </h3>
+              <p className="text-slate-700 leading-relaxed text-lg font-light">
+                Objektpräsentationen, Baufortschrittsdokumentationen, Imagefilme für Immobilienprojekte – wir haben spezialisierte Produktportfolios für Ihre Branche entwickelt.
+              </p>
+
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+
+            <div className="group relative bg-white rounded-xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent to-pink-600 opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500" />
+              
+              <div className="relative mb-8 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
 
               <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                Speed über alles
+                Langjährige Partnerschaft
               </h3>
               <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Sie haben keine Zeit für 6-Wochen-Prozesse. Wir liefern Pitch-Videos in Tagen, nicht Wochen. Flexibel, agil, startup-tauglich.
-              </p>
-
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-
-            <div className="group relative bg-white rounded-xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent to-pink-600 opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500" />
-              
-              <div className="relative mb-8 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-
-              <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                Fair, transparent, skalierbar
-              </h3>
-              <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Keine versteckten Kosten, keine Agentur-Overheads. Sie zahlen nur, was Sie brauchen. Festpreise, die in Seed- und Series-A-Budgets passen.
-              </p>
-
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-
-            <div className="group relative bg-white rounded-xl p-10 border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent to-pink-600 opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500" />
-              
-              <div className="relative mb-8 inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                </svg>
-              </div>
-
-              <h3 className="text-2xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors">
-                Investor-ready Content
-              </h3>
-              <p className="text-slate-700 leading-relaxed text-lg font-light">
-                Wir verstehen, was VCs sehen wollen. Professionelle Pitch-Videos, Produkt-Demos und Founder-Stories, die Ihre Vision überzeugend erzählen.
+                Durch jahrelange Zusammenarbeit haben wir ein tiefes Verständnis für Ihre Branche entwickelt. Wir kennen Ihre Bedürfnisse und liefern maßgeschneiderte Lösungen.
               </p>
 
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-accent to-pink-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -172,10 +114,10 @@ function StartupsPageContent() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-semibold text-slate-900 mb-3 group-hover:text-accent transition-colors">
-                    Festpreise, die passen
+                    Transparente Festpreise
                   </h3>
                   <p className="text-slate-700 leading-relaxed font-light text-lg">
-                    Transparente Preise, die zu Startup-Budgets passen. Keine Agentur-Overheads, keine versteckten Kosten.
+                    Keine versteckten Kosten, keine Überraschungen. Festpreise, die in Ihre Budgetplanung passen. Transparent und fair.
                   </p>
                 </div>
               </div>
@@ -195,7 +137,7 @@ function StartupsPageContent() {
                     Angebot in 24h
                   </h3>
                   <p className="text-slate-700 leading-relaxed font-light text-lg">
-                    Schnelle Entscheidungen brauchen schnelle Antworten. Innerhalb eines Werktages erhalten Sie ein klares, detailliertes Angebot.
+                    Schnelle Angebotserstellung für Ihre Projektplanung. Innerhalb eines Werktages erhalten Sie ein detailliertes, aussagekräftiges Angebot.
                   </p>
                 </div>
               </div>
@@ -209,13 +151,13 @@ function StartupsPageContent() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
-              Was Startups wirklich brauchen
+              Spezialisierte Produktportfolios
             </div>
             <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
               Unsere Leistungen
             </h2>
             <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
-              Content, der skalierbar ist
+              Branchenspezifische Lösungen für Immobilien und Bau
             </p>
           </div>
 
@@ -223,17 +165,17 @@ function StartupsPageContent() {
             <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Pitch Videos"
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Objektpräsentationen"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Pitch Videos & Investor Content
+                  Objektpräsentationen
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Überzeugen Sie Investoren mit professionellen Pitch-Videos, Founder-Stories und Produkt-Demos. Investor-ready in Tagen.
+                  Professionelle Präsentationen Ihrer Immobilienprojekte. Ob Wohnimmobilien, Gewerbeimmobilien oder Bauprojekte – wir zeigen Ihre Objekte in bestem Licht.
                 </p>
               </div>
             </div>
@@ -241,17 +183,17 @@ function StartupsPageContent() {
             <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Product Demos"
+                  src="https://images.unsplash.com/photo-1504307651254-35680f056029?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Baufortschrittsdokumentationen"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Product Demos & Launch Content
+                  Baufortschrittsdokumentationen
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Zeigen Sie, was Ihr Produkt kann. Hochwertige Demos, Launch-Videos und Tutorials, die Nutzer begeistern und konvertieren.
+                  Regelmäßige Dokumentationen des Baufortschritts. Für Investoren, Kunden oder interne Zwecke – wir dokumentieren Ihre Projekte professionell.
                 </p>
               </div>
             </div>
@@ -259,17 +201,17 @@ function StartupsPageContent() {
             <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Social Media & Growth"
+                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Imagefilme für Immobilienprojekte"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Social Media & Growth
+                  Imagefilme für Immobilienprojekte
                 </h3>
                 <p className="text-slate-700 leading-relaxed font-light">
-                  Skalierbare Content-Produktion für LinkedIn, Instagram, TikTok. Aus einem Drehtag Content für Wochen – perfekt für Growth Teams.
+                  Professionelle Imagefilme, die Ihre Immobilienprojekte und Ihr Unternehmen positionieren. Für Marketing, Vertrieb oder interne Kommunikation.
                 </p>
               </div>
             </div>
@@ -283,13 +225,12 @@ function StartupsPageContent() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight">
-                Let's talk. Fast.
+                Lassen Sie uns über Ihr Projekt sprechen.
               </h2>
               <p className="text-xl text-gray-300 font-light leading-relaxed mb-8">
-                Kein Sales-Pitch. Eine schnelle, ehrliche Einschätzung zu Budget und Machbarkeit. Angebot innerhalb von 24h.
+                Kein Sales-Pitch. Eine professionelle Einschätzung zu Ihrem Immobilien- oder Bauprojekt. Angebot innerhalb von 24h.
               </p>
               
-              {/* Direct Terminbuchung CTA */}
               <div className="mb-12">
                 <Link
                   href="/termin"
@@ -310,6 +251,9 @@ function StartupsPageContent() {
         </div>
       </section>
 
+      <Testimonials pageSlug="immobilien-bau" />
+      <FAQ pageSlug="immobilien-bau" />
+
       <Footer />
     </main>
   )
@@ -328,11 +272,10 @@ function StartupsPageContent() {
   return content
 }
 
-export default function StartupsPage() {
+export default function ImmobilienBauPage() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Wird geladen...</div>}>
-      <StartupsPageContent />
+      <ImmobilienBauPageContent />
     </Suspense>
   )
 }
-
