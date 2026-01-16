@@ -124,7 +124,14 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
               )}
               {data.title && (
                 <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-16 leading-[1.05] tracking-tight">
-                  {data.title}
+                  {data.title.includes('für die operative Realität') ? (
+                    <>
+                      <span className="block mb-2">High-End Kommunikation</span>
+                      <span className="block opacity-90">für die operative Realität.</span>
+                    </>
+                  ) : (
+                    data.title
+                  )}
                 </h1>
               )}
               {data.subtitle && (

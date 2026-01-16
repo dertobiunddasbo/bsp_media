@@ -116,7 +116,7 @@ function AgenturPartnerPageContent() {
                 </h3>
               </div>
               <p className="text-gray-300 font-light leading-relaxed">
-                Wir kennen die Konzerne (Aldi, Ford, BVG) und wissen, wie man sich im Hochsicherheitsbereich bewegt. Euer Kunde bleibt euer Kunde.
+                Wir kennen die Konzerne (Aldi, Ford, BVG) und wissen, wie man sich im Hochsicherheitsbereich bewegt. Eure Kund:innen bleiben eure Kund:innen.
               </p>
             </div>
           </div>
@@ -156,7 +156,7 @@ function AgenturPartnerPageContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               <span className="text-accent font-semibold">
-                100% Kundenschutz-Garantie für Agenturpartner.
+                100% Kundenschutz-Garantie für Agenturpartner:innen.
               </span>
             </div>
           </div>
@@ -197,7 +197,7 @@ function AgenturPartnerPageContent() {
                 id: 'apoprojekt-employer-branding',
                 title: 'apoprojekt & Du',
                 category: 'Employer Branding',
-                description: 'Authentische Mitarbeiterportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
+                description: 'Authentische Mitarbeiter:innenportraits an allen deutschen Standorten. Filme, die Menschen, Rollen und Arbeitskultur unmittelbar erlebbar machen.',
                 image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
                 client: 'apoprojekt',
               },
@@ -293,10 +293,10 @@ function AgenturPartnerPageContent() {
       >
         <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">
-            Wir sprechen C-Level.
+            Boardroom-ready Produktion
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed">
-            Unsere Regisseure wissen, wie man einen CEO führt, der nur 5 Minuten Zeit hat. Effizient, politisch korrekt und ohne Händchenhalten.
+            Unsere Regisseur:innen verstehen die Anforderungen von C-Level-Formaten. Präzise Vorbereitung, effiziente Umsetzung und hohe Qualität – selbst bei komplexen Stakeholder-Strukturen und anspruchsvollen Terminlagen.
           </p>
         </div>
       </section>

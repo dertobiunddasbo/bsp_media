@@ -129,7 +129,7 @@ function MittelstandPageContent() {
 
             {/* 24h Angebot */}
             <div className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-10 border-2 border-gray-200 hover:border-accent transition-all duration-300 hover:shadow-xl">
-              <div className="flex items-start gap-6">
+              <div className="flex items-start gap-6 mb-6">
                 <div className="flex-shrink-0">
                   <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent to-pink-600 text-white shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,6 +145,17 @@ function MittelstandPageContent() {
                     Schnelle Entscheidungen brauchen schnelle Antworten. Innerhalb eines Werktages erhalten Sie ein klares, detailliertes Angebot.
                   </p>
                 </div>
+              </div>
+              <div className="mt-6">
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="w-full bg-accent text-white px-6 py-4 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <span>Jetzt direkt Angebot anfordern</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
