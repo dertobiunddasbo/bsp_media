@@ -94,6 +94,14 @@ export async function GET(
       )
     }
 
+    // Debug: Log the content to help identify issues
+    console.log(`[API /api/content/${section}] Returning content:`, {
+      hasContent: !!data?.content,
+      backgroundVideo: (data?.content as any)?.backgroundVideo,
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      timestamp: new Date().toISOString()
+    })
+
     return NextResponse.json(data?.content || null, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
