@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
+import ImageUpload from '@/components/ImageUpload'
 
 interface HeroData {
   badge?: string
@@ -128,15 +129,40 @@ export default function HeroEditor({
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Hintergrundbild URL
+          Hintergrundbild
         </label>
-        <input
-          type="text"
-          value={data.backgroundImage || ''}
-          onChange={(e) => setData({ ...data, backgroundImage: e.target.value })}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-          placeholder="https://..."
-        />
+        
+        {/* Upload Component */}
+        <div className="mb-4">
+          <ImageUpload
+            onUploadComplete={(url, path) => {
+              setData({ ...data, backgroundImage: url })
+            }}
+            onUploadError={(error) => {
+              console.error('Upload error:', error)
+              alert(`Upload fehlgeschlagen: ${error}`)
+            }}
+            folder="pictures"
+            maxSize={10}
+            buttonText="Bild hochladen"
+          />
+        </div>
+
+        {/* URL Input als Alternative */}
+        <div className="mb-2">
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Oder URL eingeben:
+          </label>
+          <input
+            type="text"
+            value={data.backgroundImage || ''}
+            onChange={(e) => setData({ ...data, backgroundImage: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+            placeholder="https://..."
+          />
+        </div>
+
+        {/* Preview */}
         {data.backgroundImage && (
           <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
             <img

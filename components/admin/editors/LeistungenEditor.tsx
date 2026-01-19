@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ImageUpload from '@/components/ImageUpload'
 
 interface Service {
   title: string
@@ -137,25 +138,50 @@ export default function LeistungenEditor({
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
                 />
-                <input
-                  type="text"
-                  value={item.image}
-                  onChange={(e) => updateItem(index, 'image', e.target.value)}
-                  placeholder="Bild URL (Fallback)"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-                />
-                {item.image && !item.backgroundVideo && (
-                  <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
-                    <img
-                      src={item.image}
-                      alt="Preview"
-                      className="w-full h-32 object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Bild
+                  </label>
+                  <div className="mb-2">
+                    <ImageUpload
+                      onUploadComplete={(url, path) => {
+                        updateItem(index, 'image', url)
                       }}
+                      onUploadError={(error) => {
+                        console.error('Upload error:', error)
+                        alert(`Upload fehlgeschlagen: ${error}`)
+                      }}
+                      folder="pictures"
+                      maxSize={10}
+                      buttonText="Bild hochladen"
+                      className="text-sm"
                     />
                   </div>
-                )}
+                  <div className="mb-2">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Oder URL eingeben:
+                    </label>
+                    <input
+                      type="text"
+                      value={item.image}
+                      onChange={(e) => updateItem(index, 'image', e.target.value)}
+                      placeholder="Bild URL (Fallback)"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+                    />
+                  </div>
+                  {item.image && !item.backgroundVideo && (
+                    <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
+                      <img
+                        src={item.image}
+                        alt="Preview"
+                        className="w-full h-32 object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
                 <input
                   type="text"
                   value={item.backgroundVideo || ''}

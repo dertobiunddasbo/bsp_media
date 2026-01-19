@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import ImageUpload from '@/components/ImageUpload'
 
 const TinyMCEEditor = dynamic(() => import('./TinyMCEEditor'), {
   ssr: false,
@@ -175,16 +176,35 @@ export default function CaseForm({ initialData }: CaseFormProps) {
 
         <div className="md:col-span-2">
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Hauptbild URL *
+            Hauptbild *
           </label>
-          <input
-            type="url"
-            value={formData.image_url}
-            onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-            placeholder="https://..."
-          />
+          <div className="mb-3">
+            <ImageUpload
+              onUploadComplete={(url, path) => {
+                setFormData({ ...formData, image_url: url })
+              }}
+              onUploadError={(error) => {
+                console.error('Upload error:', error)
+                alert(`Upload fehlgeschlagen: ${error}`)
+              }}
+              folder="pictures"
+              maxSize={10}
+              buttonText="Hauptbild hochladen"
+            />
+          </div>
+          <div className="mb-2">
+            <label className="block text-xs font-medium text-gray-600 mb-1">
+              Oder URL eingeben:
+            </label>
+            <input
+              type="url"
+              value={formData.image_url}
+              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+              placeholder="https://..."
+            />
+          </div>
           {formData.image_url && (
             <div className="mt-3">
               <img
@@ -215,32 +235,64 @@ export default function CaseForm({ initialData }: CaseFormProps) {
           <div className="border-t pt-6 mt-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Bilder</h3>
-              <button
-                type="button"
-                onClick={async () => {
-                  const url = prompt('Bild-URL eingeben:')
-                  if (!url) return
-                  try {
-                    const res = await fetch(`/api/admin/cases/${initialData.id}/images`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        image_url: url,
-                        order_index: images.length,
-                      }),
-                    })
-                    if (res.ok) {
-                      fetchCaseDetails()
+              <div className="flex gap-2">
+                <ImageUpload
+                  onUploadComplete={async (url, path) => {
+                    try {
+                      const res = await fetch(`/api/admin/cases/${initialData.id}/images`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          image_url: url,
+                          order_index: images.length,
+                        }),
+                      })
+                      if (res.ok) {
+                        fetchCaseDetails()
+                      } else {
+                        throw new Error('Fehler beim Hinzufügen des Bildes')
+                      }
+                    } catch (error) {
+                      console.error('Error adding image:', error)
+                      alert('Fehler beim Hinzufügen des Bildes')
                     }
-                  } catch (error) {
-                    console.error('Error adding image:', error)
-                    alert('Fehler beim Hinzufügen des Bildes')
-                  }
-                }}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
-              >
-                + Bild hinzufügen
-              </button>
+                  }}
+                  onUploadError={(error) => {
+                    console.error('Upload error:', error)
+                    alert(`Upload fehlgeschlagen: ${error}`)
+                  }}
+                  folder="pictures"
+                  maxSize={10}
+                  buttonText="+ Bild hochladen"
+                  className="inline-block"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const url = prompt('Bild-URL eingeben:')
+                    if (!url) return
+                    try {
+                      const res = await fetch(`/api/admin/cases/${initialData.id}/images`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          image_url: url,
+                          order_index: images.length,
+                        }),
+                      })
+                      if (res.ok) {
+                        fetchCaseDetails()
+                      }
+                    } catch (error) {
+                      console.error('Error adding image:', error)
+                      alert('Fehler beim Hinzufügen des Bildes')
+                    }
+                  }}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
+                >
+                  + URL hinzufügen
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {images.map((img) => (
