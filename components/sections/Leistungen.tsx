@@ -21,6 +21,7 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
   const { isEditMode, editingSection } = useEditMode()
   const [data, setData] = useState<LeistungenData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [videoErrors, setVideoErrors] = useState<Set<number>>(new Set())
 
   const loadData = async () => {
     setLoading(true)
@@ -95,13 +96,24 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
                   className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
                 >
                   <div className="relative h-56 overflow-hidden">
-                    {service.backgroundVideo ? (
+                    {service.backgroundVideo && !videoErrors.has(index) ? (
                       <video
                         autoPlay
                         loop
                         muted
                         playsInline
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        onError={() => {
+                          console.warn(`Video failed to load for service ${index}:`, service.backgroundVideo)
+                          setVideoErrors(prev => new Set(prev).add(index))
+                        }}
+                        onLoadedData={() => {
+                          setVideoErrors(prev => {
+                            const newSet = new Set(prev)
+                            newSet.delete(index)
+                            return newSet
+                          })
+                        }}
                       >
                         <source src={service.backgroundVideo} type="video/mp4" />
                       </video>

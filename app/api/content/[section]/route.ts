@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+// Force dynamic rendering - prevents any caching at build time or runtime
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 
 export async function GET(
   request: NextRequest,
@@ -104,9 +107,13 @@ export async function GET(
 
     return NextResponse.json(data?.content || null, {
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
         'Pragma': 'no-cache',
         'Expires': '0',
+        // Vercel-spezifische Headers zum Verhindern von Edge-Caching
+        'CDN-Cache-Control': 'no-store',
+        'Vercel-CDN-Cache-Control': 'no-store',
+        'X-Vercel-Cache': 'no-store',
       },
     })
   } catch (error: unknown) {
