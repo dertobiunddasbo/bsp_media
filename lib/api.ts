@@ -206,18 +206,33 @@ export const defaultValuePropositionData: ValuePropositionData = {
   values: [
     {
       title: 'Partner auf Augenhöhe',
-      description: 'Wir verstehen nicht nur Briefings, sondern Ihre Situation. Ob Vorstand oder Fachabteilung – wir sprechen Ihre Sprache und denken für Sie mit.',
+      description: 'Wir verstehen nicht nur Briefings, sondern Ihre Situation. Transparenz und gegenseitiges Vertrauen bilden die Basis für erfolgreiche Projekte. Wir entwickeln gemeinsam Lösungen statt nur zu liefern.',
       gradient: 'from-accent to-pink-600',
+      icon: 'partners',
     },
     {
       title: 'Qualität, die überzeugt',
       description: 'Kein "Schema F", sondern maßgeschneiderte Lösungen. Wir sorgen dafür, dass Ihre Botschaft nicht nur gesendet, sondern auch gefühlt und verstanden wird.',
       gradient: 'from-accent to-pink-600',
+      icon: 'quality',
+    },
+    {
+      title: 'Proaktive Kommunikation',
+      description: 'Wir informieren Sie frühzeitig über Herausforderungen und bringen konstruktive Lösungsvorschläge ein. Klare Strukturen und konkrete Ansprechpartner sorgen für effiziente Prozesse.',
+      gradient: 'from-accent to-pink-600',
+      icon: 'communication',
     },
     {
       title: 'Verlässlichkeit als Prinzip',
       description: 'Wir wissen, dass Budgets und Deadlines heilig sind. Bei uns bekommen Sie kreativen Freiraum in einem sicheren Rahmen.',
       gradient: 'from-accent to-pink-600',
+      icon: 'reliability',
+    },
+    {
+      title: 'Diskretion & Sicherheit',
+      description: 'Viele unserer Projekte behandeln sensible interne Themen. Diskretion ist Teil unseres Qualitätsversprechens. Wir sind geschult im Umgang mit Prototypen, Sperrfristen und Sicherheitsbereichen.',
+      gradient: 'from-accent to-pink-600',
+      icon: 'security',
     },
   ],
 }

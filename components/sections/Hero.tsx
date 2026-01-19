@@ -44,9 +44,9 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
   useEffect(() => {
     loadData()
     
-    const handleSave = () => loadData()
-    window.addEventListener('editMode:sectionSaved', handleSave)
-    return () => window.removeEventListener('editMode:sectionSaved', handleSave)
+    const handleSectionSaved = () => loadData()
+    window.addEventListener('editMode:sectionSaved', handleSectionSaved)
+    return () => window.removeEventListener('editMode:sectionSaved', handleSectionSaved)
   }, [pageSlug])
 
   const handleSave = async (newData: HeroData) => {
@@ -55,6 +55,12 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
       console.log('[Hero] BackgroundImage in newData:', newData.backgroundImage)
       const result = await saveSectionContent('hero', newData, pageSlug)
       console.log('[Hero] saveSectionContent result:', result)
+      
+      // Report save result
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: result
+      }))
+      
       if (result.success) {
         // Wait a bit to ensure database is updated
         await new Promise(resolve => setTimeout(resolve, 100))
@@ -70,9 +76,29 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
       console.error('[Hero] Error saving hero:', errorMessage)
+      
+      // Report error
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: false, error: errorMessage }
+      }))
+      
       alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }
+  
+  // Listen for global save event - only save if this section is currently being edited
+  useEffect(() => {
+    if (!isEditMode || editingSection !== 'hero') return
+    
+    const handleGlobalSave = async () => {
+      if (data) {
+        await handleSave(data)
+      }
+    }
+    
+    window.addEventListener('editMode:save', handleGlobalSave)
+    return () => window.removeEventListener('editMode:save', handleGlobalSave)
+  }, [editingSection, data, isEditMode])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -120,8 +146,8 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 }}
               />
             )}
-            <div className="absolute inset-0 bg-black/50" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
           </div>
 
           {/* Content - Zentriert, großzügig */}

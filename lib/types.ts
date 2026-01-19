@@ -52,6 +52,7 @@ export interface ValuePropositionData {
     title: string
     description: string
     gradient: string
+    icon?: string
   }>
 }
 

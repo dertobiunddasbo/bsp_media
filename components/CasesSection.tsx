@@ -89,7 +89,7 @@ export default function CasesSection() {
             Unsere Projekte
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-slate-900 mb-12 tracking-tight leading-[1.05]">
-            Aktuelle Projekte
+            Case Studies
           </h2>
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto font-extralight leading-relaxed">
             Einblicke in unsere Filmproduktionen und visuellen Kommunikationslösungen

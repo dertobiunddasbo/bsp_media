@@ -9,7 +9,6 @@ import Hero from '@/components/sections/Hero'
 import TrustSection from '@/components/sections/TrustSection'
 import NDADisclaimer from '@/components/sections/NDADisclaimer'
 import ValueProposition from '@/components/sections/ValueProposition'
-import CollaborationPrinciples from '@/components/sections/CollaborationPrinciples'
 import Leistungen from '@/components/sections/Leistungen'
 import CasesSection from '@/components/CasesSection'
 import WhyUs from '@/components/sections/WhyUs'
@@ -26,12 +25,10 @@ function HomeContent() {
     <main className="min-h-screen bg-white">
       <Header />
       <Hero pageSlug="home" />
-      <TrustSection />
-      <NDADisclaimer />
-      <ValueProposition />
-      <CollaborationPrinciples />
-      <Leistungen pageSlug="home" />
       <CasesSection />
+      <Leistungen pageSlug="home" />
+      <ValueProposition />
+      <TrustSection />
       <WhyUs pageSlug="home" />
       <Testimonials pageSlug="home" />
       <FAQ pageSlug="home" />
