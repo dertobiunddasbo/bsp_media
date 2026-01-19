@@ -4,10 +4,12 @@ import Footer from '@/components/ui/Footer'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 async function getCase(slug: string) {
   try {
-    const { data, error } = await supabaseAdmin
+    // Try to find by slug first, then by id
+    let query = supabaseAdmin
       .from('cases')
       .select(`
         *,
@@ -15,10 +17,50 @@ async function getCase(slug: string) {
         case_videos (*)
       `)
       .eq('slug', slug)
-      .single()
+    
+    let { data, error } = await query.single()
 
+    // If not found by slug, try by id
     if (error || !data) {
-      return null
+      const { data: dataById, error: errorById } = await supabaseAdmin
+        .from('cases')
+        .select(`
+          *,
+          case_images (*),
+          case_videos (*)
+        `)
+        .eq('id', slug)
+        .single()
+      
+      if (errorById || !dataById) {
+        return null
+      }
+      
+      // Sort images and videos by created_at
+      if (dataById.case_images) {
+        dataById.case_images.sort((a: any, b: any) => 
+          new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+        )
+      }
+      if (dataById.case_videos) {
+        dataById.case_videos.sort((a: any, b: any) => 
+          new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+        )
+      }
+      
+      return dataById
+    }
+
+    // Sort images and videos by created_at
+    if (data.case_images) {
+      data.case_images.sort((a: any, b: any) => 
+        new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+      )
+    }
+    if (data.case_videos) {
+      data.case_videos.sort((a: any, b: any) => 
+        new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+      )
     }
 
     return data
@@ -52,6 +94,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
             src={caseData.image_url || 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'}
             alt={caseData.title}
             className="w-full h-full object-cover"
+            loading="eager"
           />
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -138,6 +181,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
                     src={image.image_url}
                     alt={caseData.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                   />
                 </div>
               ))}

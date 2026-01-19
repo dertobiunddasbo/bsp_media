@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: 'Portfolio',
@@ -78,7 +79,7 @@ export default async function Portfolio() {
             {cases.map((caseItem) => (
               <Link
                 key={caseItem.id}
-                href={`/portfolio/${caseItem.id || caseItem.slug}`}
+                href={`/portfolio/${caseItem.slug || caseItem.id}`}
                 className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 {/* Image */}

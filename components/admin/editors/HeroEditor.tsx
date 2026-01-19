@@ -39,14 +39,38 @@ export default function HeroEditor({
       console.log('[HeroEditor] BackgroundImage:', data.backgroundImage)
       await onSave(data)
       console.log('[HeroEditor] Save completed successfully')
+      
+      // Report save result
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: true }
+      }))
+      
       window.dispatchEvent(new CustomEvent('editMode:sectionSaved', { detail: { sectionKey } }))
     } catch (error) {
       console.error('[HeroEditor] Error saving hero:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      
+      // Report error
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: false, error: errorMessage }
+      }))
+      
       alert('Fehler beim Speichern')
     } finally {
       setSaving(false)
     }
   }
+  
+  // Listen for global save event
+  useEffect(() => {
+    const handleGlobalSave = async () => {
+      await handleSave()
+    }
+    
+    window.addEventListener('editMode:save', handleGlobalSave)
+    return () => window.removeEventListener('editMode:save', handleGlobalSave)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, sectionKey, pageSlug])
 
   return (
     <div className="space-y-6">

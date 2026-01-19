@@ -15,13 +15,46 @@ export default function EditModeBar() {
 
   const handleSave = async () => {
     setSaving(true)
-    // Trigger save event - components will handle their own saves
-    window.dispatchEvent(new CustomEvent('editMode:save'))
-    setSaving(false)
-    // Small delay to show feedback
-    setTimeout(() => {
-      alert('Änderungen gespeichert!')
-    }, 100)
+    
+    try {
+      // Collect save results from all components
+      const saveResults: Promise<{ success: boolean; error?: string }>[] = []
+      const savePromises: Promise<void>[] = []
+      
+      // Listen for save results
+      const results: { success: boolean; error?: string }[] = []
+      const handleSaveResult = (event: CustomEvent) => {
+        if (event.detail && typeof event.detail === 'object') {
+          results.push(event.detail)
+        }
+      }
+      
+      window.addEventListener('editMode:saveResult', handleSaveResult as EventListener)
+      
+      // Trigger save event - components will handle their own saves
+      window.dispatchEvent(new CustomEvent('editMode:save'))
+      
+      // Wait for all saves to complete (with timeout)
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      window.removeEventListener('editMode:saveResult', handleSaveResult as EventListener)
+      
+      // Check if all saves were successful
+      const allSuccessful = results.length === 0 || results.every(r => r.success)
+      const hasErrors = results.some(r => !r.success)
+      
+      if (hasErrors) {
+        const errors = results.filter(r => !r.success).map(r => r.error).filter(Boolean)
+        alert(`Fehler beim Speichern: ${errors.join(', ')}`)
+      } else if (allSuccessful) {
+        alert('Änderungen gespeichert!')
+      }
+    } catch (error) {
+      console.error('Error during save:', error)
+      alert('Fehler beim Speichern. Bitte versuchen Sie es erneut.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   // Close page editor when editingSection changes

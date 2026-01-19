@@ -76,8 +76,10 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
   }
 
   const handleSave = async (section: string, data: any) => {
-    const success = await saveSectionContent(section, data, pageSlug)
-    if (!success) throw new Error('Save failed')
+    const result = await saveSectionContent(section, data, pageSlug)
+    if (!result.success) {
+      throw new Error(result.error || 'Save failed')
+    }
     
     // Update local state
     if (section === 'hero') setHeroData(data)
@@ -91,6 +93,8 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
     
     // Trigger reload
     window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
+    
+    return result
   }
 
   if (loading) {
@@ -210,7 +214,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="hero"
               pageSlug={pageSlug}
               initialData={heroData}
-              onSave={(data) => handleSave('hero', data)}
+              onSave={async (data) => {
+                await handleSave('hero', data)
+              }}
             />
           )}
           {activeSection === 'trust' && trustData && (
@@ -218,7 +224,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="trust"
               pageSlug={pageSlug}
               initialData={trustData}
-              onSave={(data) => handleSave('trust', data)}
+              onSave={async (data) => {
+                await handleSave('trust', data)
+              }}
             />
           )}
           {activeSection === 'nda' && ndaData && (
@@ -226,7 +234,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="nda"
               pageSlug={pageSlug}
               initialData={ndaData}
-              onSave={(data) => handleSave('nda', data)}
+              onSave={async (data) => {
+                await handleSave('nda', data)
+              }}
             />
           )}
           {activeSection === 'values' && valuesData && (
@@ -234,7 +244,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="values"
               pageSlug={pageSlug}
               initialData={valuesData}
-              onSave={(data) => handleSave('values', data)}
+              onSave={async (data) => {
+                await handleSave('values', data)
+              }}
             />
           )}
           {activeSection === 'principles' && principlesData && (
@@ -242,7 +254,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="principles"
               pageSlug={pageSlug}
               initialData={principlesData}
-              onSave={(data) => handleSave('principles', data)}
+              onSave={async (data) => {
+                await handleSave('principles', data)
+              }}
             />
           )}
           {activeSection === 'leistungen' && leistungenData && (
@@ -250,7 +264,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="leistungen"
               pageSlug={pageSlug}
               initialData={leistungenData}
-              onSave={(data) => handleSave('leistungen', data)}
+              onSave={async (data) => {
+                await handleSave('leistungen', data)
+              }}
             />
           )}
           {activeSection === 'about' && aboutData && (
@@ -258,7 +274,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="about"
               pageSlug={pageSlug}
               initialData={aboutData}
-              onSave={(data) => handleSave('about', data)}
+              onSave={async (data) => {
+                await handleSave('about', data)
+              }}
             />
           )}
           {activeSection === 'footer' && footerData && (
@@ -266,7 +284,9 @@ export default function PageEditor({ pageSlug = 'home' }: PageEditorProps) {
               sectionKey="footer"
               pageSlug={pageSlug}
               initialData={footerData}
-              onSave={(data) => handleSave('footer', data)}
+              onSave={async (data) => {
+                await handleSave('footer', data)
+              }}
             />
           )}
         </div>
