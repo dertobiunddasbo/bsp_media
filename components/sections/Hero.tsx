@@ -23,6 +23,8 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
   const [scrollY, setScrollY] = useState(0)
   const [data, setData] = useState<HeroData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [videoError, setVideoError] = useState(false)
+  const [reloadAttempts, setReloadAttempts] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -50,31 +52,12 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     return () => window.removeEventListener('editMode:sectionSaved', handleSectionSaved)
   }, [pageSlug])
 
-  // Force video reload when backgroundVideo URL changes
+  // Reset video error state when video URL changes
   useEffect(() => {
     if ((data as any)?.backgroundVideo) {
       console.log('[Hero] BackgroundVideo URL detected:', (data as any).backgroundVideo)
-      // Small delay to ensure DOM is updated
-      const timeoutId = setTimeout(() => {
-        const videoElement = document.querySelector('#hero-background-video') as HTMLVideoElement
-        if (videoElement) {
-          console.log('[Hero] Video element found, forcing reload...')
-          // Force reload by calling load() and setting currentTime to 0
-          videoElement.pause()
-          videoElement.currentTime = 0
-          videoElement.load()
-          videoElement.play().catch(err => {
-            console.error('[Hero] Error playing video:', err)
-          })
-          console.log('[Hero] ✅ Video element reloaded and play() called')
-        } else {
-          console.warn('[Hero] ⚠️ Video element not found in DOM - may not be rendered yet')
-        }
-      }, 200)
-      
-      return () => clearTimeout(timeoutId)
-    } else {
-      console.log('[Hero] No backgroundVideo in data')
+      setVideoError(false)
+      setReloadAttempts(0)
     }
   }, [(data as any)?.backgroundVideo])
 
@@ -142,6 +125,17 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     )
   }
 
+  // Cache-Busting: Füge Timestamp zur Video-URL hinzu, um Caching zu vermeiden
+  // Das stellt sicher, dass das Video immer die neueste Version lädt (besonders wichtig für Vercel)
+  const getVideoUrlWithCacheBust = (videoUrl: string) => {
+    if (!videoUrl) return videoUrl
+    const separator = videoUrl.includes('?') ? '&' : '?'
+    return `${videoUrl}${separator}t=${Date.now()}`
+  }
+
+  const videoUrl = (data as any).backgroundVideo
+  const cacheBustUrl = videoUrl ? getVideoUrlWithCacheBust(videoUrl) : null
+
   return (
     <>
       <EditableSection sectionKey="hero">
@@ -151,66 +145,82 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
         >
           {/* Background Video or Image */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            {/* Background Video (wenn vorhanden) */}
-            {(data as any).backgroundVideo ? (
-              <video
-                id="hero-background-video"
-                key={`hero-video-${(data as any).backgroundVideo}`}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="absolute inset-0 w-full h-full object-cover scale-110"
-                style={{
-                  transform: `translateY(${scrollY * 0.3}px) scale(1.1)`,
-                  zIndex: 0,
-                }}
-                onError={(e) => {
-                  const video = e.currentTarget
-                  console.error('❌ Video load error:', {
-                    url: (data as any).backgroundVideo,
-                    networkState: video.networkState,
-                    readyState: video.readyState,
-                    error: video.error ? {
-                      code: video.error.code,
-                      message: video.error.message
-                    } : null
-                  })
-                  // Try to reload the video after a short delay
-                  setTimeout(() => {
-                    console.log('🔄 Attempting to reload video...')
-                    video.load()
-                  }, 1000)
-                }}
-                onLoadedData={() => {
-                  console.log('✅ Video loaded successfully:', (data as any).backgroundVideo)
-                }}
-                onCanPlay={() => {
-                  console.log('✅ Video can play:', (data as any).backgroundVideo)
-                }}
-                onLoadStart={() => {
-                  console.log('🔄 Video loading started:', (data as any).backgroundVideo)
-                }}
-                onLoadedMetadata={(e) => {
-                  const video = e.currentTarget as HTMLVideoElement
-                  console.log('📊 Video metadata loaded:', {
-                    duration: video.duration,
-                    videoWidth: video.videoWidth,
-                    videoHeight: video.videoHeight,
-                    url: (data as any).backgroundVideo
-                  })
-                }}
-                onPlaying={() => {
-                  console.log('▶️ Video is playing:', (data as any).backgroundVideo)
-                }}
-              >
-                <source 
-                  src={(data as any).backgroundVideo} 
-                  type="video/mp4" 
-                />
-                Your browser does not support the video tag.
-              </video>
+            {/* Background Video (wenn vorhanden und kein Fehler) */}
+            {videoUrl && !videoError && cacheBustUrl ? (
+                <video
+                  id="hero-background-video"
+                  key={`hero-video-${videoUrl}`}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover scale-110"
+                  style={{
+                    transform: `translateY(${scrollY * 0.3}px) scale(1.1)`,
+                    zIndex: 0,
+                  }}
+                  onError={(e) => {
+                    const video = e.currentTarget
+                    const errorDetails = {
+                      url: cacheBustUrl,
+                      originalUrl: videoUrl,
+                      networkState: video.networkState,
+                      readyState: video.readyState,
+                      error: video.error ? {
+                        code: video.error.code,
+                        message: video.error.message
+                      } : null
+                    }
+                    
+                    console.error('❌ Video load error:', errorDetails)
+                    
+                    // Nur einmal versuchen, neu zu laden (max. 1 Versuch)
+                    if (reloadAttempts < 1) {
+                      console.log('🔄 Attempting to reload video (attempt', reloadAttempts + 1, ')...')
+                      setReloadAttempts(prev => prev + 1)
+                      setTimeout(() => {
+                        // Füge neuen Timestamp für Retry hinzu
+                        const retryUrl = getVideoUrlWithCacheBust(videoUrl)
+                        video.setAttribute('src', retryUrl)
+                        video.load()
+                      }, 1000)
+                    } else {
+                      console.warn('⚠️ Video failed to load after retry, falling back to image')
+                      setVideoError(true)
+                    }
+                  }}
+                  onLoadedData={() => {
+                    console.log('✅ Video loaded successfully:', cacheBustUrl)
+                    setVideoError(false)
+                    setReloadAttempts(0)
+                  }}
+                  onCanPlay={() => {
+                    console.log('✅ Video can play:', cacheBustUrl)
+                  }}
+                  onLoadStart={() => {
+                    console.log('🔄 Video loading started:', cacheBustUrl)
+                  }}
+                  onLoadedMetadata={(e) => {
+                    const video = e.currentTarget as HTMLVideoElement
+                    console.log('📊 Video metadata loaded:', {
+                      duration: video.duration,
+                      videoWidth: video.videoWidth,
+                      videoHeight: video.videoHeight,
+                      url: cacheBustUrl
+                    })
+                  }}
+                  onPlaying={() => {
+                    console.log('▶️ Video is playing:', cacheBustUrl)
+                  }}
+                >
+                  <source 
+                    src={cacheBustUrl} 
+                    type="video/mp4" 
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              ) : null}
             ) : (
               /* Fallback: Background Image with Parallax */
               <div
