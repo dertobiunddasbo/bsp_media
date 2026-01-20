@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     // Upload to Supabase Storage
     const { data, error } = await supabaseAdmin.storage
-      .from('public-storage')
+      .from('public_assets')
       .upload(filePath, buffer, {
         contentType: file.type,
         upsert: false, // Don't overwrite existing files
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     // Get public URL
     const { data: urlData } = supabaseAdmin.storage
-      .from('public-storage')
+      .from('public_assets')
       .getPublicUrl(filePath)
 
     return NextResponse.json({

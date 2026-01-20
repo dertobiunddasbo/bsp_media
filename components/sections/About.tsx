@@ -39,20 +39,36 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
 
   const handleSave = async (newData: AboutData) => {
     try {
+      console.log('[About] handleSave called with data:', newData)
       const result = await saveSectionContent('about', newData, pageSlug)
+      console.log('[About] saveSectionContent result:', result)
+      
+      // Report save result
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: result
+      }))
+      
       if (result.success) {
         // Wait a bit to ensure database is updated
         await new Promise(resolve => setTimeout(resolve, 100))
         // Reload data from server instead of using local state
+        console.log('[About] Reloading data...')
         await loadData()
+        console.log('[About] Data reloaded')
         window.dispatchEvent(new CustomEvent('editMode:sectionSaved'))
       } else {
         alert(`Fehler beim Speichern: ${result.error || 'Unbekannter Fehler'}`)
-        console.error('Save failed for about section:', result.error)
+        console.error('[About] Save failed:', result.error)
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
-      console.error('Error saving about:', errorMessage)
+      console.error('[About] Error saving about:', errorMessage)
+      
+      // Report error
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: false, error: errorMessage }
+      }))
+      
       alert(`Fehler beim Speichern: ${errorMessage}`)
     }
   }

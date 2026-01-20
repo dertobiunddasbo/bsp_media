@@ -8,6 +8,8 @@ export const revalidate = 0
 
 async function getCase(slug: string) {
   try {
+    console.log(`[getCase] Fetching case with slug/id: ${slug}`)
+    
     // Try to find by slug first, then by id
     let query = supabaseAdmin
       .from('cases')
@@ -19,9 +21,12 @@ async function getCase(slug: string) {
       .eq('slug', slug)
     
     let { data, error } = await query.single()
+    
+    console.log(`[getCase] Query by slug result:`, { found: !!data, error: error?.message })
 
     // If not found by slug, try by id
     if (error || !data) {
+      console.log(`[getCase] Trying to find by id: ${slug}`)
       const { data: dataById, error: errorById } = await supabaseAdmin
         .from('cases')
         .select(`
@@ -33,39 +38,60 @@ async function getCase(slug: string) {
         .single()
       
       if (errorById || !dataById) {
+        console.log(`[getCase] Not found by id either:`, errorById?.message)
         return null
       }
       
-      // Sort images and videos by created_at
+      console.log(`[getCase] Found by id:`, { 
+        title: dataById.title, 
+        images: dataById.case_images?.length || 0, 
+        videos: dataById.case_videos?.length || 0 
+      })
+      
+      // Sort images and videos by order_index, then by created_at
       if (dataById.case_images) {
-        dataById.case_images.sort((a: any, b: any) => 
-          new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
-        )
+        dataById.case_images.sort((a: any, b: any) => {
+          const orderDiff = (a.order_index || 0) - (b.order_index || 0)
+          if (orderDiff !== 0) return orderDiff
+          return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+        })
       }
       if (dataById.case_videos) {
-        dataById.case_videos.sort((a: any, b: any) => 
-          new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
-        )
+        dataById.case_videos.sort((a: any, b: any) => {
+          const orderDiff = (a.order_index || 0) - (b.order_index || 0)
+          if (orderDiff !== 0) return orderDiff
+          return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+        })
       }
       
       return dataById
     }
 
-    // Sort images and videos by created_at
+    // Sort images and videos by order_index, then by created_at
     if (data.case_images) {
-      data.case_images.sort((a: any, b: any) => 
-        new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
-      )
+      data.case_images.sort((a: any, b: any) => {
+        const orderDiff = (a.order_index || 0) - (b.order_index || 0)
+        if (orderDiff !== 0) return orderDiff
+        return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+      })
     }
     if (data.case_videos) {
-      data.case_videos.sort((a: any, b: any) => 
-        new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
-      )
+      data.case_videos.sort((a: any, b: any) => {
+        const orderDiff = (a.order_index || 0) - (b.order_index || 0)
+        if (orderDiff !== 0) return orderDiff
+        return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime()
+      })
     }
 
+    console.log(`[getCase] Found by slug:`, { 
+      title: data.title, 
+      images: data.case_images?.length || 0, 
+      videos: data.case_videos?.length || 0 
+    })
+    
     return data
   } catch (error) {
-    console.error('Error fetching case:', error)
+    console.error('[getCase] Error fetching case:', error)
     return null
   }
 }
@@ -82,6 +108,13 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
 
   const images = caseData.case_images || []
   const videos = caseData.case_videos || []
+  
+  console.log(`[CasePage] Rendering case:`, {
+    title: caseData.title,
+    imagesCount: images.length,
+    videosCount: videos.length,
+    hasDescription: !!caseData.description
+  })
 
   return (
     <main className="min-h-screen bg-white">
@@ -118,15 +151,16 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       </section>
 
       {/* Description */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
-          <div className="prose prose-lg max-w-none">
-            <p className="text-xl text-gray-700 leading-relaxed font-light">
-              {caseData.description}
-            </p>
+      {caseData.description && (
+        <section className="py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
+            <div 
+              className="prose prose-lg max-w-none text-xl text-gray-700 leading-relaxed font-light"
+              dangerouslySetInnerHTML={{ __html: caseData.description }}
+            />
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Videos Section */}
       {videos.length > 0 && (
@@ -134,36 +168,53 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
             <h2 className="text-3xl font-semibold text-dark mb-8">Videos</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videos.map((video: any) => (
-                <div key={video.id} className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                  {video.video_type === 'vimeo' ? (
-                    <iframe
-                      src={`https://player.vimeo.com/video/${video.video_url.split('/').pop()}`}
-                      className="w-full h-full"
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : video.video_type === 'youtube' ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.video_url.split('v=')[1]?.split('&')[0]}`}
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <video
-                      src={video.video_url}
-                      controls
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                  {video.title && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
-                      <p className="font-semibold">{video.title}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {videos.map((video: any) => {
+                // Extract Vimeo video ID
+                const getVimeoId = (url: string) => {
+                  const match = url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/)
+                  return match ? match[1] : url.split('/').pop()
+                }
+                
+                // Extract YouTube video ID
+                const getYouTubeId = (url: string) => {
+                  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
+                  return match ? match[1] : null
+                }
+                
+                return (
+                  <div key={video.id} className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                    {video.video_type === 'vimeo' ? (
+                      <iframe
+                        src={`https://player.vimeo.com/video/${getVimeoId(video.video_url)}`}
+                        className="w-full h-full"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title={video.title || caseData.title}
+                      />
+                    ) : video.video_type === 'youtube' ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${getYouTubeId(video.video_url) || video.video_url.split('v=')[1]?.split('&')[0]}`}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={video.title || caseData.title}
+                      />
+                    ) : (
+                      <video
+                        src={video.video_url}
+                        controls
+                        className="w-full h-full object-cover"
+                        title={video.title || caseData.title}
+                      />
+                    )}
+                    {video.title && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
+                        <p className="font-semibold">{video.title}</p>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>

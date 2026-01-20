@@ -2,14 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
-
-interface AboutData {
-  title?: string
-  subtitle?: string
-  text1?: string
-  text2?: string
-  text3?: string
-}
+import { AboutData } from '@/lib/types'
 
 interface AboutEditorProps {
   sectionKey: string
@@ -34,15 +27,41 @@ export default function AboutEditor({
   const handleSave = async () => {
     setSaving(true)
     try {
+      console.log('[AboutEditor] Saving data:', data)
       await onSave(data)
+      console.log('[AboutEditor] Save completed successfully')
+      
+      // Report save result
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: true }
+      }))
+      
       window.dispatchEvent(new CustomEvent('editMode:sectionSaved', { detail: { sectionKey } }))
     } catch (error) {
-      console.error('Error saving about:', error)
-      alert('Fehler beim Speichern')
+      console.error('[AboutEditor] Error saving about:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      
+      // Report error
+      window.dispatchEvent(new CustomEvent('editMode:saveResult', {
+        detail: { success: false, error: errorMessage }
+      }))
+      
+      alert(`Fehler beim Speichern: ${errorMessage}`)
     } finally {
       setSaving(false)
     }
   }
+  
+  // Listen for global save event
+  useEffect(() => {
+    const handleGlobalSave = async () => {
+      await handleSave()
+    }
+    
+    window.addEventListener('editMode:save', handleGlobalSave)
+    return () => window.removeEventListener('editMode:save', handleGlobalSave)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, sectionKey, pageSlug])
 
   return (
     <div className="space-y-6">

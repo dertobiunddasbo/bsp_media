@@ -9,6 +9,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    console.log(`[GET /api/admin/cases/${params.id}] Fetching case details`)
+    
     const { data, error } = await supabaseAdmin
       .from('cases')
       .select(`
@@ -19,7 +21,12 @@ export async function GET(
       .eq('id', params.id)
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error(`[GET /api/admin/cases/${params.id}] Error:`, error)
+      throw error
+    }
+
+    console.log(`[GET /api/admin/cases/${params.id}] Success, images: ${data.case_images?.length || 0}, videos: ${data.case_videos?.length || 0}`)
 
     return NextResponse.json(data, {
       headers: {
@@ -29,6 +36,7 @@ export async function GET(
       },
     })
   } catch (error: any) {
+    console.error(`[GET /api/admin/cases/${params.id}] Error:`, error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

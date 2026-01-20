@@ -9,6 +9,8 @@ export async function POST(
     const body = await request.json()
     const { video_url, video_type, title, order_index } = body
 
+    console.log(`[POST /api/admin/cases/${params.id}/videos] Adding video:`, { video_url, video_type, title, order_index })
+
     const { data, error } = await supabaseAdmin
       .from('case_videos')
       .insert({
@@ -21,10 +23,16 @@ export async function POST(
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error(`[POST /api/admin/cases/${params.id}/videos] Error:`, error)
+      throw error
+    }
+
+    console.log(`[POST /api/admin/cases/${params.id}/videos] Success:`, data)
 
     return NextResponse.json(data)
   } catch (error: any) {
+    console.error(`[POST /api/admin/cases/${params.id}/videos] Error:`, error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

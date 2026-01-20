@@ -59,7 +59,7 @@ export async function uploadImage(options: UploadImageOptions): Promise<UploadIm
 
     // Upload to Supabase Storage
     const { data, error } = await supabaseAdmin.storage
-      .from('public-storage')
+      .from('public_assets')
       .upload(filePath, buffer, {
         contentType: file.type,
         upsert: false,
@@ -78,7 +78,7 @@ export async function uploadImage(options: UploadImageOptions): Promise<UploadIm
 
     // Get public URL
     const { data: urlData } = supabaseAdmin.storage
-      .from('public-storage')
+      .from('public_assets')
       .getPublicUrl(filePath)
 
     return {
@@ -107,7 +107,7 @@ export async function uploadImage(options: UploadImageOptions): Promise<UploadIm
 export async function deleteImage(filePath: string): Promise<{ success: boolean; error?: string }> {
   try {
     const { error } = await supabaseAdmin.storage
-      .from('public-storage')
+      .from('public_assets')
       .remove([filePath])
 
     if (error) {
@@ -135,7 +135,7 @@ export async function deleteImage(filePath: string): Promise<{ success: boolean;
  */
 export function getImageUrl(filePath: string): string {
   const { data } = supabaseAdmin.storage
-    .from('public-storage')
+    .from('public_assets')
     .getPublicUrl(filePath)
 
   return data.publicUrl

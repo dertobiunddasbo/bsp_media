@@ -61,14 +61,24 @@ export default function CaseForm({ initialData }: CaseFormProps) {
   const fetchCaseDetails = async () => {
     if (!initialData?.id) return
     try {
-      const res = await fetch(`/api/admin/cases/${initialData.id}`)
+      // Add cache-busting to ensure fresh data
+      const cacheBuster = `?t=${Date.now()}`
+      const res = await fetch(`/api/admin/cases/${initialData.id}${cacheBuster}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
       if (res.ok) {
         const data = await res.json()
+        console.log('[CaseForm] Fetched case details:', data)
         setImages(data.case_images || [])
         setVideos(data.case_videos || [])
+      } else {
+        console.error('[CaseForm] Failed to fetch case details:', res.status, res.statusText)
       }
     } catch (error) {
-      console.error('Error fetching case details:', error)
+      console.error('[CaseForm] Error fetching case details:', error)
     }
   }
 
@@ -239,6 +249,7 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                 <ImageUpload
                   onUploadComplete={async (url, path) => {
                     try {
+                      console.log('[CaseForm] Image upload complete, URL:', url)
                       const res = await fetch(`/api/admin/cases/${initialData.id}/images`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -248,17 +259,24 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                         }),
                       })
                       if (res.ok) {
-                        fetchCaseDetails()
+                        const data = await res.json()
+                        console.log('[CaseForm] Image added to case:', data)
+                        // Wait a bit to ensure database is updated
+                        await new Promise(resolve => setTimeout(resolve, 200))
+                        // Reload case details
+                        await fetchCaseDetails()
                       } else {
-                        throw new Error('Fehler beim Hinzufügen des Bildes')
+                        const errorData = await res.json().catch(() => ({}))
+                        console.error('[CaseForm] Failed to add image:', errorData)
+                        throw new Error(errorData.error || 'Fehler beim Hinzufügen des Bildes')
                       }
                     } catch (error) {
-                      console.error('Error adding image:', error)
-                      alert('Fehler beim Hinzufügen des Bildes')
+                      console.error('[CaseForm] Error adding image:', error)
+                      alert(`Fehler beim Hinzufügen des Bildes: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                     }
                   }}
                   onUploadError={(error) => {
-                    console.error('Upload error:', error)
+                    console.error('[CaseForm] Upload error:', error)
                     alert(`Upload fehlgeschlagen: ${error}`)
                   }}
                   folder="pictures"
@@ -272,6 +290,7 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                     const url = prompt('Bild-URL eingeben:')
                     if (!url) return
                     try {
+                      console.log('[CaseForm] Adding image URL:', url)
                       const res = await fetch(`/api/admin/cases/${initialData.id}/images`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -281,11 +300,20 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                         }),
                       })
                       if (res.ok) {
-                        fetchCaseDetails()
+                        const data = await res.json()
+                        console.log('[CaseForm] Image URL added to case:', data)
+                        // Wait a bit to ensure database is updated
+                        await new Promise(resolve => setTimeout(resolve, 200))
+                        // Reload case details
+                        await fetchCaseDetails()
+                      } else {
+                        const errorData = await res.json().catch(() => ({}))
+                        console.error('[CaseForm] Failed to add image URL:', errorData)
+                        alert(`Fehler beim Hinzufügen des Bildes: ${errorData.error || 'Unbekannter Fehler'}`)
                       }
                     } catch (error) {
-                      console.error('Error adding image:', error)
-                      alert('Fehler beim Hinzufügen des Bildes')
+                      console.error('[CaseForm] Error adding image URL:', error)
+                      alert(`Fehler beim Hinzufügen des Bildes: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                     }
                   }}
                   className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
@@ -307,15 +335,24 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                     onClick={async () => {
                       if (!confirm('Bild wirklich löschen?')) return
                       try {
+                        console.log('[CaseForm] Deleting image:', img.id)
                         const res = await fetch(`/api/admin/cases/${initialData.id}/images?imageId=${img.id}`, {
                           method: 'DELETE',
                         })
                         if (res.ok) {
-                          fetchCaseDetails()
+                          console.log('[CaseForm] Image deleted successfully')
+                          // Wait a bit to ensure database is updated
+                          await new Promise(resolve => setTimeout(resolve, 200))
+                          // Reload case details
+                          await fetchCaseDetails()
+                        } else {
+                          const errorData = await res.json().catch(() => ({}))
+                          console.error('[CaseForm] Failed to delete image:', errorData)
+                          alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
                         }
                       } catch (error) {
-                        console.error('Error deleting image:', error)
-                        alert('Fehler beim Löschen')
+                        console.error('[CaseForm] Error deleting image:', error)
+                        alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                       }
                     }}
                     className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs"
@@ -338,6 +375,7 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                   const videoType = url.includes('vimeo') ? 'vimeo' : url.includes('youtube') ? 'youtube' : 'direct'
                   const title = prompt('Video-Titel (optional):') || ''
                   try {
+                    console.log('[CaseForm] Adding video URL:', url)
                     const res = await fetch(`/api/admin/cases/${initialData.id}/videos`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
@@ -349,11 +387,20 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                       }),
                     })
                     if (res.ok) {
-                      fetchCaseDetails()
+                      const data = await res.json()
+                      console.log('[CaseForm] Video added to case:', data)
+                      // Wait a bit to ensure database is updated
+                      await new Promise(resolve => setTimeout(resolve, 200))
+                      // Reload case details
+                      await fetchCaseDetails()
+                    } else {
+                      const errorData = await res.json().catch(() => ({}))
+                      console.error('[CaseForm] Failed to add video:', errorData)
+                      alert(`Fehler beim Hinzufügen des Videos: ${errorData.error || 'Unbekannter Fehler'}`)
                     }
                   } catch (error) {
-                    console.error('Error adding video:', error)
-                    alert('Fehler beim Hinzufügen des Videos')
+                    console.error('[CaseForm] Error adding video:', error)
+                    alert(`Fehler beim Hinzufügen des Videos: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                   }
                 }}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-semibold"
@@ -373,15 +420,24 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                     onClick={async () => {
                       if (!confirm('Video wirklich löschen?')) return
                       try {
+                        console.log('[CaseForm] Deleting video:', video.id)
                         const res = await fetch(`/api/admin/cases/${initialData.id}/videos?videoId=${video.id}`, {
                           method: 'DELETE',
                         })
                         if (res.ok) {
-                          fetchCaseDetails()
+                          console.log('[CaseForm] Video deleted successfully')
+                          // Wait a bit to ensure database is updated
+                          await new Promise(resolve => setTimeout(resolve, 200))
+                          // Reload case details
+                          await fetchCaseDetails()
+                        } else {
+                          const errorData = await res.json().catch(() => ({}))
+                          console.error('[CaseForm] Failed to delete video:', errorData)
+                          alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
                         }
                       } catch (error) {
-                        console.error('Error deleting video:', error)
-                        alert('Fehler beim Löschen')
+                        console.error('[CaseForm] Error deleting video:', error)
+                        alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                       }
                     }}
                     className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"

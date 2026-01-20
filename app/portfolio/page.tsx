@@ -102,9 +102,12 @@ export default async function Portfolio() {
                   <h3 className="text-2xl font-semibold text-dark mb-3 group-hover:text-accent transition-colors">
                     {caseItem.title}
                   </h3>
-                  <p className="text-dark/70 text-sm font-extralight leading-relaxed mb-4">
-                    {caseItem.description}
-                  </p>
+                  {caseItem.description && (
+                    <p className="text-dark/70 text-sm font-extralight leading-relaxed mb-4 line-clamp-3">
+                      {caseItem.description.replace(/<[^>]*>/g, '').substring(0, 200)}
+                      {caseItem.description.replace(/<[^>]*>/g, '').length > 200 && '...'}
+                    </p>
+                  )}
                   <div className="flex items-center text-accent font-light text-sm">
                     <span>Mehr erfahren</span>
                     <svg
