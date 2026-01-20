@@ -5,7 +5,7 @@
 
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { LeistungenData } from '@/lib/types'
 import { getSectionContent, saveSectionContent, defaultLeistungenData } from '@/lib/api'
@@ -22,6 +22,8 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
   const [data, setData] = useState<LeistungenData | null>(null)
   const [loading, setLoading] = useState(true)
   const [videoErrors, setVideoErrors] = useState<Set<number>>(new Set())
+  // Refs für Video-Elemente (ein Ref pro Service-Item)
+  const videoRefs = useRef<Map<number, HTMLVideoElement>>(new Map())
 
   const loadData = async () => {
     setLoading(true)
@@ -90,41 +92,71 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
-              {services.map((service, index) => (
-                <div
-                  key={index}
-                  className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="relative h-56 overflow-hidden">
-                    {service.backgroundVideo && !videoErrors.has(index) ? (
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        onError={() => {
-                          console.warn(`Video failed to load for service ${index}:`, service.backgroundVideo)
-                          setVideoErrors(prev => new Set(prev).add(index))
-                        }}
-                        onLoadedData={() => {
-                          setVideoErrors(prev => {
-                            const newSet = new Set(prev)
-                            newSet.delete(index)
-                            return newSet
-                          })
-                        }}
-                      >
-                        <source src={service.backgroundVideo} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                    )}
-                  </div>
+              {services.map((service, index) => {
+                const handleMouseEnter = () => {
+                  const video = videoRefs.current.get(index)
+                  if (video && service.backgroundVideo && !videoErrors.has(index)) {
+                    video.play().catch((error) => {
+                      console.warn(`Failed to play video on hover for service ${index}:`, error)
+                    })
+                  }
+                }
+                
+                const handleMouseLeave = () => {
+                  const video = videoRefs.current.get(index)
+                  if (video) {
+                    video.pause()
+                    // Setze Video zurück zum Anfang
+                    video.currentTime = 0
+                  }
+                }
+                
+                const setVideoRef = (element: HTMLVideoElement | null) => {
+                  if (element) {
+                    videoRefs.current.set(index, element)
+                  } else {
+                    videoRefs.current.delete(index)
+                  }
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="relative h-56 overflow-hidden">
+                      {service.backgroundVideo && !videoErrors.has(index) ? (
+                        <video
+                          ref={setVideoRef}
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          onError={() => {
+                            console.warn(`Video failed to load for service ${index}:`, service.backgroundVideo)
+                            setVideoErrors(prev => new Set(prev).add(index))
+                          }}
+                          onLoadedData={() => {
+                            setVideoErrors(prev => {
+                              const newSet = new Set(prev)
+                              newSet.delete(index)
+                              return newSet
+                            })
+                          }}
+                        >
+                          <source src={service.backgroundVideo} type="video/mp4" />
+                        </video>
+                      ) : (
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      )}
+                    </div>
                   <div className="p-8">
                     <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
                       {service.title}
@@ -133,8 +165,9 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
                       {service.description}
                     </p>
                   </div>
-                </div>
-              ))}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
