@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultValuePropositionData } fr
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import ValuePropositionEditor from '@/components/admin/editors/ValuePropositionEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface ValuePropositionProps {
   pageSlug?: string
@@ -140,9 +141,10 @@ export default function ValueProposition({ pageSlug = 'home' }: ValueProposition
 
                   {/* Description (Right) */}
                   <div className="lg:col-span-8">
-                    <p className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light max-w-4xl">
-                      {value.description}
-                    </p>
+                    <p 
+                      className="text-xl md:text-2xl text-slate-300 leading-relaxed font-light max-w-4xl"
+                      dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(value.description) }}
+                    />
                   </div>
                 </div>
               ))}

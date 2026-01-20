@@ -14,6 +14,7 @@ import { getSectionContent, saveSectionContent, defaultWhyUsData } from '@/lib/a
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import WhyUsEditor from '@/components/admin/editors/WhyUsEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface WhyUsProps {
   pageSlug?: string
@@ -102,9 +103,10 @@ export default function WhyUs({ pageSlug = 'home' }: WhyUsProps) {
 
                   {/* Description + Link (Right) */}
                   <div className="lg:col-span-8">
-                    <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light mb-8 max-w-3xl">
-                      {item.description}
-                    </p>
+                    <p 
+                      className="text-xl md:text-2xl text-slate-700 leading-relaxed font-light mb-8 max-w-3xl"
+                      dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(item.description) }}
+                    />
                     {item.linkText && item.linkUrl && (
                       <Link
                         href={item.linkUrl}

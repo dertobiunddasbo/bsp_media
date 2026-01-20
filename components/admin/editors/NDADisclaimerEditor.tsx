@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { NDADisclaimerData } from '@/lib/types'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 
 interface NDADisclaimerEditorProps {
   sectionKey: string
@@ -79,12 +80,7 @@ export default function NDADisclaimerEditor({
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
           value={data.title || ''}
           onEditorChange={(text: string) => setData({ ...data, title: text })}
-          init={{
-            height: 150,
-            menubar: false,
-            plugins: ['advlist', 'autolink', 'lists', 'link'],
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright',
-          }}
+          init={getTinyMCEConfig(150)}
         />
       </div>
 
@@ -123,12 +119,7 @@ export default function NDADisclaimerEditor({
                 apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
                 value={item.description}
                 onEditorChange={(text: string) => updateItem(index, 'description', text)}
-                init={{
-                  height: 150,
-                  menubar: false,
-                  plugins: ['advlist', 'autolink', 'lists', 'link'],
-                  toolbar: 'undo redo | bold italic | alignleft aligncenter alignright',
-                }}
+                init={getTinyMCEConfig(150)}
               />
             </div>
           ))}

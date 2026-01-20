@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 import { TrustSectionData } from '@/lib/types'
 
 interface TrustSectionEditorProps {
@@ -74,13 +76,17 @@ export default function TrustSectionEditor({
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Untertitel
         </label>
-        <textarea
-          value={data.subtitle || ''}
-          onChange={(e) => setData({ ...data, subtitle: e.target.value })}
-          rows={2}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-          placeholder="Erfahren in der Zusammenarbeit..."
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Untertitel (HTML erlaubt)
+          </label>
+          <Editor
+            apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
+            value={data.subtitle || ''}
+            onEditorChange={(text: string) => setData({ ...data, subtitle: text })}
+            init={getTinyMCEConfig(120)}
+          />
+        </div>
       </div>
 
       <div>

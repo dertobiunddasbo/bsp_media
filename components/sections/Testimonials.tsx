@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultTestimonialData } from '@
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import TestimonialsEditor from '@/components/admin/editors/TestimonialsEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface TestimonialsProps {
   pageSlug?: string
@@ -120,9 +121,10 @@ export default function Testimonials({ pageSlug = 'home' }: TestimonialsProps) {
                     >
                       <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H8c0-1.1.9-2 2-2V8zm16 0c-3.3 0-6 2.7-6 6v10h10V14h-6c0-1.1.9-2 2-2V8z" />
                     </svg>
-                    <p className="text-slate-700 leading-relaxed font-light text-lg italic">
-                      "{testimonial.quote}"
-                    </p>
+                    <p 
+                      className="text-slate-700 leading-relaxed font-light text-lg italic"
+                      dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(`"${testimonial.quote}"`) }}
+                    />
                   </div>
 
                   {/* Author */}

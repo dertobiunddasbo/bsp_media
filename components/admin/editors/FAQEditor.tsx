@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 import { FAQData } from '@/lib/types'
 
 interface FAQEditorProps {
@@ -118,13 +120,17 @@ export default function FAQEditor({
                   placeholder="Frage"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
                 />
-                <textarea
-                  value={item.answer}
-                  onChange={(e) => updateItem(index, 'answer', e.target.value)}
-                  placeholder="Antwort"
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-                />
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Antwort (HTML erlaubt)
+                  </label>
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
+                    value={item.answer}
+                    onEditorChange={(text: string) => updateItem(index, 'answer', text)}
+                    init={getTinyMCEConfig(200)}
+                  />
+                </div>
               </div>
             </div>
           ))}

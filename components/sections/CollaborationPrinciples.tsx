@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultCollaborationPrinciplesDa
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import CollaborationPrinciplesEditor from '@/components/admin/editors/CollaborationPrinciplesEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface CollaborationPrinciplesProps {
   pageSlug?: string
@@ -97,9 +98,10 @@ export default function CollaborationPrinciples({ pageSlug = 'home' }: Collabora
                   <h3 className="text-xl font-semibold text-slate-900 mb-6 group-hover:text-accent transition-colors leading-tight">
                     {principle.title}
                   </h3>
-                  <p className="text-slate-800 leading-relaxed text-base font-light">
-                    {principle.description}
-                  </p>
+                  <p 
+                    className="text-slate-800 leading-relaxed text-base font-light"
+                    dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(principle.description) }}
+                  />
 
                   <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${principle.gradient} rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { AboutData } from '@/lib/types'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 
 interface AboutEditorProps {
   sectionKey: string
@@ -97,12 +98,7 @@ export default function AboutEditor({
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
           value={data.text1 || ''}
           onEditorChange={(text: string) => setData({ ...data, text1: text })}
-          init={{
-            height: 200,
-            menubar: false,
-            plugins: ['advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code'],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | code',
-          }}
+          init={getTinyMCEConfig(200)}
         />
       </div>
 
@@ -114,12 +110,7 @@ export default function AboutEditor({
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
           value={data.text2 || ''}
           onEditorChange={(text: string) => setData({ ...data, text2: text })}
-          init={{
-            height: 200,
-            menubar: false,
-            plugins: ['advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code'],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | code',
-          }}
+          init={getTinyMCEConfig(200)}
         />
       </div>
 
@@ -131,12 +122,7 @@ export default function AboutEditor({
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
           value={data.text3 || ''}
           onEditorChange={(text: string) => setData({ ...data, text3: text })}
-          init={{
-            height: 200,
-            menubar: false,
-            plugins: ['advlist', 'autolink', 'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code'],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | code',
-          }}
+          init={getTinyMCEConfig(200)}
         />
       </div>
 

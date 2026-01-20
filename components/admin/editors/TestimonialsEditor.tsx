@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 import { TestimonialData } from '@/lib/types'
 
 interface TestimonialsEditorProps {
@@ -132,13 +134,17 @@ export default function TestimonialsEditor({
                   placeholder="Unternehmen"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
                 />
-                <textarea
-                  value={item.quote}
-                  onChange={(e) => updateItem(index, 'quote', e.target.value)}
-                  placeholder="Zitat"
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-                />
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Zitat (HTML erlaubt)
+                  </label>
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
+                    value={item.quote}
+                    onEditorChange={(text: string) => updateItem(index, 'quote', text)}
+                    init={getTinyMCEConfig(150)}
+                  />
+                </div>
                 <input
                   type="number"
                   min="1"

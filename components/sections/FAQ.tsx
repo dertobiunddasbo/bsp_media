@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultFAQData } from '@/lib/api
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import FAQEditor from '@/components/admin/editors/FAQEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface FAQProps {
   pageSlug?: string
@@ -125,9 +126,10 @@ export default function FAQ({ pageSlug = 'home' }: FAQProps) {
                     }`}
                   >
                     <div className="px-6 py-5 border-t border-gray-100">
-                      <p className="text-slate-700 leading-relaxed font-light">
-                        {item.answer}
-                      </p>
+                      <p 
+                        className="text-slate-700 leading-relaxed font-light"
+                        dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(item.answer) }}
+                      />
                     </div>
                   </div>
                 </div>

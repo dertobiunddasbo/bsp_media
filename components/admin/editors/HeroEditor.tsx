@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useEditMode } from '@/contexts/EditModeContext'
+import { Editor } from '@tinymce/tinymce-react'
 import ImageUpload from '@/components/ImageUpload'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 
 interface HeroData {
   badge?: string
@@ -103,14 +105,13 @@ export default function HeroEditor({
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Untertitel
+          Untertitel (HTML erlaubt)
         </label>
-        <textarea
+        <Editor
+          apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
           value={data.subtitle || ''}
-          onChange={(e) => setData({ ...data, subtitle: e.target.value })}
-          rows={4}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-          placeholder="Wir bringen Ihre Strategie..."
+          onEditorChange={(text: string) => setData({ ...data, subtitle: text })}
+          init={getTinyMCEConfig(150)}
         />
       </div>
 

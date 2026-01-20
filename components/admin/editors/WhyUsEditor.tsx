@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 import { useEditMode } from '@/contexts/EditModeContext'
 import { WhyUsData } from '@/lib/types'
 
@@ -155,13 +157,17 @@ export default function WhyUsEditor({
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   Beschreibung
                 </label>
-                <textarea
-                  value={item.description}
-                  onChange={(e) => updateItem(index, 'description', e.target.value)}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
-                  placeholder="Hinter bsp media steckt ein Team..."
-                />
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Beschreibung (HTML erlaubt)
+                  </label>
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
+                    value={item.description}
+                    onEditorChange={(text: string) => updateItem(index, 'description', text)}
+                    init={getTinyMCEConfig(150)}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">

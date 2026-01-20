@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Editor } from '@tinymce/tinymce-react'
+import { getTinyMCEConfig } from '@/lib/tinymce-config'
 import { ValuePropositionData } from '@/lib/types'
 
 interface ValuePropositionEditorProps {
@@ -101,13 +103,17 @@ export default function ValuePropositionEditor({
                 placeholder="Titel"
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-accent focus:border-transparent"
               />
-              <textarea
-                value={value.description}
-                onChange={(e) => updateValue(index, 'description', e.target.value)}
-                placeholder="Beschreibung"
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-accent focus:border-transparent"
-              />
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  Beschreibung (HTML erlaubt)
+                </label>
+                <Editor
+                  apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY || 'no-api-key'}
+                  value={value.description}
+                  onEditorChange={(text: string) => updateValue(index, 'description', text)}
+                  init={getTinyMCEConfig(150)}
+                />
+              </div>
               <input
                 type="text"
                 value={value.gradient}

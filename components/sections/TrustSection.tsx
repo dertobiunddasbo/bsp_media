@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultTrustSectionData } from '
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import TrustSectionEditor from '@/components/admin/editors/TrustSectionEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface TrustSectionProps {
   pageSlug?: string

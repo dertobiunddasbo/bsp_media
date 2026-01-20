@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultLeistungenData } from '@/
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import LeistungenEditor from '@/components/admin/editors/LeistungenEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface LeistungenProps {
   pageSlug?: string
@@ -161,9 +162,10 @@ export default function Leistungen({ pageSlug = 'home' }: LeistungenProps) {
                     <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-slate-700 leading-relaxed font-light">
-                      {service.description}
-                    </p>
+                    <p 
+                      className="text-slate-700 leading-relaxed font-light"
+                      dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(service.description) }}
+                    />
                   </div>
                   </div>
                 )

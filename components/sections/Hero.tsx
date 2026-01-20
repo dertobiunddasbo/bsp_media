@@ -13,6 +13,7 @@ import { getSectionContent, saveSectionContent, defaultHeroData } from '@/lib/ap
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import HeroEditor from '@/components/admin/editors/HeroEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface HeroProps {
   pageSlug?: string
@@ -255,9 +256,10 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 </h1>
               )}
               {data.subtitle && (
-                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-20 leading-relaxed font-light max-w-3xl mx-auto px-4">
-                  {data.subtitle}
-                </p>
+                <p 
+                  className="text-base sm:text-lg md:text-xl text-white/90 mb-20 leading-relaxed font-light max-w-3xl mx-auto px-4"
+                  dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(data.subtitle) }}
+                />
               )}
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 {pageSlug !== 'home' ? (
