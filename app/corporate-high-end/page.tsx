@@ -8,7 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
-import Testimonials from '@/components/sections/Testimonials'
+// import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
 
@@ -277,7 +277,7 @@ function CorporateHighEndPageContent() {
         </div>
       </section>
 
-      <Testimonials pageSlug="corporate-high-end" />
+      {/* <Testimonials pageSlug="corporate-high-end" /> */} {/* TODO: Später wieder einbauen */}
       <FAQ pageSlug="corporate-high-end" />
 
       <Footer />

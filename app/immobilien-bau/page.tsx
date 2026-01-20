@@ -8,7 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
-import Testimonials from '@/components/sections/Testimonials'
+// import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
 
@@ -251,7 +251,7 @@ function ImmobilienBauPageContent() {
         </div>
       </section>
 
-      <Testimonials pageSlug="immobilien-bau" />
+      {/* <Testimonials pageSlug="immobilien-bau" /> */} {/* TODO: Später wieder einbauen */}
       <FAQ pageSlug="immobilien-bau" />
 
       <Footer />

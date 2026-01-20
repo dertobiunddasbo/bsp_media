@@ -8,7 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
-import Testimonials from '@/components/sections/Testimonials'
+// import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
 
@@ -297,7 +297,7 @@ function MittelstandPageContent() {
         </div>
       </section>
 
-      <Testimonials pageSlug="mittelstand" />
+      {/* <Testimonials pageSlug="mittelstand" /> */} {/* TODO: Später wieder einbauen */}
       <FAQ pageSlug="mittelstand" />
 
       <Footer />

@@ -12,7 +12,7 @@ import ValueProposition from '@/components/sections/ValueProposition'
 import Leistungen from '@/components/sections/Leistungen'
 import CasesSection from '@/components/CasesSection'
 import WhyUs from '@/components/sections/WhyUs'
-import Testimonials from '@/components/sections/Testimonials'
+// import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import About from '@/components/sections/About'
 import Footer from '@/components/sections/Footer'
@@ -30,7 +30,7 @@ function HomeContent() {
       <ValueProposition />
       <TrustSection />
       <WhyUs pageSlug="home" />
-      <Testimonials pageSlug="home" />
+      {/* <Testimonials pageSlug="home" /> */} {/* TODO: Später wieder einbauen */}
       <FAQ pageSlug="home" />
       <About pageSlug="home" />
       <Footer />
