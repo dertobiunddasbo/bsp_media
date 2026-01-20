@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { processTinyMCEHtml } from '@/lib/html-utils'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -156,7 +157,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-8">
             <div 
               className="prose prose-lg max-w-none text-xl text-gray-700 leading-relaxed font-light"
-              dangerouslySetInnerHTML={{ __html: caseData.description }}
+              dangerouslySetInnerHTML={{ __html: processTinyMCEHtml(caseData.description, true) }}
             />
           </div>
         </section>

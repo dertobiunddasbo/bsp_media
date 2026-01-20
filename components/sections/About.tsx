@@ -12,6 +12,7 @@ import { getSectionContent, saveSectionContent, defaultAboutData } from '@/lib/a
 import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import AboutEditor from '@/components/admin/editors/AboutEditor'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface AboutProps {
   pageSlug?: string
@@ -100,13 +101,13 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
                 )}
                 <div className="space-y-8 text-lg text-gray-600 leading-relaxed font-extralight">
                   {data.text1 && (
-                    <p dangerouslySetInnerHTML={{ __html: data.text1 }} />
+                    <p dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(data.text1) }} />
                   )}
                   {data.text2 && (
-                    <p dangerouslySetInnerHTML={{ __html: data.text2 }} />
+                    <p dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(data.text2) }} />
                   )}
                   {data.text3 && (
-                    <p dangerouslySetInnerHTML={{ __html: data.text3 }} />
+                    <p dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(data.text3) }} />
                   )}
                 </div>
                 <div className="grid grid-cols-3 gap-8 mt-16 pt-12 border-t border-gray-200">

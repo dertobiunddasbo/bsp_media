@@ -13,6 +13,7 @@ import EditableSection from '@/components/shared/EditableSection'
 import EditModal from '@/components/shared/EditModal'
 import NDADisclaimerEditor from '@/components/admin/editors/NDADisclaimerEditor'
 import Link from 'next/link'
+import { decodeHtmlEntities } from '@/lib/html-utils'
 
 interface NDADisclaimerProps {
   pageSlug?: string
@@ -90,7 +91,7 @@ export default function NDADisclaimer({ pageSlug = 'home' }: NDADisclaimerProps)
               {data.title && (
                 <h2 
                   className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6 tracking-tight"
-                  dangerouslySetInnerHTML={{ __html: data.title.replace(/className=/g, 'class=') }}
+                  dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(data.title.replace(/className=/g, 'class=')) }}
                 />
               )}
             </div>
@@ -106,7 +107,7 @@ export default function NDADisclaimer({ pageSlug = 'home' }: NDADisclaimerProps)
                   <h3 className="text-xl font-semibold text-white mb-4">
                     {item.title}
                   </h3>
-                  <p className="text-gray-300 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: item.description }} />
+                  <p className="text-gray-300 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(item.description) }} />
                 </div>
               ))}
             </div>
