@@ -50,3 +50,11 @@ body {
   }
 }
 
+/* Vimeo Player Overlay Fix */
+.vimeo-container {
+  position: relative;
+  overflow: hidden;
+}.vimeo-container iframe {
+  position: relative;
+  z-index: 1;
+}

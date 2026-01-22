@@ -3,62 +3,62 @@
     "id": 7996,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/996.a1777ac600d01d3c.js"
+      "static/chunks/7996.7b524ca743b36cc0.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/AboutEditor": {
     "id": 2542,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/542.4535fa6240a85e14.js"
+      "static/chunks/2542.4dda6fdcbefdbe75.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/CollaborationPrinciplesEditor": {
     "id": 1217,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/217.5e633aa3bf65fe87.js"
+      "static/chunks/1217.86ff36022cb65b12.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/FooterEditor": {
     "id": 1937,
     "files": [
-      "static/chunks/937.a395287a3042e560.js"
+      "static/chunks/1937.7ed4466500085576.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/HeroEditor": {
     "id": 1323,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/323.5d53e36a40538bea.js"
+      "static/chunks/1323.799c5525a6f8821a.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/LeistungenEditor": {
     "id": 5379,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/379-72d19aa465320889.js"
+      "static/chunks/5379-f5aac5c6be136434.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/NDADisclaimerEditor": {
     "id": 6553,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/601.edfdb54bbf83470b.js"
+      "static/chunks/6601.72c35fd63d913cad.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/TrustSectionEditor": {
     "id": 9874,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/874.813ac5953cac7b6a.js"
+      "static/chunks/9874.67c038cbb34eeae9.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/ValuePropositionEditor": {
     "id": 6580,
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
-      "static/chunks/580.5ea78dd41022cd88.js"
+      "static/chunks/6580.24058685496a7b0c.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/WhyUsEditor": {
@@ -66,6 +66,27 @@
     "files": [
       "static/chunks/247-fdb1c7f99888dc99.js",
       "static/chunks/368.bc2e14750649f630.js"
+    ]
+  },
+  "app/admin/pages/[slug]/page.tsx -> @/components/admin/editors/FAQEditor": {
+    "id": 5022,
+    "files": [
+      "static/chunks/247-fdb1c7f99888dc99.js",
+      "static/chunks/5022.721c87cbc94042fe.js"
+    ]
+  },
+  "app/admin/pages/[slug]/page.tsx -> @/components/admin/editors/HeroEditor": {
+    "id": 1323,
+    "files": [
+      "static/chunks/247-fdb1c7f99888dc99.js",
+      "static/chunks/1323.799c5525a6f8821a.js"
+    ]
+  },
+  "app/admin/pages/[slug]/page.tsx -> @/components/admin/editors/TestimonialsEditor": {
+    "id": 2426,
+    "files": [
+      "static/chunks/247-fdb1c7f99888dc99.js",
+      "static/chunks/2426.d6af2344f9de8628.js"
     ]
   }
 }

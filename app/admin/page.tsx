@@ -50,6 +50,13 @@ export default function AdminDashboard() {
       href: '/admin/content',
       color: 'bg-purple-500',
     },
+    {
+      title: 'Landing Pages',
+      count: 4,
+      icon: '📄',
+      href: '/admin/pages',
+      color: 'bg-pink-500',
+    },
   ]
 
   return (

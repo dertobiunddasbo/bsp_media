@@ -183,10 +183,10 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
                 }
                 
                 return (
-                  <div key={video.id} className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                  <div key={video.id} className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden vimeo-container">
                     {video.video_type === 'vimeo' ? (
                       <iframe
-                        src={`https://player.vimeo.com/video/${getVimeoId(video.video_url)}`}
+                        src={`https://player.vimeo.com/video/${getVimeoId(video.video_url)}?title=0&byline=0&portrait=0&badge=0&autopause=1&transparent=1&controls=0`}
                         className="w-full h-full"
                         allow="autoplay; fullscreen; picture-in-picture"
                         allowFullScreen

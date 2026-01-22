@@ -1,5 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { decodeHtmlEntitiesServer } from '@/lib/html-utils'
+
+/**
+ * Recursively decodes HTML entities in an object
+ * Handles strings, arrays, and nested objects
+ */
+function decodeHtmlEntitiesInObject(obj: any): any {
+  if (typeof obj === 'string') {
+    return decodeHtmlEntitiesServer(obj)
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => decodeHtmlEntitiesInObject(item))
+  }
+  
+  if (obj && typeof obj === 'object') {
+    const decoded: any = {}
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        decoded[key] = decodeHtmlEntitiesInObject(obj[key])
+      }
+    }
+    return decoded
+  }
+  
+  return obj
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -42,13 +69,15 @@ export async function GET(
     if (error) throw error
 
     if (sectionKey) {
-      return NextResponse.json(data?.[0]?.content || null)
+      const content = data?.[0]?.content || null
+      const decodedContent = content ? decodeHtmlEntitiesInObject(content) : null
+      return NextResponse.json(decodedContent)
     }
 
-    // Convert to object
+    // Convert to object and decode HTML entities
     const sectionsObj: Record<string, any> = {}
     data?.forEach((section) => {
-      sectionsObj[section.section_key] = section.content
+      sectionsObj[section.section_key] = decodeHtmlEntitiesInObject(section.content)
     })
 
     return NextResponse.json(sectionsObj)

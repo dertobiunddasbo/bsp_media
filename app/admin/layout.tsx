@@ -64,6 +64,7 @@ export default function AdminLayout({
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/cases', label: 'Cases', icon: '🎬' },
     { href: '/admin/content', label: 'Content', icon: '📝' },
+    { href: '/admin/pages', label: 'Landing Pages', icon: '📄' },
   ]
 
   return (

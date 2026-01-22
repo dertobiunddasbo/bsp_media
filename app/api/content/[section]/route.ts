@@ -1,10 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { decodeHtmlEntitiesServer } from '@/lib/html-utils'
 
 // Force dynamic rendering - prevents any caching at build time or runtime
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 export const fetchCache = 'force-no-store'
+
+/**
+ * Recursively decodes HTML entities in an object
+ * Handles strings, arrays, and nested objects
+ */
+function decodeHtmlEntitiesInObject(obj: any): any {
+  if (typeof obj === 'string') {
+    return decodeHtmlEntitiesServer(obj)
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => decodeHtmlEntitiesInObject(item))
+  }
+  
+  if (obj && typeof obj === 'object') {
+    const decoded: any = {}
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        decoded[key] = decodeHtmlEntitiesInObject(obj[key])
+      }
+    }
+    return decoded
+  }
+  
+  return obj
+}
 
 export async function GET(
   request: NextRequest,
@@ -105,7 +132,13 @@ export async function GET(
       timestamp: new Date().toISOString()
     })
 
-    return NextResponse.json(data?.content || null, {
+    // Decode HTML entities in the content before returning
+    let processedContent = data?.content || null
+    if (processedContent && typeof processedContent === 'object') {
+      processedContent = decodeHtmlEntitiesInObject(processedContent)
+    }
+
+    return NextResponse.json(processedContent, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
         'Pragma': 'no-cache',

@@ -8,6 +8,44 @@ async function resolveParams(params: Promise<{ slug: string }> | { slug: string 
   return await Promise.resolve(params)
 }
 
+// Helper function to get or create page
+async function getOrCreatePage(slug: string) {
+  const pageDisplayNames: Record<string, string> = {
+    'mittelstand': 'Mittelstand',
+    'immobilien-bau': 'Immobilien & Bau',
+    'corporate-high-end': 'Corporate High-End',
+    'agentur-partner': 'Agentur & Partner',
+  }
+
+  let { data: page, error: pageError } = await supabaseAdmin
+    .from('pages')
+    .select('id')
+    .eq('slug', slug)
+    .single()
+
+  // If page doesn't exist, create it
+  if (pageError || !page) {
+    const { data: newPage, error: createError } = await supabaseAdmin
+      .from('pages')
+      .insert({
+        slug,
+        title: pageDisplayNames[slug] || slug,
+        description: `Landing Page für ${pageDisplayNames[slug] || slug}`,
+        is_active: true,
+      })
+      .select('id')
+      .single()
+
+    if (createError || !newPage) {
+      throw new Error('Failed to create page')
+    }
+    
+    return newPage
+  }
+  
+  return page
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> | { slug: string } }
@@ -24,19 +62,8 @@ export async function GET(
       )
     }
 
-    // Get page by slug
-    const { data: page, error: pageError } = await supabaseAdmin
-      .from('pages')
-      .select('id')
-      .eq('slug', slug)
-      .single()
-
-    if (pageError || !page) {
-      return NextResponse.json(
-        { error: 'Page not found' },
-        { status: 404 }
-      )
-    }
+    // Get or create page by slug
+    const page = await getOrCreatePage(slug)
 
     const { searchParams } = new URL(request.url)
     const sectionKey = searchParams.get('section_key')
@@ -82,19 +109,8 @@ export async function POST(
       )
     }
 
-    // Get page by slug
-    const { data: page, error: pageError } = await supabaseAdmin
-      .from('pages')
-      .select('id')
-      .eq('slug', slug)
-      .single()
-
-    if (pageError || !page) {
-      return NextResponse.json(
-        { error: 'Page not found' },
-        { status: 404 }
-      )
-    }
+    // Get or create page by slug
+    const page = await getOrCreatePage(slug)
 
     const body = await request.json()
     const { section_key, content, order_index } = body
@@ -156,19 +172,8 @@ export async function PUT(
       )
     }
 
-    // Get page by slug
-    const { data: page, error: pageError } = await supabaseAdmin
-      .from('pages')
-      .select('id')
-      .eq('slug', slug)
-      .single()
-
-    if (pageError || !page) {
-      return NextResponse.json(
-        { error: 'Page not found' },
-        { status: 404 }
-      )
-    }
+    // Get or create page by slug
+    const page = await getOrCreatePage(slug)
 
     const body = await request.json()
     const { section_key, content, order_index } = body
@@ -228,19 +233,8 @@ export async function DELETE(
       )
     }
 
-    // Get page by slug
-    const { data: page, error: pageError } = await supabaseAdmin
-      .from('pages')
-      .select('id')
-      .eq('slug', slug)
-      .single()
-
-    if (pageError || !page) {
-      return NextResponse.json(
-        { error: 'Page not found' },
-        { status: 404 }
-      )
-    }
+    // Get or create page by slug
+    const page = await getOrCreatePage(slug)
 
     const { searchParams } = new URL(request.url)
     const sectionKey = searchParams.get('section_key')
