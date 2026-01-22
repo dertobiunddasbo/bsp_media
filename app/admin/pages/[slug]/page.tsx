@@ -9,15 +9,18 @@ import Link from 'next/link'
 const HeroEditor = dynamic(() => import('@/components/admin/editors/HeroEditor'), { ssr: false })
 const FAQEditor = dynamic(() => import('@/components/admin/editors/FAQEditor'), { ssr: false })
 const TestimonialsEditor = dynamic(() => import('@/components/admin/editors/TestimonialsEditor'), { ssr: false })
+const LeistungenEditor = dynamic(() => import('@/components/admin/editors/LeistungenEditor'), { ssr: false })
 
 const sectionNames: Record<string, string> = {
   hero: 'Hero Section',
+  leistungen: 'Leistungen',
   faq: 'FAQ',
   testimonials: 'Testimonials',
 }
 
 const editorComponents: Record<string, any> = {
   hero: HeroEditor,
+  leistungen: LeistungenEditor,
   faq: FAQEditor,
   testimonials: TestimonialsEditor,
 }
