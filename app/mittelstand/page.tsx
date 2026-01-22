@@ -8,6 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
+import Leistungen from '@/components/sections/Leistungen'
 // import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
@@ -162,81 +163,8 @@ function MittelstandPageContent() {
         </div>
       </section>
 
-      {/* Adapted Services Section */}
-      <section className="py-32 bg-slate-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
-              Maßgeschneiderte Lösungen für den Mittelstand
-            </div>
-            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
-              Unsere Leistungen
-            </h2>
-            <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
-              Individuelle Lösungen, branchenabhängig und auf Ihre Bedürfnisse zugeschnitten
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
-            {/* Service 1 */}
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Employer Branding & Recruiting"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Imagefilm & Positionierung
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Professionelle Imagefilme, die Ihre Unternehmenswerte und Ihre Positionierung klar kommunizieren. Maßgeschneidert für Ihre Branche.
-                </p>
-              </div>
-            </div>
-
-            {/* Service 2 */}
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Image & Produkt"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Employer Branding & Recruiting
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Der Kampf um Fachkräfte wird mit Emotionen gewonnen. Wir porträtieren Ihr Team authentisch und zeigen, was Ihr Unternehmen ausmacht.
-                </p>
-              </div>
-            </div>
-
-            {/* Service 3 */}
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Social Media & LinkedIn"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Multi-Channel Content
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Website, Social Media, LinkedIn, Messe – wir bespielen alle Kanäle mit konsistenter Botschaft. Aus einem Drehtag Content für Wochen.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Leistungen Section */}
+      <Leistungen pageSlug="mittelstand" />
 
       {/* Trust Section */}
       <section className="py-32 bg-white">

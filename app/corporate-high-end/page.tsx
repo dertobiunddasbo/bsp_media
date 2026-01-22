@@ -8,6 +8,7 @@ import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import ContactForm from '@/components/ContactForm'
 import Hero from '@/components/sections/Hero'
+import Leistungen from '@/components/sections/Leistungen'
 // import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import Link from 'next/link'
@@ -146,78 +147,8 @@ function CorporateHighEndPageContent() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-32 bg-slate-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <div className="inline-block mb-6 px-5 py-2 bg-gray-100 rounded-full text-sm font-light text-slate-700">
-              Corporate Communication
-            </div>
-            <h2 className="text-5xl md:text-6xl font-semibold text-slate-900 mb-8 tracking-tight">
-              Unsere Leistungen
-            </h2>
-            <p className="text-xl text-slate-700 max-w-2xl mx-auto font-light leading-relaxed">
-              High-End Lösungen für komplexe Corporate-Strukturen
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Corporate Newsroom"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Corporate Newsroom
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Der wöchentliche CEO-Cast oder das Schicht-Update. Wir produzieren TV-Formate mit 24h-Turnaround. Damit Ihre Belegschaft informiert ist, bevor der Flurfunk startet.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Interne Kommunikation"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Interne Kommunikation
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Transformation, Change-Prozesse und strategische Kommunikation. Wir begleiten komplexe Corporate-Projekte mit diskreter Professionalität.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Industrial Documentary"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4 group-hover:text-accent transition-colors">
-                  Industrial Documentary
-                </h3>
-                <p className="text-slate-700 leading-relaxed font-light">
-                  Authentische Einblicke in Werk, Logistik und Change-Prozesse. Wir begleiten Transformation da, wo sie passiert – ohne den Betrieb zu stören.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Leistungen Section */}
+      <Leistungen pageSlug="corporate-high-end" />
 
       {/* Trust Section - Corporate Clients */}
       <section className="py-32 bg-white">
