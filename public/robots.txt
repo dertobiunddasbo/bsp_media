@@ -1,0 +1,14 @@
+# robots.txt für bsp_media
+
+# Erlaube allen Suchmaschinen das Crawling
+User-agent: *
+Allow: /
+
+# Blockiere den Zugriff auf Admin-Bereiche und interne Dateien
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.next/
+
+# Sitemap
+Sitemap: https://bsp-media.de/sitemap.xml
