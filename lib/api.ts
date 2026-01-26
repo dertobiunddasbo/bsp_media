@@ -182,6 +182,7 @@ export const defaultAboutData: AboutData = {
   text1: 'Hinter <span class="font-light text-slate-900">bsp media</span> steckt ein Team aus Filmemachern mit Wurzeln im Dokumentarfilm und Extremsport. Deshalb kommen wir klar, wo andere Agenturen umdrehen: In Hochsicherheitsbereichen, an Produktionsbändern oder in komplexen Betriebsstrukturen. Wir inszenieren nicht – wir finden die Story dort, wo sie entsteht.',
   text2: '',
   text3: '',
+  image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80',
 }
 
 export const defaultTrustSectionData: TrustSectionData = {

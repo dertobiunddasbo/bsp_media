@@ -128,7 +128,7 @@ export default function About({ pageSlug = 'home' }: AboutProps) {
               <div className="relative order-1 lg:order-2">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl group">
                   <img
-                    src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"
+                    src={data.image || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80"}
                     alt="Professionelle Filmproduktion Hamburg"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />

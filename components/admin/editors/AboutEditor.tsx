@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
+import ImageUpload from '@/components/ImageUpload'
 import { AboutData } from '@/lib/types'
 import { getTinyMCEConfig } from '@/lib/tinymce-config'
 
@@ -124,6 +125,56 @@ export default function AboutEditor({
           onEditorChange={(text: string) => setData({ ...data, text3: text })}
           init={getTinyMCEConfig(200)}
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          Bild
+        </label>
+        
+        {/* Upload Component */}
+        <div className="mb-4">
+          <ImageUpload
+            onUploadComplete={(url, path) => {
+              setData({ ...data, image: url })
+            }}
+            onUploadError={(error) => {
+              console.error('Upload error:', error)
+              alert(`Upload fehlgeschlagen: ${error}`)
+            }}
+            folder="pictures"
+            maxSize={10}
+            buttonText="Bild hochladen"
+          />
+        </div>
+
+        {/* URL Input als Alternative */}
+        <div className="mb-2">
+          <label className="block text-xs font-medium text-gray-600 mb-1">
+            Oder URL eingeben:
+          </label>
+          <input
+            type="text"
+            value={data.image || ''}
+            onChange={(e) => setData({ ...data, image: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+            placeholder="https://..."
+          />
+        </div>
+
+        {/* Preview */}
+        {data.image && (
+          <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+            <img
+              src={data.image}
+              alt="Preview"
+              className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
+        )}
       </div>
 
       <div className="pt-4 border-t border-gray-200">
