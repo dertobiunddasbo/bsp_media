@@ -31,6 +31,7 @@ async function getCases(): Promise<Case[]> {
     const { data, error } = await supabaseAdmin
       .from('cases')
       .select('id, title, description, category, slug, client, image_url')
+      .order('sort_order', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false })
 
     if (error) {

@@ -10,6 +10,7 @@ interface Case {
   description: string
   image: string
   client: string
+  slug?: string
 }
 
 export default function CasesSection() {
@@ -100,7 +101,7 @@ export default function CasesSection() {
           {cases.map((caseItem, index) => (
             <Link
               key={caseItem.id}
-              href={`/portfolio/${caseItem.id}`}
+              href={`/portfolio/${caseItem.slug || caseItem.id}`}
               className="group relative bg-white overflow-hidden transition-all duration-500"
             >
               {/* Image Container - Großformatig */}

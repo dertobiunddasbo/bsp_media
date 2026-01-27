@@ -9,6 +9,7 @@ export async function GET() {
     const { data, error } = await supabaseAdmin
       .from('cases')
       .select('*')
+      .order('sort_order', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false })
 
     if (error) throw error
