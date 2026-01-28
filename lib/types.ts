@@ -128,6 +128,18 @@ export interface Case {
   slug: string
 }
 
+export interface TeamMember {
+  id: string
+  name: string
+  position: string
+  email?: string
+  phone?: string
+  image_url?: string
+  order_index: number
+  created_at?: string
+  updated_at?: string
+}
+
 // ============================================
 // Page Types
 // ============================================

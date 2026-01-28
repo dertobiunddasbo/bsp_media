@@ -1,11 +1,28 @@
 import { notFound } from 'next/navigation'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
+import CaseMedia from '@/components/CaseMedia'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { processTinyMCEHtml } from '@/lib/html-utils'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
+
+async function getAllCases() {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('cases')
+      .select('id, slug, title')
+      .order('sort_order', { ascending: true, nullsFirst: false })
+      .order('created_at', { ascending: false })
+
+    if (error) throw error
+    return data || []
+  } catch (error) {
+    console.error('Error fetching all cases:', error)
+    return []
+  }
+}
 
 async function getCase(slug: string) {
   try {
@@ -101,7 +118,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const resolvedParams = await Promise.resolve(params)
   const slug = resolvedParams.slug
   
-  const caseData = await getCase(slug)
+  const [caseData, allCases] = await Promise.all([getCase(slug), getAllCases()])
 
   if (!caseData) {
     notFound()
@@ -109,6 +126,13 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
 
   const images = caseData.case_images || []
   const videos = caseData.case_videos || []
+
+  // Find current case index and navigation
+  const currentIndex = allCases.findIndex(
+    (c) => c.id === caseData.id || c.slug === caseData.slug
+  )
+  const prevCase = currentIndex > 0 ? allCases[currentIndex - 1] : null
+  const nextCase = currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null
   
   console.log(`[CasePage] Rendering case:`, {
     title: caseData.title,
@@ -163,84 +187,79 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
         </section>
       )}
 
-      {/* Videos Section */}
-      {videos.length > 0 && (
-        <section className="py-16 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-            <h2 className="text-3xl font-semibold text-dark mb-8">Videos</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videos.map((video: any) => {
-                // Extract Vimeo video ID
-                const getVimeoId = (url: string) => {
-                  const match = url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/)
-                  return match ? match[1] : url.split('/').pop()
-                }
-                
-                // Extract YouTube video ID
-                const getYouTubeId = (url: string) => {
-                  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
-                  return match ? match[1] : null
-                }
-                
-                return (
-                  <div key={video.id} className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden vimeo-container">
-                    {video.video_type === 'vimeo' ? (
-                      <iframe
-                        src={`https://player.vimeo.com/video/${getVimeoId(video.video_url)}?title=0&byline=0&portrait=0&badge=0&autopause=1&transparent=1&controls=0`}
-                        className="w-full h-full"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                        title={video.title || caseData.title}
-                      />
-                    ) : video.video_type === 'youtube' ? (
-                      <iframe
-                        src={`https://www.youtube.com/embed/${getYouTubeId(video.video_url) || video.video_url.split('v=')[1]?.split('&')[0]}`}
-                        className="w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title={video.title || caseData.title}
-                      />
-                    ) : (
-                      <video
-                        src={video.video_url}
-                        controls
-                        className="w-full h-full object-cover"
-                        title={video.title || caseData.title}
-                      />
-                    )}
-                    {video.title && (
-                      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4">
-                        <p className="font-semibold">{video.title}</p>
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-      )}
+      <CaseMedia videos={videos} images={images} caseTitle={caseData.title} />
 
-      {/* Images Section */}
-      {images.length > 0 && (
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
-            <h2 className="text-3xl font-semibold text-dark mb-8">Bilder</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {images.map((image: any) => (
-                <div key={image.id} className="relative aspect-[4/3] rounded-lg overflow-hidden group">
-                  <img
-                    src={image.image_url}
-                    alt={caseData.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
+      {/* Navigation */}
+      <section className="py-16 bg-slate-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              {prevCase ? (
+                <a
+                  href={`/portfolio/${prevCase.slug || prevCase.id}`}
+                  className="group flex items-center gap-4 text-dark hover:text-accent transition-colors"
+                >
+                  <svg
+                    className="w-6 h-6 group-hover:-translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                  <div>
+                    <div className="text-sm text-gray-500 font-light mb-1">Vorheriges Projekt</div>
+                    <div className="text-lg font-semibold">{prevCase.title}</div>
+                  </div>
+                </a>
+              ) : (
+                <div></div>
+              )}
+            </div>
+
+            <a
+              href="/portfolio"
+              className="px-6 py-3 bg-white border border-gray-300 rounded-lg text-dark hover:bg-gray-50 transition-colors font-semibold"
+            >
+              Zurück zur Übersicht
+            </a>
+
+            <div className="flex-1 flex justify-end">
+              {nextCase ? (
+                <a
+                  href={`/portfolio/${nextCase.slug || nextCase.id}`}
+                  className="group flex items-center gap-4 text-dark hover:text-accent transition-colors text-right"
+                >
+                  <div>
+                    <div className="text-sm text-gray-500 font-light mb-1">Nächstes Projekt</div>
+                    <div className="text-lg font-semibold">{nextCase.title}</div>
+                  </div>
+                  <svg
+                    className="w-6 h-6 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </a>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <Footer />
     </main>

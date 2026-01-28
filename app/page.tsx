@@ -15,6 +15,7 @@ import WhyUs from '@/components/sections/WhyUs'
 // import Testimonials from '@/components/sections/Testimonials' // TODO: Später wieder einbauen
 import FAQ from '@/components/sections/FAQ'
 import About from '@/components/sections/About'
+import Team from '@/components/sections/Team'
 import Footer from '@/components/sections/Footer'
 
 function HomeContent() {
@@ -33,6 +34,7 @@ function HomeContent() {
       {/* <Testimonials pageSlug="home" /> */} {/* TODO: Später wieder einbauen */}
       <FAQ pageSlug="home" />
       <About pageSlug="home" />
+      <Team pageSlug="home" />
       <Footer />
     </main>
   )

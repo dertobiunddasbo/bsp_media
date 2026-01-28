@@ -9,15 +9,25 @@ export default function Header() {
   const pathname = usePathname()
 
   const scrollToSection = (id: string) => {
+    setIsMenuOpen(false)
     if (pathname !== '/') {
+      // Navigate to home page with hash, then scroll after page loads
       window.location.href = `/#${id}`
       return
     }
+    // If already on home page, scroll directly
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      // If element not found, try after a short delay (for dynamic content)
+      setTimeout(() => {
+        const delayedElement = document.getElementById(id)
+        if (delayedElement) {
+          delayedElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
     }
-    setIsMenuOpen(false)
   }
 
   return (
