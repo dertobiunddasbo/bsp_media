@@ -97,24 +97,35 @@ export default function VideoLightbox({
         ) : videoType === 'youtube' ? (
           (() => {
             const youtubeId = getYouTubeId(videoUrl)
+            console.log('[VideoLightbox] YouTube URL:', videoUrl, 'Extracted ID:', youtubeId)
+            
             if (!youtubeId) {
               console.error('Could not extract YouTube ID from URL:', videoUrl)
               return (
                 <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white">
                   <div className="text-center">
                     <p className="text-lg mb-2">Ungültige YouTube-URL</p>
-                    <p className="text-sm text-gray-400">{videoUrl}</p>
+                    <p className="text-sm text-gray-400 break-all px-4">{videoUrl}</p>
                   </div>
                 </div>
               )
             }
+            
+            // YouTube embed URL - mute=0 allows sound, but autoplay might not work in all browsers
+            // For better compatibility, we can use mute=1 for autoplay
+            const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&modestbranding=1&rel=0&enablejsapi=1&playsinline=1&controls=1`
+            console.log('[VideoLightbox] YouTube Embed URL:', embedUrl)
+            
             return (
               <iframe
-                src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0`}
+                key={youtubeId} // Force re-render if ID changes
+                src={embedUrl}
                 className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 title={title || 'Video'}
+                frameBorder="0"
+                loading="eager"
               />
             )
           })()

@@ -105,21 +105,31 @@ export default function CaseMedia({ videos, images, caseTitle }: CaseMediaProps)
                   ) : video.video_type === 'youtube' ? (
                     (() => {
                       const youtubeId = getYouTubeId(video.video_url)
+                      console.log('[CaseMedia] YouTube URL:', video.video_url, 'Extracted ID:', youtubeId, 'Type:', video.video_type)
+                      
                       if (!youtubeId) {
                         console.error('Could not extract YouTube ID from URL:', video.video_url)
                         return (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white text-sm">
-                            Ungültige YouTube-URL
+                          <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white text-sm p-4">
+                            <div className="text-center">
+                              <p>Ungültige YouTube-URL</p>
+                              <p className="text-xs mt-2 break-all">{video.video_url}</p>
+                            </div>
                           </div>
                         )
                       }
+                      // Use YouTube thumbnail instead of iframe for better performance
+                      const thumbnailUrl = `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
                       return (
-                        <iframe
-                          src={`https://www.youtube.com/embed/${youtubeId}?controls=0&modestbranding=1&rel=0`}
-                          className="w-full h-full pointer-events-none"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          title={video.title || caseTitle}
+                        <img
+                          src={thumbnailUrl}
+                          alt={video.title || 'YouTube Video'}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            // Fallback to lower quality thumbnail
+                            const target = e.target as HTMLImageElement
+                            target.src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
+                          }}
                         />
                       )
                     })()
