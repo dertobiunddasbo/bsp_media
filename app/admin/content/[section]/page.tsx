@@ -14,6 +14,7 @@ const CollaborationPrinciplesEditor = dynamic(() => import('@/components/admin/e
 const NDADisclaimerEditor = dynamic(() => import('@/components/admin/editors/NDADisclaimerEditor'), { ssr: false })
 const FooterEditor = dynamic(() => import('@/components/admin/editors/FooterEditor'), { ssr: false })
 const WhyUsEditor = dynamic(() => import('@/components/admin/editors/WhyUsEditor'), { ssr: false })
+const TeamEditor = dynamic(() => import('@/components/admin/editors/TeamEditor'), { ssr: false })
 
 const sectionNames: Record<string, string> = {
   hero: 'Hero Section',
@@ -27,6 +28,7 @@ const sectionNames: Record<string, string> = {
   testimonials: 'Testimonials',
   faq: 'FAQ',
   whyus: 'Warum wir',
+  team: 'Team',
 }
 
 const editorComponents: Record<string, any> = {
@@ -39,6 +41,7 @@ const editorComponents: Record<string, any> = {
   nda: NDADisclaimerEditor,
   footer: FooterEditor,
   whyus: WhyUsEditor,
+  team: TeamEditor,
 }
 
 export default function ContentEditPage() {
@@ -56,10 +59,18 @@ export default function ContentEditPage() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`/api/admin/content?section=${section}`)
-      if (!res.ok) throw new Error('Failed to fetch content')
-      const result = await res.json()
-      setData(result?.content || null)
+      // Team uses a different API endpoint
+      if (section === 'team') {
+        const res = await fetch('/api/admin/team')
+        if (!res.ok) throw new Error('Failed to fetch team members')
+        const members = await res.json()
+        setData(members || [])
+      } else {
+        const res = await fetch(`/api/admin/content?section=${section}`)
+        if (!res.ok) throw new Error('Failed to fetch content')
+        const result = await res.json()
+        setData(result?.content || null)
+      }
     } catch (error) {
       console.error('Error fetching content:', error)
     } finally {
@@ -69,6 +80,14 @@ export default function ContentEditPage() {
 
   const handleSave = async (newData: any) => {
     try {
+      // Team uses a different save mechanism (handled by TeamEditor itself)
+      if (section === 'team') {
+        // TeamEditor handles saving internally, so we just reload
+        alert('Gespeichert!')
+        router.push('/admin/content')
+        return
+      }
+
       const res = await fetch('/api/admin/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -142,12 +161,24 @@ export default function ContentEditPage() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-        <EditorComponent
-          sectionKey={section}
-          pageSlug="home"
-          initialData={data}
-          onSave={handleSave}
-        />
+        {section === 'team' ? (
+          <TeamEditor
+            sectionKey={section}
+            pageSlug="home"
+            initialMembers={data || []}
+            onSave={async () => {
+              await fetchData()
+              handleSave(null)
+            }}
+          />
+        ) : (
+          <EditorComponent
+            sectionKey={section}
+            pageSlug="home"
+            initialData={data}
+            onSave={handleSave}
+          />
+        )}
       </div>
     </div>
   )

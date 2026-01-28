@@ -22,6 +22,7 @@ const sectionNames: Record<string, string> = {
   testimonials: 'Testimonials',
   faq: 'FAQ',
   whyus: 'Warum wir',
+  team: 'Team',
 }
 
 export default function ContentPage() {
