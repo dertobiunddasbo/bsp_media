@@ -36,8 +36,35 @@ export default function VideoLightbox({
   }
 
   const getYouTubeId = (url: string) => {
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
-    return match ? match[1] : null
+    if (!url) return null
+    
+    // Try different YouTube URL patterns
+    // Standard: https://www.youtube.com/watch?v=VIDEO_ID
+    let match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Short URL: https://youtu.be/VIDEO_ID
+    match = url.match(/youtu\.be\/([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Embed URL: https://www.youtube.com/embed/VIDEO_ID
+    match = url.match(/youtube\.com\/embed\/([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Try to extract from query string
+    try {
+      const urlObj = new URL(url)
+      const videoId = urlObj.searchParams.get('v')
+      if (videoId) return videoId
+    } catch (e) {
+      // Not a valid URL, try manual extraction
+    }
+    
+    // Last resort: try to find video ID pattern (11 characters)
+    match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/)
+    if (match) return match[1]
+    
+    return null
   }
 
   return (
@@ -68,13 +95,29 @@ export default function VideoLightbox({
             title={title || 'Video'}
           />
         ) : videoType === 'youtube' ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${getYouTubeId(videoUrl) || videoUrl.split('v=')[1]?.split('&')[0]}?autoplay=1`}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title={title || 'Video'}
-          />
+          (() => {
+            const youtubeId = getYouTubeId(videoUrl)
+            if (!youtubeId) {
+              console.error('Could not extract YouTube ID from URL:', videoUrl)
+              return (
+                <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white">
+                  <div className="text-center">
+                    <p className="text-lg mb-2">Ungültige YouTube-URL</p>
+                    <p className="text-sm text-gray-400">{videoUrl}</p>
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <iframe
+                src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0`}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={title || 'Video'}
+              />
+            )
+          })()
         ) : (
           <video
             src={videoUrl}

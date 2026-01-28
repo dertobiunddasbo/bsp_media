@@ -32,8 +32,35 @@ export default function CaseMedia({ videos, images, caseTitle }: CaseMediaProps)
   }
 
   const getYouTubeId = (url: string) => {
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
-    return match ? match[1] : null
+    if (!url) return null
+    
+    // Try different YouTube URL patterns
+    // Standard: https://www.youtube.com/watch?v=VIDEO_ID
+    let match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Short URL: https://youtu.be/VIDEO_ID
+    match = url.match(/youtu\.be\/([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Embed URL: https://www.youtube.com/embed/VIDEO_ID
+    match = url.match(/youtube\.com\/embed\/([^&\n?#]+)/)
+    if (match) return match[1]
+    
+    // Try to extract from query string
+    try {
+      const urlObj = new URL(url)
+      const videoId = urlObj.searchParams.get('v')
+      if (videoId) return videoId
+    } catch (e) {
+      // Not a valid URL, try manual extraction
+    }
+    
+    // Last resort: try to find video ID pattern (11 characters)
+    match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/)
+    if (match) return match[1]
+    
+    return null
   }
 
   return (
@@ -76,13 +103,26 @@ export default function CaseMedia({ videos, images, caseTitle }: CaseMediaProps)
                       title={video.title || caseTitle}
                     />
                   ) : video.video_type === 'youtube' ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/${getYouTubeId(video.video_url) || video.video_url.split('v=')[1]?.split('&')[0]}?controls=0`}
-                      className="w-full h-full pointer-events-none"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title={video.title || caseTitle}
-                    />
+                    (() => {
+                      const youtubeId = getYouTubeId(video.video_url)
+                      if (!youtubeId) {
+                        console.error('Could not extract YouTube ID from URL:', video.video_url)
+                        return (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white text-sm">
+                            Ungültige YouTube-URL
+                          </div>
+                        )
+                      }
+                      return (
+                        <iframe
+                          src={`https://www.youtube.com/embed/${youtubeId}?controls=0&modestbranding=1&rel=0`}
+                          className="w-full h-full pointer-events-none"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          title={video.title || caseTitle}
+                        />
+                      )
+                    })()
                   ) : (
                     <video
                       src={video.video_url}
