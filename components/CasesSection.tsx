@@ -133,7 +133,7 @@ export default function CasesSection() {
                     {caseItem.title}
                   </h3>
                   <p className="text-white/90 leading-relaxed font-light text-base md:text-lg mb-6 line-clamp-2">
-                    {caseItem.description}
+                    {caseItem.description ? caseItem.description.replace(/<[^>]*>/g, '').trim() : ''}
                   </p>
                   <div className="flex items-center text-white font-light text-sm md:text-base">
                     <span>Zum Projekt</span>

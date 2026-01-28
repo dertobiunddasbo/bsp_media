@@ -44,9 +44,15 @@ export default function CaseForm({ initialData }: CaseFormProps) {
 
   useEffect(() => {
     if (initialData) {
+      // If description doesn't start with <p>, wrap it for TinyMCE
+      let description = initialData.description || ''
+      if (description && !description.trim().startsWith('<')) {
+        description = `<p>${description}</p>`
+      }
+      
       setFormData({
         title: initialData.title || '',
-        description: initialData.description || '',
+        description: description,
         category: initialData.category || 'Corporate',
         slug: initialData.slug || '',
         client: initialData.client || '',
@@ -236,7 +242,23 @@ export default function CaseForm({ initialData }: CaseFormProps) {
         </label>
         <TinyMCEEditor
           value={formData.description}
-          onChange={(content: string) => setFormData({ ...formData, description: content })}
+          onChange={(content: string) => {
+            // Remove wrapping <p> tags if content is just a single paragraph
+            // TinyMCE automatically wraps content in <p> tags, but we want to store clean content
+            let cleanedContent = content.trim()
+            
+            // Only remove outer <p> tags if the content is a single paragraph
+            // Pattern: <p>content</p> (with optional attributes)
+            // Use [\s\S] instead of . with s flag for multiline matching
+            const singleParagraphMatch = cleanedContent.match(/^<p[^>]*>([\s\S]*?)<\/p>\s*$/)
+            if (singleParagraphMatch) {
+              // It's a single paragraph, remove the wrapping tags
+              cleanedContent = singleParagraphMatch[1].trim()
+            }
+            // If it's multiple paragraphs or other HTML, keep it as is
+            
+            setFormData({ ...formData, description: cleanedContent })
+          }}
         />
       </div>
 
