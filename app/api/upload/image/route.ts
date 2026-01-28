@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+// Increase body size limit for file uploads (max 10MB)
+export const maxDuration = 30
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
@@ -19,11 +23,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate file size (max 10MB)
-    const maxSize = 10 * 1024 * 1024 // 10MB
+    // Validate file size (max 4MB to avoid Vercel/Next.js body size limits)
+    // Vercel has a 4.5MB limit for request bodies on Hobby plan
+    const maxSize = 4 * 1024 * 1024 // 4MB
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: 'File size exceeds 10MB limit' },
+        { 
+          success: false,
+          error: `Datei ist zu groß. Maximum: 4MB. Ihre Datei: ${(file.size / 1024 / 1024).toFixed(2)}MB. Bitte komprimieren Sie das Bild oder verwenden Sie eine kleinere Datei.` 
+        },
         { status: 400 }
       )
     }
@@ -84,8 +92,23 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('Upload error:', error)
+    
+    // Handle 413 errors specifically
+    if (error.message?.includes('413') || error.message?.includes('Content Too Large')) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Datei ist zu groß für den Upload. Bitte verwenden Sie eine Datei unter 4MB oder komprimieren Sie das Bild.' 
+        },
+        { status: 413 }
+      )
+    }
+    
     return NextResponse.json(
-      { error: error.message || 'Upload failed' },
+      { 
+        success: false,
+        error: error.message || 'Upload fehlgeschlagen' 
+      },
       { status: 500 }
     )
   }

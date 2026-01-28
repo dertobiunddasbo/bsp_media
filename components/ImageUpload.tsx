@@ -16,7 +16,7 @@ export default function ImageUpload({
   onUploadComplete,
   onUploadError,
   folder = 'pictures',
-  maxSize = 10,
+  maxSize = 4, // Reduced to 4MB to avoid Vercel body size limits
   className = '',
   buttonText = 'Bild hochladen',
   accept = 'image/jpeg,image/jpg,image/png,image/gif,image/webp',
@@ -74,6 +74,11 @@ export default function ImageUpload({
         method: 'POST',
         body: formData,
       })
+
+      // Handle 413 errors specifically
+      if (response.status === 413) {
+        throw new Error('Datei ist zu groß. Bitte verwenden Sie eine Datei unter 4MB oder komprimieren Sie das Bild.')
+      }
 
       // Check if response is JSON before parsing
       const contentType = response.headers.get('content-type')
@@ -187,6 +192,8 @@ export default function ImageUpload({
       {!error && !preview && (
         <p className="mt-2 text-xs text-gray-500">
           Max. {maxSize}MB • JPEG, PNG, GIF, WebP
+          <br />
+          <span className="text-gray-400">Tipp: Komprimieren Sie große Bilder vor dem Upload</span>
         </p>
       )}
     </div>
