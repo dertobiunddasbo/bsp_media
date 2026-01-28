@@ -78,7 +78,7 @@ export default function VideoLightbox({
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+          className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
           aria-label="Schließen"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,61 +86,64 @@ export default function VideoLightbox({
           </svg>
         </button>
 
-        {videoType === 'vimeo' ? (
-          <iframe
-            src={`https://player.vimeo.com/video/${getVimeoId(videoUrl)}?autoplay=1&title=0&byline=0&portrait=0`}
-            className="w-full h-full"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-            title={title || 'Video'}
-          />
-        ) : videoType === 'youtube' ? (
-          (() => {
-            const youtubeId = getYouTubeId(videoUrl)
-            console.log('[VideoLightbox] YouTube URL:', videoUrl, 'Extracted ID:', youtubeId)
-            
-            if (!youtubeId) {
-              console.error('Could not extract YouTube ID from URL:', videoUrl)
-              return (
-                <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white">
-                  <div className="text-center">
-                    <p className="text-lg mb-2">Ungültige YouTube-URL</p>
-                    <p className="text-sm text-gray-400 break-all px-4">{videoUrl}</p>
+        {/* Video Container - ensure it's interactive */}
+        <div className="w-full h-full relative z-0">
+          {videoType === 'vimeo' ? (
+            <iframe
+              src={`https://player.vimeo.com/video/${getVimeoId(videoUrl)}?autoplay=1&title=0&byline=0&portrait=0`}
+              className="w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              title={title || 'Video'}
+            />
+          ) : videoType === 'youtube' ? (
+            (() => {
+              const youtubeId = getYouTubeId(videoUrl)
+              console.log('[VideoLightbox] YouTube URL:', videoUrl, 'Extracted ID:', youtubeId)
+              
+              if (!youtubeId) {
+                console.error('Could not extract YouTube ID from URL:', videoUrl)
+                return (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white">
+                    <div className="text-center">
+                      <p className="text-lg mb-2">Ungültige YouTube-URL</p>
+                      <p className="text-sm text-gray-400 break-all px-4">{videoUrl}</p>
+                    </div>
                   </div>
-                </div>
+                )
+              }
+              
+              // YouTube embed URL with full controls enabled
+              const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&modestbranding=1&rel=0&enablejsapi=1&playsinline=1&controls=1&showinfo=0`
+              console.log('[VideoLightbox] YouTube Embed URL:', embedUrl)
+              
+              return (
+                <iframe
+                  key={youtubeId} // Force re-render if ID changes
+                  src={embedUrl}
+                  className="w-full h-full pointer-events-auto"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  title={title || 'Video'}
+                  frameBorder="0"
+                  loading="eager"
+                />
               )
-            }
-            
-            // YouTube embed URL - mute=0 allows sound, but autoplay might not work in all browsers
-            // For better compatibility, we can use mute=1 for autoplay
-            const embedUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0&modestbranding=1&rel=0&enablejsapi=1&playsinline=1&controls=1`
-            console.log('[VideoLightbox] YouTube Embed URL:', embedUrl)
-            
-            return (
-              <iframe
-                key={youtubeId} // Force re-render if ID changes
-                src={embedUrl}
-                className="w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                title={title || 'Video'}
-                frameBorder="0"
-                loading="eager"
-              />
-            )
-          })()
-        ) : (
-          <video
-            src={videoUrl}
-            controls
-            autoPlay
-            className="w-full h-full object-contain"
-            title={title || 'Video'}
-          />
-        )}
+            })()
+          ) : (
+            <video
+              src={videoUrl}
+              controls
+              autoPlay
+              className="w-full h-full object-contain"
+              title={title || 'Video'}
+            />
+          )}
+        </div>
 
+        {/* Title overlay - only show when video is paused/not playing, with pointer-events-none to not block interaction */}
         {title && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pointer-events-none z-10">
             <h3 className="text-white text-xl font-semibold">{title}</h3>
           </div>
         )}
