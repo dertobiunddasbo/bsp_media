@@ -75,6 +75,13 @@ export default function ImageUpload({
         body: formData,
       })
 
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        const text = await response.text()
+        throw new Error(`Server-Fehler: ${response.status} ${response.statusText}. ${text.substring(0, 100)}`)
+      }
+
       const data = await response.json()
 
       if (!response.ok || !data.success) {
@@ -84,9 +91,17 @@ export default function ImageUpload({
       onUploadComplete?.(data.url, data.path)
       setError(null)
     } catch (err: any) {
-      const errorMsg = err.message || 'Upload fehlgeschlagen'
-      setError(errorMsg)
-      onUploadError?.(errorMsg)
+      // Handle JSON parse errors specifically
+      if (err instanceof SyntaxError) {
+        const errorMsg = 'Server-Antwort konnte nicht gelesen werden. Bitte prüfe die Supabase Storage-Konfiguration.'
+        setError(errorMsg)
+        onUploadError?.(errorMsg)
+        console.error('JSON Parse Error:', err)
+      } else {
+        const errorMsg = err.message || 'Upload fehlgeschlagen'
+        setError(errorMsg)
+        onUploadError?.(errorMsg)
+      }
     } finally {
       setUploading(false)
     }

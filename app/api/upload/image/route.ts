@@ -52,8 +52,21 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Supabase storage error:', error)
+      // Check if bucket exists
+      if (error.message?.includes('Bucket not found') || error.message?.includes('not found')) {
+        return NextResponse.json(
+          { 
+            success: false,
+            error: 'Storage Bucket "public_assets" existiert nicht. Bitte erstelle den Bucket in Supabase Storage.' 
+          },
+          { status: 500 }
+        )
+      }
       return NextResponse.json(
-        { error: `Upload failed: ${error.message}` },
+        { 
+          success: false,
+          error: `Upload fehlgeschlagen: ${error.message || 'Unbekannter Fehler'}` 
+        },
         { status: 500 }
       )
     }
