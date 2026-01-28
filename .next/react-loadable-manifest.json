@@ -10,7 +10,7 @@
     "id": 2542,
     "files": [
       "static/chunks/247-4cc22f477cebd8e6.js",
-      "static/chunks/2542.202526d88f753db3.js"
+      "static/chunks/2542.6c279b650f0ebc07.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/CollaborationPrinciplesEditor": {
@@ -30,14 +30,14 @@
     "id": 1323,
     "files": [
       "static/chunks/247-4cc22f477cebd8e6.js",
-      "static/chunks/1323.3ef646057532eb1e.js"
+      "static/chunks/1323.260c5163ba73f10b.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/LeistungenEditor": {
     "id": 5379,
     "files": [
       "static/chunks/247-4cc22f477cebd8e6.js",
-      "static/chunks/5379-ba936697ba3bac78.js"
+      "static/chunks/5379-55c6ebed46e5520a.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/NDADisclaimerEditor": {
@@ -51,7 +51,7 @@
     "id": 9183,
     "files": [
       "static/chunks/3662-c85dbf21d34e3ffd.js",
-      "static/chunks/9183.4667e86bc9c78883.js"
+      "static/chunks/9183.f240e4cd1cea1f66.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/TrustSectionEditor": {
@@ -86,14 +86,14 @@
     "id": 1323,
     "files": [
       "static/chunks/247-4cc22f477cebd8e6.js",
-      "static/chunks/1323.3ef646057532eb1e.js"
+      "static/chunks/1323.260c5163ba73f10b.js"
     ]
   },
   "app/admin/pages/[slug]/page.tsx -> @/components/admin/editors/LeistungenEditor": {
     "id": 5379,
     "files": [
       "static/chunks/247-4cc22f477cebd8e6.js",
-      "static/chunks/5379-ba936697ba3bac78.js"
+      "static/chunks/5379-55c6ebed46e5520a.js"
     ]
   },
   "app/admin/pages/[slug]/page.tsx -> @/components/admin/editors/TestimonialsEditor": {
