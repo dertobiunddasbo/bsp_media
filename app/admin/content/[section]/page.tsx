@@ -59,12 +59,27 @@ export default function ContentEditPage() {
 
   const fetchData = async () => {
     try {
-      // Team uses a different API endpoint
+      // Team uses a different API endpoint for members, but also needs content for title
       if (section === 'team') {
-        const res = await fetch('/api/admin/team')
-        if (!res.ok) throw new Error('Failed to fetch team members')
-        const members = await res.json()
-        setData(members || [])
+        const [membersRes, contentRes] = await Promise.all([
+          fetch('/api/admin/team'),
+          fetch('/api/admin/content?section=team'),
+        ])
+        
+        if (!membersRes.ok) throw new Error('Failed to fetch team members')
+        const members = await membersRes.json()
+        
+        let content = null
+        if (contentRes.ok) {
+          const contentData = await contentRes.json()
+          content = contentData?.content || null
+        }
+        
+        // Combine members and content
+        setData({
+          members: members || [],
+          content: content || { badge: 'Unser Team', title: 'Die Menschen hinter bsp media' },
+        })
       } else {
         const res = await fetch(`/api/admin/content?section=${section}`)
         if (!res.ok) throw new Error('Failed to fetch content')
@@ -165,7 +180,8 @@ export default function ContentEditPage() {
           <TeamEditor
             sectionKey={section}
             pageSlug="home"
-            initialMembers={data || []}
+            initialMembers={data?.members || []}
+            initialData={data?.content || { badge: 'Unser Team', title: 'Die Menschen hinter bsp media' }}
             onSave={async () => {
               await fetchData()
               handleSave(null)

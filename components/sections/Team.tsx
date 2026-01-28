@@ -16,26 +16,54 @@ interface TeamProps {
   pageSlug?: string
 }
 
+interface TeamData {
+  badge?: string
+  title?: string
+}
+
 export default function Team({ pageSlug = 'home' }: TeamProps) {
   const { isEditMode, editingSection } = useEditMode()
   const [members, setMembers] = useState<TeamMember[]>([])
+  const [teamData, setTeamData] = useState<TeamData>({
+    badge: 'Unser Team',
+    title: 'Die Menschen hinter bsp media',
+  })
   const [loading, setLoading] = useState(true)
 
   const loadMembers = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/team', {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
-      })
-      if (res.ok) {
-        const data = await res.json()
-        setMembers(data || [])
+      const [membersRes, contentRes] = await Promise.all([
+        fetch('/api/team', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        }),
+        fetch('/api/content/team', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        }),
+      ])
+
+      if (membersRes.ok) {
+        const membersData = await membersRes.json()
+        setMembers(membersData || [])
+      }
+
+      if (contentRes.ok) {
+        const content = await contentRes.json()
+        if (content) {
+          setTeamData({
+            badge: content.badge || 'Unser Team',
+            title: content.title || 'Die Menschen hinter bsp media',
+          })
+        }
       }
     } catch (error) {
-      console.error('Error loading team members:', error)
+      console.error('Error loading team data:', error)
     } finally {
       setLoading(false)
     }
@@ -69,12 +97,16 @@ export default function Team({ pageSlug = 'home' }: TeamProps) {
         <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
             <div className="text-center mb-16">
-              <div className="inline-block mb-6 px-5 py-2 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
-                Unser Team
-              </div>
-              <h2 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-6">
-                Die Menschen hinter bsp media
-              </h2>
+              {teamData.badge && (
+                <div className="inline-block mb-6 px-5 py-2 bg-accent/10 rounded-full text-sm font-light text-accent border border-accent/20">
+                  {teamData.badge}
+                </div>
+              )}
+              {teamData.title && (
+                <h2 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-6">
+                  {teamData.title}
+                </h2>
+              )}
             </div>
 
             {members.length === 0 ? (
@@ -146,6 +178,7 @@ export default function Team({ pageSlug = 'home' }: TeamProps) {
             sectionKey="team"
             pageSlug={pageSlug}
             initialMembers={members}
+            initialData={teamData}
             onSave={loadMembers}
           />
         </EditModal>

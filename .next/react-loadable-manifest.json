@@ -51,7 +51,7 @@
     "id": 9183,
     "files": [
       "static/chunks/3662-c85dbf21d34e3ffd.js",
-      "static/chunks/9183.abfec82116ac91dc.js"
+      "static/chunks/9183.35eb3163f953455a.js"
     ]
   },
   "app/admin/content/[section]/page.tsx -> @/components/admin/editors/TrustSectionEditor": {

@@ -7,10 +7,16 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
+interface TeamData {
+  badge?: string
+  title?: string
+}
+
 interface TeamEditorProps {
   sectionKey: string
   pageSlug: string
   initialMembers?: TeamMember[]
+  initialData?: TeamData
   onSave: () => Promise<void>
 }
 
@@ -122,9 +128,11 @@ export default function TeamEditor({
   sectionKey,
   pageSlug,
   initialMembers = [],
+  initialData = { badge: 'Unser Team', title: 'Die Menschen hinter bsp media' },
   onSave,
 }: TeamEditorProps) {
   const [members, setMembers] = useState<TeamMember[]>(initialMembers)
+  const [teamData, setTeamData] = useState<TeamData>(initialData)
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -233,6 +241,23 @@ export default function TeamEditor({
   const handleSave = async () => {
     setSaving(true)
     try {
+      // Save section title and badge
+      const saveContentRes = await fetch('/api/admin/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page_section: 'team',
+          content: {
+            badge: teamData.badge || 'Unser Team',
+            title: teamData.title || 'Die Menschen hinter bsp media',
+          },
+        }),
+      })
+
+      if (!saveContentRes.ok) {
+        throw new Error('Fehler beim Speichern der Section-Daten')
+      }
+
       // Save all members
       for (const member of members) {
         await updateMember(member.id, {
@@ -260,6 +285,38 @@ export default function TeamEditor({
 
   return (
     <div className="space-y-6">
+      {/* Section Title & Badge */}
+      <div className="border-b border-gray-200 pb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Section-Titel</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Badge (kleiner Text über dem Titel)
+            </label>
+            <input
+              type="text"
+              value={teamData.badge || ''}
+              onChange={(e) => setTeamData({ ...teamData, badge: e.target.value })}
+              placeholder="z.B. Unser Team"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Titel
+            </label>
+            <input
+              type="text"
+              value={teamData.title || ''}
+              onChange={(e) => setTeamData({ ...teamData, title: e.target.value })}
+              placeholder="z.B. Die Menschen hinter bsp media"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Team Members */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <label className="block text-sm font-semibold text-gray-700">
