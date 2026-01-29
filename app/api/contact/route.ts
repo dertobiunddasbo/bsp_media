@@ -72,8 +72,8 @@ ${message}
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@bsp-media.de'
 
     try {
-      // If RESEND_API_KEY is not set, log the email instead (for development)
-      if (!process.env.RESEND_API_KEY) {
+      const apiKey = process.env.RESEND_API_KEY?.trim()
+      if (!apiKey) {
         console.log('⚠️ RESEND_API_KEY nicht gesetzt. E-Mail wird nur geloggt:')
         console.log({
           to: recipientEmail,
@@ -89,8 +89,7 @@ ${message}
         })
       }
 
-      // Initialize Resend only when API key is available
-      const resend = new Resend(process.env.RESEND_API_KEY)
+      const resend = new Resend(apiKey)
       
       const htmlContent = `
         <h2>Neue Kontaktanfrage</h2>

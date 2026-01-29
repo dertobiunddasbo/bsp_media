@@ -30,7 +30,8 @@ export async function POST(request: NextRequest) {
     const recipientEmail = process.env.CONTACT_EMAIL || 'hallo@bsp-media.de'
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'noreply@bsp-media.de'
 
-    if (!process.env.RESEND_API_KEY) {
+    const apiKey = process.env.RESEND_API_KEY?.trim()
+    if (!apiKey) {
       console.log('⚠️ RESEND_API_KEY nicht gesetzt. Ideen-Check wird nur geloggt:', {
         to: recipientEmail,
         subject,
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const resend = new Resend(apiKey)
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: recipientEmail,

@@ -26,6 +26,7 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
   const [loading, setLoading] = useState(true)
   const [videoError, setVideoError] = useState(false)
   const [reloadAttempts, setReloadAttempts] = useState(0)
+  const [backgroundImageError, setBackgroundImageError] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -37,7 +38,7 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     title: '24 Stunden bis zur Klarheit: Wir prüfen Ihre Video-Idee.',
     subtitle: 'Schicken Sie uns Ihr Konzept oder Skript. Wir geben Ihnen innerhalb eines Werktages fachliches Feedback zu Story, Wirkung und Machbarkeit. Kostenlos, ehrlich und garantiert ohne Kaufzwang.',
     buttonText: 'Jetzt Idee einreichen – Antwort in 24h',
-    backgroundImage: defaultHeroData.backgroundImage,
+    backgroundImage: '', // Leer = Gradient-Fallback; Bild im Admin unter Hero hochladen/URL setzen
   }
 
   const loadData = async () => {
@@ -49,6 +50,7 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     console.log('[Hero] BackgroundVideo in loaded content:', (content as any)?.backgroundVideo)
     const fallback = pageSlug === 'ideen-check' ? ideenCheckHeroData : defaultHeroData
     setData(content || fallback)
+    setBackgroundImageError(false)
     console.log('[Hero] Data set to state:', content || defaultHeroData)
     setLoading(false)
   }
@@ -145,6 +147,11 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
   const videoUrl = (data as any).backgroundVideo
   const cacheBustUrl = videoUrl ? getVideoUrlWithCacheBust(videoUrl) : null
 
+  const rawBg = data.backgroundImage?.trim()
+  const defaultBg = pageSlug === 'ideen-check' ? '' : defaultHeroData.backgroundImage
+  const bgUrl = rawBg || defaultBg
+  const showGradientFallback = backgroundImageError || !bgUrl
+
   return (
     <>
       <EditableSection sectionKey="hero">
@@ -229,15 +236,26 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 />
                 Your browser does not support the video tag.
               </video>
-            ) : (
-              /* Fallback: Background Image with Parallax */
+            ) : showGradientFallback ? (
+              /* Fallback: Gradient wenn kein Bild oder Ladefehler (z. B. Unsplash 403) */
               <div
-                className="absolute inset-0 bg-cover bg-center scale-110"
+                className="absolute inset-0 bg-slate-800"
                 style={{
-                  backgroundImage: `url(${data.backgroundImage || defaultHeroData.backgroundImage})`,
-                  transform: `translateY(${scrollY * 0.5}px)`,
+                  background: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #0f172a 100%)',
+                  transform: `translateY(${scrollY * 0.3}px)`,
                 }}
               />
+            ) : (
+              /* Background Image mit onError-Fallback */
+              <>
+                <img
+                  src={bgUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover scale-110"
+                  style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+                  onError={() => setBackgroundImageError(true)}
+                />
+              </>
             )}
             <div className="absolute inset-0 bg-black/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
