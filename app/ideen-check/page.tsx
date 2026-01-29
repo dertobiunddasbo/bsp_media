@@ -187,7 +187,10 @@ function IdeenCheckContent() {
                       form.reset()
                     } else {
                       setFormStatus('error')
-                      setFormError(data.error || 'Fehler beim Senden.')
+                      const detail = data.resendMessage || data.details
+                      setFormError(
+                        data.error + (detail ? ` (${detail})` : '')
+                      )
                     }
                   } catch {
                     setFormStatus('error')

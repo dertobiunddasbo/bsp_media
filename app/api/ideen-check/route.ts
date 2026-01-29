@@ -64,8 +64,14 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Resend error (ideen-check):', error)
+      const message = error?.message || 'Unbekannter Fehler'
       return NextResponse.json(
-        { success: false, error: 'E-Mail konnte nicht gesendet werden.' },
+        {
+          success: false,
+          error: 'E-Mail konnte nicht gesendet werden.',
+          details: process.env.NODE_ENV === 'development' ? message : undefined,
+          resendMessage: message,
+        },
         { status: 500 }
       )
     }
