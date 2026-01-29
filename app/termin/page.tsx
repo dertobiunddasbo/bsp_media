@@ -27,7 +27,7 @@ export default function Termin() {
           {/* Google Calendar Appointment Scheduling */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <iframe
-              src="https://calendar.google.com/calendar/appointments/AcZssZ0TgmgttHE2Yauh2Mpj7GFdlFnIx_QluTZ5GfQ=?gv=true"
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0I-v1JEHkjkM71Nk86OIx_ffKCb5AQhmFFGqyiHYnRZJH_TTmj6BuhEnynhoQCAfL5aOIYcmEX?gv=true"
               style={{ border: 0 }}
               width="100%"
               height="600"
