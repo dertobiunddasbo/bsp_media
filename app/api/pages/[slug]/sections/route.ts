@@ -28,6 +28,40 @@ function decodeHtmlEntitiesInObject(obj: any): any {
   return obj
 }
 
+const LANDING_PAGE_SLUGS: Record<string, string> = {
+  'mittelstand': 'Mittelstand',
+  'immobilien-bau': 'Immobilien & Bau',
+  'corporate-high-end': 'Corporate High-End',
+  'agentur-partner': 'Agentur & Partner',
+  'ideen-check': '24h Ideen-Check',
+}
+
+async function getOrCreatePage(slug: string) {
+  const { data: page, error: pageError } = await supabaseAdmin
+    .from('pages')
+    .select('id')
+    .eq('slug', slug)
+    .single()
+
+  if (!pageError && page) return page
+
+  if (!LANDING_PAGE_SLUGS[slug]) return null
+
+  const { data: newPage, error: createError } = await supabaseAdmin
+    .from('pages')
+    .insert({
+      slug,
+      title: LANDING_PAGE_SLUGS[slug] || slug,
+      description: `Landing Page: ${LANDING_PAGE_SLUGS[slug] || slug}`,
+      is_active: true,
+    })
+    .select('id')
+    .single()
+
+  if (createError || !newPage) return null
+  return newPage
+}
+
 export const dynamic = 'force-dynamic'
 
 export async function GET(
@@ -38,16 +72,9 @@ export async function GET(
     // Handle both sync and async params (Next.js 15 compatibility)
     const resolvedParams = await Promise.resolve(params)
     const slug = resolvedParams.slug
-    
-    // Get page by slug
-    const { data: page, error: pageError } = await supabaseAdmin
-      .from('pages')
-      .select('id')
-      .eq('slug', slug)
-      .eq('is_active', true)
-      .single()
 
-    if (pageError || !page) {
+    const page = await getOrCreatePage(slug)
+    if (!page) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404 })
     }
 

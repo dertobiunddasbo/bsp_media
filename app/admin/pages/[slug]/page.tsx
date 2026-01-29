@@ -10,12 +10,18 @@ const HeroEditor = dynamic(() => import('@/components/admin/editors/HeroEditor')
 const FAQEditor = dynamic(() => import('@/components/admin/editors/FAQEditor'), { ssr: false })
 const TestimonialsEditor = dynamic(() => import('@/components/admin/editors/TestimonialsEditor'), { ssr: false })
 const LeistungenEditor = dynamic(() => import('@/components/admin/editors/LeistungenEditor'), { ssr: false })
+const IdeenCheckPromiseEditor = dynamic(() => import('@/components/admin/editors/IdeenCheckPromiseEditor'), { ssr: false })
+const IdeenCheckWhyEditor = dynamic(() => import('@/components/admin/editors/IdeenCheckWhyEditor'), { ssr: false })
+const IdeenCheckProductEditor = dynamic(() => import('@/components/admin/editors/IdeenCheckProductEditor'), { ssr: false })
 
 const sectionNames: Record<string, string> = {
   hero: 'Hero Section',
   leistungen: 'Leistungen',
   faq: 'FAQ',
   testimonials: 'Testimonials',
+  ideen_check_promise: 'Fair-Play Versprechen',
+  ideen_check_why: 'Warum wir das machen',
+  ideen_check_product: 'Produkt-Preview (Antwort-Beispiele)',
 }
 
 const editorComponents: Record<string, any> = {
@@ -23,6 +29,9 @@ const editorComponents: Record<string, any> = {
   leistungen: LeistungenEditor,
   faq: FAQEditor,
   testimonials: TestimonialsEditor,
+  ideen_check_promise: IdeenCheckPromiseEditor,
+  ideen_check_why: IdeenCheckWhyEditor,
+  ideen_check_product: IdeenCheckProductEditor,
 }
 
 interface PageSection {
@@ -39,6 +48,7 @@ const pageDisplayNames: Record<string, string> = {
   'immobilien-bau': 'Immobilien & Bau',
   'corporate-high-end': 'Corporate High-End',
   'agentur-partner': 'Agentur & Partner',
+  'ideen-check': '24h Ideen-Check',
 }
 
 export default function PageEditPage() {
@@ -130,10 +140,14 @@ export default function PageEditPage() {
   const displayName = pageDisplayNames[slug] || slug
   const existingSections = new Map(sections.map(s => [s.section_key, s]))
 
-  // Get all possible sections for landing pages
-  const allSections = Object.keys(sectionNames).map(key => ({
+  // Sections per page type: ideen-check has its own set
+  const ideenCheckSectionKeys = ['hero', 'ideen_check_promise', 'ideen_check_why', 'ideen_check_product']
+  const defaultSectionKeys = ['hero', 'leistungen', 'faq', 'testimonials']
+  const sectionKeysForPage = slug === 'ideen-check' ? ideenCheckSectionKeys : defaultSectionKeys
+
+  const allSections = sectionKeysForPage.map(key => ({
     key,
-    name: sectionNames[key],
+    name: sectionNames[key] ?? key,
     data: existingSections.get(key),
   }))
 

@@ -64,6 +64,13 @@ export default function Header() {
               Portfolio
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
             </Link>
+            <Link
+              href="/ideen-check"
+              className="text-dark hover:text-accent transition-all duration-300 font-light px-4 py-2 rounded-lg hover:bg-gray-50 relative group"
+            >
+              24h Ideen-Check
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+            </Link>
             <button
               onClick={() => scrollToSection('about')}
               className="text-dark hover:text-accent transition-all duration-300 font-light px-4 py-2 rounded-lg hover:bg-gray-50 relative group"
@@ -125,6 +132,13 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               Portfolio
+            </Link>
+            <Link
+              href="/ideen-check"
+              className="block w-full text-left text-dark hover:text-accent transition-colors font-light py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              24h Ideen-Check
             </Link>
             <button
               onClick={() => scrollToSection('about')}

@@ -33,6 +33,13 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const ideenCheckHeroData: HeroData = {
+    title: '24 Stunden bis zur Klarheit: Wir prüfen Ihre Video-Idee.',
+    subtitle: 'Schicken Sie uns Ihr Konzept oder Skript. Wir geben Ihnen innerhalb eines Werktages fachliches Feedback zu Story, Wirkung und Machbarkeit. Kostenlos, ehrlich und garantiert ohne Kaufzwang.',
+    buttonText: 'Jetzt Idee einreichen – Antwort in 24h',
+    backgroundImage: defaultHeroData.backgroundImage,
+  }
+
   const loadData = async () => {
     setLoading(true)
     console.log('[Hero] Loading data for pageSlug:', pageSlug)
@@ -40,7 +47,8 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
     console.log('[Hero] Loaded content:', content)
     console.log('[Hero] BackgroundImage in loaded content:', content?.backgroundImage)
     console.log('[Hero] BackgroundVideo in loaded content:', (content as any)?.backgroundVideo)
-    setData(content || defaultHeroData)
+    const fallback = pageSlug === 'ideen-check' ? ideenCheckHeroData : defaultHeroData
+    setData(content || fallback)
     console.log('[Hero] Data set to state:', content || defaultHeroData)
     setLoading(false)
   }
@@ -262,7 +270,17 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 />
               )}
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                {pageSlug !== 'home' ? (
+                {pageSlug === 'ideen-check' ? (
+                  <button
+                    onClick={() => scrollToSection('ideen-check-form')}
+                    className="group bg-accent text-white px-10 py-5 rounded-xl font-semibold text-lg hover:bg-opacity-90 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                  >
+                    {data.buttonText || 'Jetzt Idee einreichen – Antwort in 24h'}
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </button>
+                ) : pageSlug !== 'home' ? (
                   <>
                     <Link
                       href="/termin"

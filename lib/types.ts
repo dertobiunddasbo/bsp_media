@@ -118,6 +118,19 @@ export interface WhyUsData {
   }>
 }
 
+// 24h Ideen-Check Landing Page
+export interface IdeenCheckPromiseData {
+  items?: Array<{ title: string; text: string }>
+}
+
+export interface IdeenCheckWhyData {
+  text?: string
+}
+
+export interface IdeenCheckProductData {
+  items?: Array<{ type: string; label: string; example: string }>
+}
+
 export interface Case {
   id: string
   title: string

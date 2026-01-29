@@ -13,13 +13,14 @@ interface Page {
   updated_at?: string
 }
 
-const landingPageSlugs = ['mittelstand', 'immobilien-bau', 'corporate-high-end', 'agentur-partner']
+const landingPageSlugs = ['mittelstand', 'immobilien-bau', 'corporate-high-end', 'agentur-partner', 'ideen-check']
 
 const pageDisplayNames: Record<string, string> = {
   'mittelstand': 'Mittelstand',
   'immobilien-bau': 'Immobilien & Bau',
   'corporate-high-end': 'Corporate High-End',
   'agentur-partner': 'Agentur & Partner',
+  'ideen-check': '24h Ideen-Check',
 }
 
 export default function PagesPage() {
