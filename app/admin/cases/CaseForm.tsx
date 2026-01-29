@@ -371,10 +371,15 @@ export default function CaseForm({ initialData }: CaseFormProps) {
       const url = initialData ? `/api/admin/cases/${initialData.id}` : '/api/admin/cases'
       const method = initialData ? 'PUT' : 'POST'
 
+      // Strip wrapping <p> only when saving (avoids TinyMCE onChange loop in editor)
+      let descriptionToSave = formData.description.trim()
+      const singleP = descriptionToSave.match(/^<p[^>]*>([\s\S]*?)<\/p>\s*$/)
+      if (singleP) descriptionToSave = singleP[1].trim()
+
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, description: descriptionToSave }),
       })
 
       if (!res.ok) {
@@ -512,21 +517,8 @@ export default function CaseForm({ initialData }: CaseFormProps) {
         <TinyMCEEditor
           value={formData.description}
           onChange={(content: string) => {
-            // Remove wrapping <p> tags if content is just a single paragraph
-            // TinyMCE automatically wraps content in <p> tags, but we want to store clean content
-            let cleanedContent = content.trim()
-            
-            // Only remove outer <p> tags if the content is a single paragraph
-            // Pattern: <p>content</p> (with optional attributes)
-            // Use [\s\S] instead of . with s flag for multiline matching
-            const singleParagraphMatch = cleanedContent.match(/^<p[^>]*>([\s\S]*?)<\/p>\s*$/)
-            if (singleParagraphMatch) {
-              // It's a single paragraph, remove the wrapping tags
-              cleanedContent = singleParagraphMatch[1].trim()
-            }
-            // If it's multiple paragraphs or other HTML, keep it as is
-            
-            setFormData({ ...formData, description: cleanedContent })
+            // Store raw content to avoid React update loop (TinyMCE re-fires onChange if value changes)
+            setFormData((prev) => ({ ...prev, description: content }))
           }}
         />
       </div>

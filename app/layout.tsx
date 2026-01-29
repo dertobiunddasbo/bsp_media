@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   authors: [{ name: 'bsp media GmbH' }],
   creator: 'bsp media GmbH',
   publisher: 'bsp media GmbH',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bsp-media.de'),
+  // Must match the canonical domain (e.g. https://www.bsp-media.de) to avoid CORS when loading /logo.png
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.bsp-media.de'),
   openGraph: {
     type: 'website',
     locale: 'de_DE',
