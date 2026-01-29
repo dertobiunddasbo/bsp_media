@@ -37,6 +37,45 @@ export async function POST(
   }
 }
 
+/** PATCH: Update order of videos. Body: { order: string[] } – array of video ids in desired order */
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await request.json()
+    const { order } = body as { order: string[] }
+
+    if (!order || !Array.isArray(order) || order.length === 0) {
+      return NextResponse.json({ error: 'order array required' }, { status: 400 })
+    }
+
+    for (let i = 0; i < order.length; i++) {
+      const { error } = await supabaseAdmin
+        .from('case_videos')
+        .update({ order_index: i })
+        .eq('id', order[i])
+        .eq('case_id', params.id)
+
+      if (error) {
+        console.error(`[PATCH /api/admin/cases/${params.id}/videos] Error updating order:`, error)
+        throw error
+      }
+    }
+
+    const { data } = await supabaseAdmin
+      .from('case_videos')
+      .select()
+      .eq('case_id', params.id)
+      .order('order_index', { ascending: true })
+
+    return NextResponse.json(data || [])
+  } catch (error: any) {
+    console.error(`[PATCH /api/admin/cases/${params.id}/videos] Error:`, error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+}
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }

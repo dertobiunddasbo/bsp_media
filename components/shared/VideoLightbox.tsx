@@ -37,33 +37,21 @@ export default function VideoLightbox({
 
   const getYouTubeId = (url: string) => {
     if (!url) return null
-    
-    // Try different YouTube URL patterns
+    // Shared/Short link: https://youtu.be/DO5OqyTiK90?si=... – ID vor ? nehmen
+    const youtuBeMatch = url.match(/youtu\.be\/([^&\n?#]+)/)
+    if (youtuBeMatch) return youtuBeMatch[1].split('?')[0].trim()
     // Standard: https://www.youtube.com/watch?v=VIDEO_ID
-    let match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([^&\n?#]+)/)
+    let match = url.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/v\/)([^&\n?#]+)/)
     if (match) return match[1]
-    
-    // Short URL: https://youtu.be/VIDEO_ID
-    match = url.match(/youtu\.be\/([^&\n?#]+)/)
-    if (match) return match[1]
-    
-    // Embed URL: https://www.youtube.com/embed/VIDEO_ID
     match = url.match(/youtube\.com\/embed\/([^&\n?#]+)/)
     if (match) return match[1]
-    
-    // Try to extract from query string
     try {
       const urlObj = new URL(url)
       const videoId = urlObj.searchParams.get('v')
       if (videoId) return videoId
-    } catch (e) {
-      // Not a valid URL, try manual extraction
-    }
-    
-    // Last resort: try to find video ID pattern (11 characters)
+    } catch (e) {}
     match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/)
     if (match) return match[1]
-    
     return null
   }
 

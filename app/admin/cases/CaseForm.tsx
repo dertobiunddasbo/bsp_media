@@ -4,6 +4,24 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import ImageUpload from '@/components/ImageUpload'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  rectSortingStrategy,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 const TinyMCEEditor = dynamic(() => import('./TinyMCEEditor'), {
   ssr: false,
@@ -25,6 +43,203 @@ interface CaseVideo {
   video_type: string
   title: string
   order_index: number
+}
+
+const IMAGE_PREFIX = 'case-image-'
+const VIDEO_PREFIX = 'case-video-'
+
+function getYouTubeId(url: string): string | null {
+  if (!url) return null
+  // Shared/Short link: https://youtu.be/DO5OqyTiK90?si=j9jbfFIe4nPx8IBu – ID vor ? nehmen
+  const youtuBeMatch = url.match(/youtu\.be\/([^&\n?#]+)/)
+  if (youtuBeMatch) return youtuBeMatch[1].split('?')[0].trim()
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/v\/)([^&\n?#]+)/)
+  if (match) return match[1]
+  try {
+    const v = new URL(url).searchParams.get('v')
+    if (v) return v
+  } catch {}
+  const m3 = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/)
+  return m3 ? m3[1] : null
+}
+
+function getVimeoId(url: string): string | null {
+  if (!url) return null
+  const match = url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/)
+  return match ? match[1] : null
+}
+
+function getVideoThumbnailUrl(video: CaseVideo): string | null {
+  if (video.video_type === 'youtube') {
+    const id = getYouTubeId(video.video_url)
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null
+  }
+  if (video.video_type === 'vimeo') {
+    const id = getVimeoId(video.video_url)
+    return id ? `https://vumbnail.com/${id}.jpg` : null
+  }
+  return null
+}
+
+function SortableImageItem({
+  img,
+  onDelete,
+}: {
+  img: CaseImage
+  onDelete: (id: string) => void
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: IMAGE_PREFIX + img.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} className="relative group">
+      <button
+        {...attributes}
+        {...listeners}
+        className="absolute top-2 left-2 z-10 w-8 h-8 bg-white/90 hover:bg-white rounded-lg shadow flex items-center justify-center cursor-grab active:cursor-grabbing text-gray-600"
+        aria-label="Reihenfolge ändern"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+        </svg>
+      </button>
+      <img
+        src={img.image_url}
+        alt=""
+        className="w-full h-32 object-cover rounded-lg border border-gray-200"
+      />
+      <button
+        type="button"
+        onClick={() => onDelete(img.id)}
+        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs hover:bg-red-600"
+      >
+        ×
+      </button>
+    </div>
+  )
+}
+
+function SortableVideoItem({
+  video,
+  onUpdate,
+  onDelete,
+}: {
+  video: CaseVideo
+  onUpdate: (id: string, updates: { title?: string; video_url?: string; video_type?: string }) => Promise<void>
+  onDelete: (id: string) => void
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: VIDEO_PREFIX + video.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  const thumbnailUrl = getVideoThumbnailUrl(video)
+
+  const handleTitleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim()
+    if (value !== (video.title || '')) onUpdate(video.id, { title: value })
+  }
+
+  const handleUrlBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim()
+    if (value !== (video.video_url || '')) {
+      const videoType = value.includes('vimeo') ? 'vimeo' : (value.includes('youtube') || value.includes('youtu.be')) ? 'youtube' : 'direct'
+      onUpdate(video.id, { video_url: value, video_type: videoType })
+    }
+  }
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200"
+    >
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-1 shrink-0"
+          aria-label="Reihenfolge ändern"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+          </svg>
+        </button>
+        <div className="relative w-32 h-20 rounded-lg overflow-hidden bg-gray-200 shrink-0 flex items-center justify-center">
+          {thumbnailUrl ? (
+            <img
+              src={thumbnailUrl}
+              alt=""
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none'
+                const parent = (e.target as HTMLImageElement).parentElement
+                const fallback = parent?.querySelector('.video-thumb-fallback')
+                if (fallback) (fallback as HTMLElement).classList.remove('hidden')
+              }}
+            />
+          ) : null}
+          <div className={`video-thumb-fallback flex items-center justify-center w-full h-full bg-gray-300 ${thumbnailUrl ? 'hidden absolute inset-0' : ''}`}>
+            <svg className="w-8 h-8 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 min-w-0 space-y-2">
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-0.5">Titel</label>
+          <input
+            type="text"
+            defaultValue={video.title || ''}
+            onBlur={handleTitleBlur}
+            placeholder="Video-Titel"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-0.5">Video-Link (URL)</label>
+          <input
+            type="url"
+            defaultValue={video.video_url || ''}
+            onBlur={handleUrlBlur}
+            placeholder="https://www.youtube.com/... oder https://vimeo.com/..."
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent focus:border-transparent"
+          />
+        </div>
+        <div className="text-xs text-gray-500">{video.video_type}</div>
+      </div>
+      <button
+        type="button"
+        onClick={() => onDelete(video.id)}
+        className="shrink-0 self-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
+      >
+        Löschen
+      </button>
+    </div>
+  )
 }
 
 export default function CaseForm({ initialData }: CaseFormProps) {
@@ -93,6 +308,60 @@ export default function CaseForm({ initialData }: CaseFormProps) {
       fetchCaseDetails()
     }
   }, [initialData?.id])
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
+
+  const sortedImages = [...images].sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+  const sortedVideos = [...videos].sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+
+  const handleImagesDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    const activeStr = String(active.id)
+    const overStr = String(over.id)
+    if (!activeStr.startsWith(IMAGE_PREFIX) || !overStr.startsWith(IMAGE_PREFIX)) return
+    const oldIndex = sortedImages.findIndex((img) => IMAGE_PREFIX + img.id === activeStr)
+    const newIndex = sortedImages.findIndex((img) => IMAGE_PREFIX + img.id === overStr)
+    if (oldIndex === -1 || newIndex === -1) return
+    const reordered = arrayMove(sortedImages, oldIndex, newIndex).map((img, i) => ({ ...img, order_index: i }))
+    setImages(reordered)
+    try {
+      const res = await fetch(`/api/admin/cases/${initialData!.id}/images`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: reordered.map((i) => i.id) }),
+      })
+      if (!res.ok) await fetchCaseDetails()
+    } catch {
+      await fetchCaseDetails()
+    }
+  }
+
+  const handleVideosDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    const activeStr = String(active.id)
+    const overStr = String(over.id)
+    if (!activeStr.startsWith(VIDEO_PREFIX) || !overStr.startsWith(VIDEO_PREFIX)) return
+    const oldIndex = sortedVideos.findIndex((v) => VIDEO_PREFIX + v.id === activeStr)
+    const newIndex = sortedVideos.findIndex((v) => VIDEO_PREFIX + v.id === overStr)
+    if (oldIndex === -1 || newIndex === -1) return
+    const reordered = arrayMove(sortedVideos, oldIndex, newIndex).map((v, i) => ({ ...v, order_index: i }))
+    setVideos(reordered)
+    try {
+      const res = await fetch(`/api/admin/cases/${initialData!.id}/videos`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: reordered.map((v) => v.id) }),
+      })
+      if (!res.ok) await fetchCaseDetails()
+    } catch {
+      await fetchCaseDetails()
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -344,46 +613,43 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {images.map((img) => (
-                <div key={img.id} className="relative group">
-                  <img
-                    src={img.image_url}
-                    alt=""
-                    className="w-full h-32 object-cover rounded-lg border border-gray-200"
-                  />
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (!confirm('Bild wirklich löschen?')) return
-                      try {
-                        console.log('[CaseForm] Deleting image:', img.id)
-                        const res = await fetch(`/api/admin/cases/${initialData.id}/images?imageId=${img.id}`, {
-                          method: 'DELETE',
-                        })
-                        if (res.ok) {
-                          console.log('[CaseForm] Image deleted successfully')
-                          // Wait a bit to ensure database is updated
-                          await new Promise(resolve => setTimeout(resolve, 200))
-                          // Reload case details
-                          await fetchCaseDetails()
-                        } else {
-                          const errorData = await res.json().catch(() => ({}))
-                          console.error('[CaseForm] Failed to delete image:', errorData)
-                          alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
+            <p className="text-sm text-gray-500 mb-3">Bilder per Drag &amp; Drop in die gewünschte Reihenfolge ziehen.</p>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleImagesDragEnd}
+            >
+              <SortableContext
+                items={sortedImages.map((img) => IMAGE_PREFIX + img.id)}
+                strategy={rectSortingStrategy}
+              >
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {sortedImages.map((img) => (
+                    <SortableImageItem
+                      key={img.id}
+                      img={img}
+                      onDelete={async (id) => {
+                        if (!confirm('Bild wirklich löschen?')) return
+                        try {
+                          const res = await fetch(`/api/admin/cases/${initialData.id}/images?imageId=${id}`, {
+                            method: 'DELETE',
+                          })
+                          if (res.ok) {
+                            await new Promise(resolve => setTimeout(resolve, 200))
+                            await fetchCaseDetails()
+                          } else {
+                            const errorData = await res.json().catch(() => ({}))
+                            alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
+                          }
+                        } catch (error) {
+                          alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
                         }
-                      } catch (error) {
-                        console.error('[CaseForm] Error deleting image:', error)
-                        alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
-                      }
-                    }}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs"
-                  >
-                    ×
-                  </button>
+                      }}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              </SortableContext>
+            </DndContext>
           </div>
 
           <div className="border-t pt-6 mt-6">
@@ -394,7 +660,7 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                 onClick={async () => {
                   const url = prompt('Video-URL eingeben:')
                   if (!url) return
-                  const videoType = url.includes('vimeo') ? 'vimeo' : url.includes('youtube') ? 'youtube' : 'direct'
+                  const videoType = url.includes('vimeo') ? 'vimeo' : (url.includes('youtube') || url.includes('youtu.be')) ? 'youtube' : 'direct'
                   const title = prompt('Video-Titel (optional):') || ''
                   try {
                     console.log('[CaseForm] Adding video URL:', url)
@@ -430,45 +696,61 @@ export default function CaseForm({ initialData }: CaseFormProps) {
                 + Video hinzufügen
               </button>
             </div>
-            <div className="space-y-3">
-              {videos.map((video) => (
-                <div key={video.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <div className="font-medium text-gray-900">{video.title || video.video_url}</div>
-                    <div className="text-sm text-gray-500">{video.video_type}</div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      if (!confirm('Video wirklich löschen?')) return
-                      try {
-                        console.log('[CaseForm] Deleting video:', video.id)
-                        const res = await fetch(`/api/admin/cases/${initialData.id}/videos?videoId=${video.id}`, {
-                          method: 'DELETE',
-                        })
-                        if (res.ok) {
-                          console.log('[CaseForm] Video deleted successfully')
-                          // Wait a bit to ensure database is updated
-                          await new Promise(resolve => setTimeout(resolve, 200))
-                          // Reload case details
-                          await fetchCaseDetails()
-                        } else {
-                          const errorData = await res.json().catch(() => ({}))
-                          console.error('[CaseForm] Failed to delete video:', errorData)
-                          alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
+            <p className="text-sm text-gray-500 mb-3">Videos per Drag &amp; Drop in die gewünschte Reihenfolge ziehen.</p>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleVideosDragEnd}
+            >
+              <SortableContext
+                items={sortedVideos.map((v) => VIDEO_PREFIX + v.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                <div className="space-y-3">
+                  {sortedVideos.map((video) => (
+                    <SortableVideoItem
+                      key={video.id}
+                      video={video}
+                      onUpdate={async (videoId, updates) => {
+                        try {
+                          const res = await fetch(`/api/admin/cases/${initialData.id}/videos/${videoId}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(updates),
+                          })
+                          if (res.ok) {
+                            const data = await res.json()
+                            setVideos((prev) => prev.map((v) => (v.id === videoId ? { ...v, ...data } : v)))
+                          } else {
+                            const err = await res.json().catch(() => ({}))
+                            alert(err.error || 'Fehler beim Speichern')
+                          }
+                        } catch (e) {
+                          alert('Fehler beim Speichern des Videos')
                         }
-                      } catch (error) {
-                        console.error('[CaseForm] Error deleting video:', error)
-                        alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
-                      }
-                    }}
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
-                  >
-                    Löschen
-                  </button>
+                      }}
+                      onDelete={async (id) => {
+                        if (!confirm('Video wirklich löschen?')) return
+                        try {
+                          const res = await fetch(`/api/admin/cases/${initialData.id}/videos?videoId=${id}`, {
+                            method: 'DELETE',
+                          })
+                          if (res.ok) {
+                            await new Promise(resolve => setTimeout(resolve, 200))
+                            await fetchCaseDetails()
+                          } else {
+                            const errorData = await res.json().catch(() => ({}))
+                            alert(`Fehler beim Löschen: ${errorData.error || 'Unbekannter Fehler'}`)
+                          }
+                        } catch (error) {
+                          alert(`Fehler beim Löschen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
+                        }
+                      }}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              </SortableContext>
+            </DndContext>
           </div>
         </>
       )}
