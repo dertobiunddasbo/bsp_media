@@ -246,16 +246,17 @@ export default function Hero({ pageSlug = 'home' }: HeroProps) {
                 }}
               />
             ) : (
-              /* Background Image mit onError-Fallback */
-              <>
-                <img
-                  src={bgUrl}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover scale-110"
-                  style={{ transform: `translateY(${scrollY * 0.5}px)` }}
-                  onError={() => setBackgroundImageError(true)}
-                />
-              </>
+              /* Background Image: referrerPolicy nötig für Supabase Storage (blockiert sonst bei Embed) */
+              <img
+                key={bgUrl}
+                src={bgUrl}
+                alt=""
+                referrerPolicy="no-referrer"
+                className="absolute inset-0 w-full h-full object-cover scale-110"
+                style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+                onLoad={() => setBackgroundImageError(false)}
+                onError={() => setBackgroundImageError(true)}
+              />
             )}
             <div className="absolute inset-0 bg-black/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
