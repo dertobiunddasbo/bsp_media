@@ -81,6 +81,7 @@ export interface NDADisclaimerData {
 export interface FooterData {
   address?: string
   email?: string
+  phone?: string
   copyright?: string
 }
 

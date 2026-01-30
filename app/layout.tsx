@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
+import CookieConsent from '@/components/CookieConsent'
+
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
 export const metadata: Metadata = {
   title: {
@@ -46,10 +50,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    // Google Search Console verification code can be added here
-    // google: 'your-google-verification-code',
-  },
+  verification: googleSiteVerification
+    ? { google: googleSiteVerification }
+    : undefined,
 }
 
 export default function RootLayout({
@@ -59,7 +62,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <GoogleAnalytics />
+        <CookieConsent />
+      </body>
     </html>
   )
 }

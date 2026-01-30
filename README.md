@@ -92,6 +92,10 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 **Hinweis:** Wenn `RESEND_API_KEY` nicht gesetzt ist, werden E-Mails nur geloggt (für Development).
 
+**Google Analytics 4 & Search Console (optional):**
+- **GA4:** In `.env.local` `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX` setzen (Measurement ID aus dem GA4-Property). Es wird automatisch Consent Mode v2 eingebunden (DSGVO/TDDDG-konform, Opt-in über Cookie-Banner).
+- **Search Console:** In `.env.local` `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=...` mit dem Verifikationscode aus der Search Console setzen; das Meta-Tag wird ins Layout eingefügt. Siehe [Google Search Console](https://search.google.com/search-console) → Eigentum hinzufügen → HTML-Tag.
+
 ## Seiten
 
 - `/` - Landing Page
